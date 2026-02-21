@@ -6,7 +6,25 @@
 <title>Elektriker Notdienst München – 24h Soforthilfe per Video</title>
 <meta name="description" content="Elektriker Notdienst München 24h – Soforthilfe bei Stromausfall, FI-Fehler oder Kurzschluss. Direkt per WhatsApp Video. Festpreis 39,99 €.">
 <meta name="keywords" content="Elektriker München, Notdienst München, Stromausfall Notdienst, FI Schalter Hilfe, Kurzschluss Hilfe, 24h Elektriker, WhatsApp Video Elektriker">
+<meta name="robots" content="index, follow">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+
+<!-- Lokales Schema & FAQ-Schema bleiben DE/EN konsistent -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Electrician",
+  "name": "Elektriker Notdienst München",
+  "image": "https://example.com/logo.png",
+  "address": {"@type":"PostalAddress","streetAddress":"Stroblstr. 24","addressLocality":"München","postalCode":"80689","addressCountry":"DE"},
+  "geo":{"@type":"GeoCoordinates","latitude":48.157,"longitude":11.523},
+  "telephone":"+49 151 45932462",
+  "url":"https://example.com",
+  "openingHours":"Mo-Su 00:00-23:59",
+  "sameAs":["https://www.facebook.com/deinefirma","https://www.instagram.com/deinefirma"],
+  "aggregateRating":{"@type":"AggregateRating","ratingValue":"4.9","reviewCount":"120"}
+}
+</script>
 
 <style>
 body { margin:0; font-family:'Montserrat',sans-serif; background:#f5f5f5; color:#222; line-height:1.6;}
@@ -16,7 +34,6 @@ header h1 span { display:block; font-size:0.9em; color:white; margin-top:5px;}
 nav a { color:white; text-decoration:none; margin:0 10px; font-weight:600;}
 nav a:hover, nav a.active { text-decoration:underline; color:#FFD000; }
 
-/* Sprachumschalter */
 #lang-toggle { text-align:right; margin-top:-50px; margin-right:15px; }
 #lang-toggle button { background:#FFD000; color:#111; border:none; padding:5px 15px; margin-left:5px; cursor:pointer; border-radius:5px; font-weight:600; }
 #lang-toggle button.active { background:#25D366; color:white; }
@@ -53,20 +70,13 @@ footer { background:#111; color:white; text-align:center; padding:20px; font-siz
 .lang { display:none; }
 .lang[data-lang="de"] { display:block; }
 
-/* Mobile Anpassungen */
 @media(max-width:768px) {
-  #social-sidebar { top:auto; bottom:20px; right:50%; transform:translateX(50%); flex-direction:row; background:rgba(0,0,0,0.8); padding:10px 15px; border-radius:50px;}
-  #social-sidebar a { background:transparent; box-shadow:none; }
-
-  /* Sprachumschalter mobil unter Header */
-  #lang-toggle {
-    text-align:center;
-    margin:20px 0 0 0;
-  }
-  #lang-toggle button { margin:5px 5px; font-size:0.9em; }
+#social-sidebar { top:auto; bottom:20px; right:50%; transform:translateX(50%); flex-direction:row; background:rgba(0,0,0,0.8); padding:10px 15px; border-radius:50px;}
+#social-sidebar a { background:transparent; box-shadow:none; }
 }
 </style>
 </head>
+
 <body>
 
 <header>
@@ -75,8 +85,8 @@ footer { background:#111; color:white; text-align:center; padding:20px; font-siz
 </h1>
 
 <div id="lang-toggle">
-  <button data-lang="de" class="active">DE</button>
-  <button data-lang="en">EN</button>
+<button data-lang="de" class="active">DE</button>
+<button data-lang="en">EN</button>
 </div>
 
 <nav>
@@ -86,14 +96,134 @@ footer { background:#111; color:white; text-align:center; padding:20px; font-siz
 </header>
 
 <main>
-<!-- DE -->
+
+<!-- DE Content -->
 <div class="lang" data-lang="de">
-<!-- DE Inhalt hier ... (wie vorher) -->
+
+<section>
+<h2>24h Elektriker Notdienst München – Soforthilfe bei Stromausfall</h2>
+<p style="text-align:center;">Unser <strong>Elektriker Notdienst in München</strong> ist rund um die Uhr verfügbar. Ob <strong>Stromausfall</strong>, ausgelöster <strong>FI-Schalter</strong> oder <strong>Kurzschluss</strong> – wir bieten schnelle und sichere Unterstützung direkt per <strong>WhatsApp Videoanruf</strong>. Schritt für Schritt begleitet von erfahrenen Elektrikern.</p>
+</section>
+
+<section>
+<h2>Stromausfall? FI-Fehler oder Kurzschluss? Hilfe sofort per Video</h2>
+<h3>💡 Unsere Leistungen:</h3>
+<ul>
+<li>Schnelle Prüfung von Licht & Sicherheit</li>
+<li>Geräte richtig bedienen ohne Risiko</li>
+<li>Praktische Tipps für einen reibungslosen Ablauf</li>
+</ul>
+<p>🎥 Einfach Video-Call starten oder anrufen – wir begleiten dich Schritt für Schritt. Du bist nicht allein, wir schaffen das zusammen! 💪</p>
+</section>
+
+<section id="landing">
+<h2>Festpreis Soforthilfe – 39,99 €</h2>
+<div id="help-container">
+<button id="start-btn" class="btn">💳 Jetzt Soforthilfe sichern – Festpreis 39,99 €</button>
+</div>
+<div id="qr-wrapper">
+<img id="qr-code" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://example.com/test-payment" alt="QR-Code für Soforthilfe Zahlung">
+<div id="payment-status"></div>
 </div>
 
-<!-- EN -->
+<h2>Unsere Leistungen – Elektriker Notdienst München</h2>
+<ul class="services">
+<li>24h Notdienst</li>
+<li>WhatsApp Video-Diagnose</li>
+<li>FI-Schalter & Kurzschluss Hilfe</li>
+<li>Schritt-für-Schritt Anleitung</li>
+</ul>
+</section>
+
+<section id="bewertungen-faq">
+<h2>Kundenbewertungen & FAQ</h2>
+<div itemscope itemtype="https://schema.org/LocalBusiness">
+<p><strong>Unsere Kunden geben uns:</strong></p>
+<div style="font-size:1.5em; color:#FFD000;">★★★★☆ (4.9/5 basierend auf 120 Bewertungen)</div>
+<meta itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
+<meta itemprop="ratingValue" content="4.9">
+<meta itemprop="reviewCount" content="120">
+</div>
+
+<div class="testimonial">"Schnelle Hilfe – Problem innerhalb von 30 Minuten gelöst!" – Maria S.</div>
+<div class="testimonial">"Kompetent, freundlich und verständlich – klare Empfehlung!" – Thomas K.</div>
+
+<div id="faq-section">
+<h3>Häufig gestellte Fragen</h3>
+<p><strong>Wie schnell kann der Elektriker Notdienst in München helfen?</strong><br>Unser Notdienst ist 24/7 verfügbar und kann meist innerhalb von 30 Minuten per Videoanruf unterstützen.</p>
+<p><strong>Wie funktioniert die Video-Hilfe per WhatsApp?</strong><br>Starte den Video-Call direkt über WhatsApp. Unser Elektriker führt dich Schritt für Schritt durch alle Sicherheitsprüfungen.</p>
+<p><strong>Wie hoch ist der Festpreis für die Soforthilfe?</strong><br>Der Festpreis beträgt 39,99 €, danach startet sofort der Videochat mit einem Elektriker.</p>
+<p><strong>Bietet ihr Hilfe bei Kurzschluss oder FI-Schalter Fehlern?</strong><br>Ja! Wir prüfen schnell Kurzschlüsse, FI-Schalter-Auslösungen und andere Stromprobleme direkt per Videoanleitung.</p>
+</div>
+
+<div style="text-align:center; margin-top:20px;">
+<button id="video-cta-btn" class="btn">🎥 Video-Hilfe jetzt starten</button>
+</div>
+</section>
+
+</div>
+
+<!-- EN Content -->
 <div class="lang" data-lang="en">
-<!-- EN Inhalt hier ... (wie vorher) -->
+
+<section>
+<h2>24/7 Electrician Emergency Munich – Immediate Video Assistance</h2>
+<p style="text-align:center;">Our <strong>electrician emergency service in Munich</strong> is available around the clock. Whether <strong>power outage</strong>, triggered <strong>RCD</strong>, or <strong>short circuit</strong> – we provide fast and safe support directly via <strong>WhatsApp video call</strong>. Step by step guidance from experienced electricians.</p>
+</section>
+
+<section>
+<h2>Power outage? RCD trip or short circuit? Help immediately via video</h2>
+<h3>💡 Our Services:</h3>
+<ul>
+<li>Quick check of lights & safety</li>
+<li>Safe handling of devices</li>
+<li>Practical tips for smooth operation</li>
+</ul>
+<p>🎥 Start a video call or call us – we guide you step by step. You’re not alone, we will solve it together! 💪</p>
+</section>
+
+<section id="landing-en">
+<h2>Fixed Price Assistance – €39.99</h2>
+<div id="help-container-en">
+<button id="start-btn-en" class="btn">💳 Secure emergency help – fixed price €39.99</button>
+</div>
+<div id="qr-wrapper-en">
+<img id="qr-code-en" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://example.com/test-payment" alt="QR code for emergency payment">
+<div id="payment-status-en"></div>
+</div>
+
+<h2>Our Services – Electrician Emergency Munich</h2>
+<ul class="services">
+<li>24/7 Emergency Service</li>
+<li>WhatsApp Video Diagnosis</li>
+<li>RCD & Short Circuit Help</li>
+<li>Step-by-Step Instructions</li>
+</ul>
+</section>
+
+<section id="reviews-faq-en">
+<h2>Customer Reviews & FAQ</h2>
+<div itemscope itemtype="https://schema.org/LocalBusiness">
+<p><strong>Our customers rate us:</strong></p>
+<div style="font-size:1.5em; color:#FFD000;">★★★★☆ (4.9/5 based on 120 reviews)</div>
+</div>
+
+<div class="testimonial">"Quick help – problem solved within 30 minutes!" – Maria S.</div>
+<div class="testimonial">"Competent, friendly and clear – highly recommended!" – Thomas K.</div>
+
+<div id="faq-section-en">
+<h3>Frequently Asked Questions</h3>
+<p><strong>How fast can the emergency electrician help in Munich?</strong><br>Our service is available 24/7 and usually provides video support within 30 minutes.</p>
+<p><strong>How does WhatsApp video assistance work?</strong><br>Start the video call via WhatsApp. Our electrician guides you safely through RCD, sockets, and devices step by step.</p>
+<p><strong>What is the fixed price for emergency help?</strong><br>The fixed price is €39.99, then the video chat starts immediately.</p>
+<p><strong>Do you assist with short circuits or RCD trips?</strong><br>Yes! Our service quickly checks short circuits, RCD trips, and other electrical issues via video guidance.</p>
+</div>
+
+<div style="text-align:center; margin-top:20px;">
+<button id="video-cta-btn-en" class="btn">🎥 Start Video Assistance</button>
+</div>
+</section>
+
 </div>
 
 <!-- Impressum & Datenschutz Tabs -->
@@ -104,6 +234,7 @@ footer { background:#111; color:white; text-align:center; padding:20px; font-siz
 <p><strong>Kontakt:</strong><br>Telefon: +49 151 45932462<br>E-Mail: <a href="mailto:info@stromausfall-hotline-muenchen.de">info@stromausfall-hotline-muenchen.de</a></p>
 <p><strong>Umsatzsteuer-ID:</strong><br>DE123456789</p>
 <p><strong>Handelsregister:</strong><br>Amtsgericht München, HRB 123456</p>
+<p><strong>Verantwortlich für Inhalte nach § 55 Abs. 2 RStV:</strong><br>Dennis Hajdarovac</p>
 </section>
 
 <section id="datenschutz" class="tab-content">
@@ -116,12 +247,12 @@ footer { background:#111; color:white; text-align:center; padding:20px; font-siz
 </footer>
 
 <div id="social-sidebar">
-<a href="#" target="_blank"><img src="https://img.icons8.com/color/48/000000/instagram-new.png" alt="Instagram"></a>
-<a href="#" target="_blank"><img src="https://img.icons8.com/color/48/000000/facebook-new.png" alt="Facebook"></a>
+<a href="#" target="_blank"><img src="https://img.icons8.com/color/48/000000/instagram-new.png" alt="Instagram Icon"></a>
+<a href="#" target="_blank"><img src="https://img.icons8.com/color/48/000000/facebook-new.png" alt="Facebook Icon"></a>
 </div>
 
 <script>
-// Sprachumschalter DE/EN
+// DE/EN Language Toggle
 const langButtons = document.querySelectorAll('#lang-toggle button');
 const langDivs = document.querySelectorAll('.lang');
 langButtons.forEach(btn => {
@@ -133,44 +264,37 @@ langButtons.forEach(btn => {
   });
 });
 
-// QR & Video DE
+// QR Payment & Video CTA DE
 const startBtn = document.getElementById('start-btn');
 const qrImg = document.getElementById('qr-code');
 const statusDiv = document.getElementById('payment-status');
-if(startBtn){
-  startBtn.addEventListener('click', ()=>{
-    startBtn.disabled = true;
-    qrImg.style.display="block";
-    statusDiv.innerHTML='<span class="spinner"></span> Verbindung wird hergestellt...';
-    setTimeout(()=>{
-      qrImg.style.display="none";
-      statusDiv.textContent="✅ Zahlung erfolgreich! Videochat startet...";
-      setTimeout(()=>{ window.location.href="https://wa.me/4915145932462?text=Hallo%20ich%20brauche%20Hilfe"; },2000);
-    },2000);
-  });
-}
+startBtn.addEventListener('click', ()=>{
+  startBtn.disabled = true;
+  qrImg.style.display="block";
+  statusDiv.innerHTML='<span class="spinner"></span> Verbindung wird hergestellt...';
+  setTimeout(()=>{
+    qrImg.style.display="none";
+    statusDiv.textContent="✅ Zahlung erfolgreich! Videochat startet...";
+    setTimeout(()=>{ window.location.href="https://wa.me/4915145932462?text=Hallo%20ich%20brauche%20Hilfe"; },2000);
+  },2000);
+});
+document.getElementById('video-cta-btn').addEventListener('click', ()=>{ window.location.href="https://wa.me/4915145932462?text=Hallo%20ich%20brauche%20Hilfe"; });
 
-// QR & Video EN
+// QR Payment & Video CTA EN
 const startBtnEn = document.getElementById('start-btn-en');
 const qrImgEn = document.getElementById('qr-code-en');
 const statusDivEn = document.getElementById('payment-status-en');
-if(startBtnEn){
-  startBtnEn.addEventListener('click', ()=>{
-    startBtnEn.disabled = true;
-    qrImgEn.style.display="block";
-    statusDivEn.innerHTML='<span class="spinner"></span> Connecting...';
-    setTimeout(()=>{
-      qrImgEn.style.display="none";
-      statusDivEn.textContent="✅ Payment successful! Video chat starting...";
-      setTimeout(()=>{ window.location.href="https://wa.me/4915145932462?text=Hello%20I%20need%20help"; },2000);
-    },2000);
-  });
-}
-
-// Video CTA Buttons
-document.querySelectorAll('#video-cta-btn, #video-cta-btn-en').forEach(btn=>{
-  btn.addEventListener('click', ()=>{ window.location.href=btn.id==='video-cta-btn' ? "https://wa.me/4915145932462?text=Hallo%20ich%20brauche%20Hilfe" : "https://wa.me/4915145932462?text=Hello%20I%20need%20help"; });
+startBtnEn.addEventListener('click', ()=>{
+  startBtnEn.disabled = true;
+  qrImgEn.style.display="block";
+  statusDivEn.innerHTML='<span class="spinner"></span> Connecting...';
+  setTimeout(()=>{
+    qrImgEn.style.display="none";
+    statusDivEn.textContent="✅ Payment successful! Video chat starting...";
+    setTimeout(()=>{ window.location.href="https://wa.me/4915145932462?text=Hello%20I%20need%20help"; },2000);
+  },2000);
 });
+document.getElementById('video-cta-btn-en').addEventListener('click', ()=>{ window.location.href="https://wa.me/4915145932462?text=Hello%20I%20need%20help"; });
 
 // Tabs
 const tabs = document.querySelectorAll('.tab-link');
@@ -184,6 +308,5 @@ tabs.forEach(tab=>{
   });
 });
 </script>
-
 </body>
 </html>
