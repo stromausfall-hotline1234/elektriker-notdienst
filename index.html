@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Elektriker Notdienst München 24h</title>
+<meta name="description" content="24h Elektriker Notdienst in München. Schnelle Hilfe bei Stromausfällen, Kurzschlüssen & FI-Schalter Problemen – jetzt per WhatsApp Videochat!">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 body { margin:0; font-family:'Montserrat',sans-serif; background:#f5f5f5; color:#222; line-height:1.6;}
@@ -15,16 +16,35 @@ section { padding:40px 15px; max-width:800px; margin:auto; }
 h2 { text-align:center; margin-bottom:20px; }
 .btn { display:inline-block; padding:45px 75px; margin:10px 5px; border-radius:50px; font-weight:700; cursor:pointer; background:#25D366; color:white; font-size:1.2em; transition:0.3s;}
 .btn:hover { background:#1ebe57; transform:scale(1.05); }
-#qr-code { display:none; max-width:300px; margin-top:20px; }
-#payment-status { margin-top:15px; font-weight:bold; color:green; font-size:1.2em; }
+
 .services li { list-style:none; padding:15px 0; border-bottom:1px solid #ddd; font-size:1.1em; }
 .services li::before { content:"✔ "; color:#FFD000; font-weight:bold; }
+
 .testimonial { background:white; border-radius:15px; padding:20px; box-shadow:0 3px 10px rgba(0,0,0,0.1); margin-bottom:20px; text-align:left; }
 .testimonial p { font-style:italic; }
 .testimonial h4 { margin-top:10px; font-weight:600; }
+
 footer { background:#111; color:white; text-align:center; padding:20px; font-size:0.9em; margin-top:40px;}
 a { color:#FFD000; text-decoration:underline; }
+
 @media(max-width:480px){header h1{font-size:1.5em;} .btn{padding:12px 25px; font-size:1em;} nav a{margin:5px;}}
+
+/* Home Achtung Spannung Bild */
+.warning-image { display: flex; justify-content:center; margin:20px 0; }
+.warning-image img { max-width:200px; width:100%; height:auto; animation: pulse 1.5s infinite; }
+@keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+
+/* Landing Button & QR */
+#help-container { display:flex; justify-content:center; margin:30px 0; }
+#qr-wrapper { display:flex; flex-direction:column; align-items:center; margin-top:20px; }
+#qr-code { display:none; max-width:300px; margin-top:20px; }
+#payment-status { margin-top:15px; font-weight:bold; color:green; font-size:1.2em; text-align:center; }
+
+/* Spinner */
+.spinner { border:4px solid #f3f3f3; border-top:4px solid #25D366; border-radius:50%; width:20px; height:20px; animation:spin 1s linear infinite; display:inline-block; margin-right:8px; }
+@keyframes spin { 0%{transform:rotate(0deg);}100%{transform:rotate(360deg);} }
+
+@media(max-width:480px){ #qr-code{max-width:90%;} }
 </style>
 </head>
 <body>
@@ -42,16 +62,26 @@ a { color:#FFD000; text-decoration:underline; }
 <section id="home">
 <h2>Willkommen beim Elektriker Notdienst München</h2>
 <p>24 Stunden erreichbar – schnelle Hilfe bei Stromausfällen, Kurzschlüssen und FI-Schalter Problemen.</p>
+
+<!-- Achtung Spannung Bild -->
+<div class="warning-image">
+<img src="achtung-spannung.png" alt="Achtung Spannung">
+</div>
+
 <p>Klicken Sie auf den Reiter „Notdienst & Zahlung“ für sofortige Hilfe per WhatsApp Videochat.</p>
 </section>
 
 <section id="landing">
 <h2>💳 Notdienst & Zahlung</h2>
 <p>Festpreis: 39,99 € – QR-Code wird nach Klick generiert</p>
+
+<div id="help-container">
 <button id="start-btn" class="btn">💳 Hilfe bekommen</button>
-<div>
-  <img id="qr-code" src="" alt="QR-Code">
-  <div id="payment-status"></div>
+</div>
+
+<div id="qr-wrapper">
+<img id="qr-code" src="" alt="QR-Code zur Zahlung mit SumUp">
+<div id="payment-status"></div>
 </div>
 
 <h2>Unsere Leistungen</h2>
@@ -75,19 +105,12 @@ a { color:#FFD000; text-decoration:underline; }
 
 <section id="impressum">
 <h2>Impressum</h2>
-<p><strong>Betreiber / Anbieter:</strong><br>
-Stromausfall-Hotline München<br>
-Stroblstr. 24<br>
-80689 München, Deutschland</p>
-<p><strong>Vertreten durch:</strong><br>
-Geschäftsführer: Dennis Hajdarovac</p>
-<p><strong>Kontakt:</strong><br>
-Telefon: +49 151 45932462<br>
-E-Mail: <a href="mailto:info@elektriker-muenchen.de">info@stromausfall-hotline-muenchen.de</a></p>
+<p><strong>Betreiber / Anbieter:</strong><br>Stromausfall-Hotline München<br>Stroblstr. 24<br>80689 München, Deutschland</p>
+<p><strong>Vertreten durch:</strong><br>Geschäftsführer: Dennis Hajdarovac</p>
+<p><strong>Kontakt:</strong><br>Telefon: +49 151 45932462<br>E-Mail: <a href="mailto:info@elektriker-muenchen.de">info@stromausfall-hotline-muenchen.de</a></p>
 <p><strong>Umsatzsteuer-ID:</strong><br>DE123456789</p>
 <p><strong>Handelsregister:</strong><br>Amtsgericht München, HRB 123456</p>
-<p><strong>Verantwortlich für Inhalte nach § 55 Abs. 2 RStV:</strong><br>
-Dennis Hajdarovac, Stroblstr. 24, 80689 München</p>
+<p><strong>Verantwortlich für Inhalte nach § 55 Abs. 2 RStV:</strong><br>Dennis Hajdarovac, Stroblstr. 24, 80689 München</p>
 </section>
 
 <section id="datenschutz">
@@ -116,17 +139,14 @@ startBtn.addEventListener('click', async ()=>{
   startBtn.disabled = true;
   const invoice = generateInvoiceNumber();
 
-  // Backend URL für SumUp Payment Request
   const res = await fetch(`/create-sumup-payment?invoice=${invoice}`);
   const data = await res.json();
 
-  // QR-Code generieren
   const qrDataUrl = await QRCode.toDataURL(data.qr_code_url, { width: 300 });
   qrImg.src = qrDataUrl;
   qrImg.style.display = 'inline-block';
-  statusDiv.textContent = "Bitte QR-Code scannen und bezahlen...";
+  statusDiv.innerHTML = '<span class="spinner"></span> Bitte QR-Code scannen und bezahlen...';
 
-  // Polling: Paymentstatus prüfen
   const checkPayment = async ()=>{
     const res = await fetch(`/check-sumup-payment?invoice=${invoice}`);
     const status = await res.json();
