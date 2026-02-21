@@ -3,67 +3,119 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Electrician Emergency Munich – 24h Power Outage Help</title>
-
-<meta name="description" content="24h Electrician emergency service in Munich. Fast help for power outages, fuse problems & short circuits via WhatsApp video. Fixed price 39,99 €.">
+<title>Elektriker Stromausfall-Hotline München 24h</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
-body {margin:0;font-family:'Montserrat',sans-serif;background:#F4F6F8;color:#0B1F3A;line-height:1.6;}
-
-header {
-background:linear-gradient(135deg,#0B1F3A,#142F57);
-color:white;
-padding:20px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-flex-wrap:wrap;
-}
-
-header h1 {color:#FFD000;font-size:1.4em;margin:0;}
-
-.lang-switch {
-cursor:pointer;
-font-weight:600;
-}
-
-section {padding:60px 20px;max-width:900px;margin:auto;}
-
-h2 {text-align:center;margin-bottom:25px;}
+body { margin:0; font-family:'Montserrat',sans-serif; background:#f5f5f5; color:#222; line-height:1.6;}
+header { background:linear-gradient(135deg,#111,#333); color:white; padding:20px 15px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;}
+header h1 { color:#FFD000; font-size:1.8em; margin:0;}
+nav a { color:white; text-decoration:none; margin:0 10px; font-weight:600;}
+nav a:hover { text-decoration:underline;}
+section { padding:40px 15px; max-width:800px; margin:auto; }
+h2 { text-align:center; margin-bottom:20px; }
 
 .btn {
 display:inline-block;
-padding:20px 40px;
+padding:25px 50px;
+margin:10px 5px;
 border-radius:50px;
-background:#22C55E;
-color:white;
 font-weight:700;
-text-decoration:none;
-margin:10px;
+cursor:pointer;
+background:#25D366;
+color:white;
+font-size:1.2em;
 transition:0.3s;
+border:none;
 }
+.btn:hover { background:#1ebe57; transform:scale(1.05); }
 
-.btn:hover {background:#16A34A;}
+.services li { list-style:none; padding:15px 0; border-bottom:1px solid #ddd; font-size:1.1em; }
+.services li::before { content:"✔ "; color:#FFD000; font-weight:bold; }
 
-.services, .testimonial {
+.testimonial {
 background:white;
-border-radius:20px;
-padding:25px;
-box-shadow:0 10px 30px rgba(0,0,0,0.08);
+border-radius:15px;
+padding:20px;
+box-shadow:0 3px 10px rgba(0,0,0,0.1);
 margin-bottom:20px;
 }
 
 footer {
-background:#0B1F3A;
+background:#111;
 color:white;
 text-align:center;
 padding:20px;
+font-size:0.9em;
+margin-top:40px;
 }
 
-@media(max-width:768px){
-.btn {width:100%;max-width:350px;}
+#help-container { display:flex; justify-content:center; margin:30px 0; }
+#qr-wrapper { display:flex; flex-direction:column; align-items:center; margin-top:20px; }
+#qr-code { display:none; max-width:250px; margin-top:20px; }
+#payment-status { margin-top:15px; font-weight:bold; color:green; text-align:center; }
+
+.spinner {
+border:4px solid #f3f3f3;
+border-top:4px solid #25D366;
+border-radius:50%;
+width:20px;
+height:20px;
+animation:spin 1s linear infinite;
+display:inline-block;
+margin-right:8px;
+}
+@keyframes spin { 100% { transform:rotate(360deg);} }
+
+.tab-content { display:none; }
+.tab-content.active { display:block; }
+
+/* Social Sidebar */
+#social-sidebar {
+position: fixed;
+top: 50%;
+right: 15px;
+transform: translateY(-50%);
+display: flex;
+flex-direction: column;
+gap: 15px;
+z-index: 1000;
+}
+
+#social-sidebar a {
+background: white;
+padding: 8px;
+border-radius: 50%;
+box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+transition: 0.2s;
+}
+
+#social-sidebar a:hover {
+transform: scale(1.15);
+}
+
+#social-sidebar img {
+width: 32px;
+height: 32px;
+}
+
+/* Mobile */
+@media(max-width:768px) {
+#social-sidebar {
+top:auto;
+bottom:20px;
+right:50%;
+transform:translateX(50%);
+flex-direction:row;
+background:rgba(0,0,0,0.8);
+padding:10px 15px;
+border-radius:50px;
+}
+#social-sidebar a {
+background:transparent;
+box-shadow:none;
+}
 }
 </style>
 </head>
@@ -71,106 +123,124 @@ padding:20px;
 <body>
 
 <header>
-<h1 data-de="⚡ Elektriker Notdienst München"
-    data-en="⚡ Electrician Emergency Munich">
-⚡ Elektriker Notdienst München
+<h1>⚡ Elektriker Notdienst-Hotline München
+  <span>⚡ 24h Stromausfall Hilfe per Video</span>
 </h1>
 
-<div class="lang-switch">
-<span onclick="setLang('de')">DE</span> | 
-<span onclick="setLang('en')">EN</span>
-</div>
+<nav>
+<a href="#impressum" class="tab-link" data-tab="impressum">Impressum</a>
+<a href="#datenschutz" class="tab-link" data-tab="datenschutz">Datenschutz</a>
+</nav>
 </header>
 
 <main>
 
-<section style="text-align:center;">
-<h2 data-de="Stromausfall in München?"
-    data-en="Power outage in Munich?">
-Stromausfall in München?
-</h2>
-
-<p data-de="Sofort-Hilfe per WhatsApp Video direkt vom Elektriker. 24h erreichbar – Festpreis 39,99 €."
-   data-en="Instant help via WhatsApp video directly from an electrician. Available 24/7 – fixed price 39.99 €.">
-Sofort-Hilfe per WhatsApp Video direkt vom Elektriker.
-</p>
-
-<a href="tel:+4915145932462" class="btn"
-   data-de="📞 Jetzt anrufen"
-   data-en="📞 Call now">
-📞 Jetzt anrufen
-</a>
-
-<a href="https://wa.me/4915145932462" class="btn"
-   data-de="💬 WhatsApp starten"
-   data-en="💬 Start WhatsApp">
-💬 WhatsApp starten
-</a>
-
-</section>
-
 <section>
-<h2 data-de="Unsere Leistungen"
-    data-en="Our Services">
-Unsere Leistungen
-</h2>
-
-<div class="services">
-<p data-de="✔ 24h Notdienst per Video"
-   data-en="✔ 24/7 video emergency service">
-✔ 24h Notdienst per Video
-</p>
-<p data-de="✔ Hilfe bei FI-Schalter & Kurzschluss"
-   data-en="✔ Help with fuse box & short circuits">
-✔ Hilfe bei FI-Schalter & Kurzschluss
-</p>
-<p data-de="✔ Schritt-für-Schritt Anleitung"
-   data-en="✔ Step-by-step guidance">
-✔ Schritt-für-Schritt Anleitung
-</p>
-</div>
+<h2>24h Stromausfall Hilfe per Video</h2>
+<p style="text-align:center;">Schnelle Unterstützung bei Stromausfall, FI-Fehler oder Kurzschluss – direkt per WhatsApp Video.</p>
 </section>
-
 <section>
-<h2 data-de="Kundenbewertungen"
-    data-en="Customer Reviews">
-Kundenbewertungen
-</h2>
+  <h2>🌙⚡ Oh nein – Stromausfall? Kein Stress!</h2>
+  <p>Keine Sorge, ich bin live für dich da – direkt per Video-Call!</p>
+  
+  <h3>💡 Was wir machen:</h3>
+  <ul>
+    <li>Licht & Sicherheit schnell checken</li>
+    <li>Geräte richtig handhaben</li>
+    <li>Tipps, damit alles reibungslos läuft</li>
+  </ul>
+  
+  <p>🎥 Einfach Video-Call starten oder anrufen – ich begleite dich Schritt für Schritt. <br>
+  Du bist nicht allein, wir schaffen das zusammen! 💪</p>
+</section>
+  <section id="landing">
+<h2>Festpreis!!!</h2>
 
-<div class="testimonial"
-     data-de='"Schnelle Hilfe – Problem in 30 Minuten gelöst!" – Maria S.'
-     data-en='"Fast help – problem solved in 30 minutes!" – Maria S.'>
-"Schnelle Hilfe – Problem in 30 Minuten gelöst!" – Maria S.
+<div id="help-container">
+<button id="start-btn" class="btn">💳 Notdienst–Festpreis 39,99 €</button>
 </div>
 
+<div id="qr-wrapper">
+<img id="qr-code" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://example.com/test-payment">
+<div id="payment-status"></div>
+</div>
+
+<h2>Unsere Leistungen</h2>
+<ul class="services">
+<li>24h Notdienst</li>
+<li>WhatsApp Video-Diagnose</li>
+<li>FI-Schalter & Kurzschluss Hilfe</li>
+<li>Schritt-für-Schritt Anleitung</li>
+</ul>
+
+<h2>Kundenbewertungen</h2>
+<div class="testimonial">"Schnelle Hilfe – Problem in 30 Minuten gelöst!" – Maria S.</div>
+<div class="testimonial">"Kompetent und freundlich – klare Empfehlung!" – Thomas K.</div>
+
 </section>
 
-<section>
+<section id="impressum" class="tab-content">
 <h2>Impressum</h2>
-<p>Stromausfall-Hotline München<br>
-Stroblstr. 24<br>
-80689 München, Deutschland</p>
-</section>
+<p><strong>Betreiber / Anbieter:</strong><br>Stromausfall-Hotline München<br>Stroblstr. 24<br>80689 München, Deutschland</p>
+<p><strong>Vertreten durch:</strong><br>Geschäftsführer: Dennis Hajdarovac</p>
+<p><strong>Kontakt:</strong><br>Telefon: +49 151 45932462<br>E-Mail: <a href="mailto:info@elektriker-muenchen.de">info@stromausfall-hotline-muenchen.de</a></p>
+<p><strong>Umsatzsteuer-ID:</strong><br>DE123456789</p>
+<p><strong>Handelsregister:</strong><br>Amtsgericht München, HRB 123456</p>
+<p><strong>Verantwortlich für Inhalte nach § 55 Abs. 2 RStV:</strong><br>Dennis Hajdarovac, Stroblstr. 24, 80689 München</p>
 
+</section>
+<section id="datenschutz" class="tab-content">
+<h2>Datenschutz</h2>
+<p>Wir erheben nur notwendige Daten für Kommunikation und Zahlung. Ihre Daten werden vertraulich behandelt und nicht an Dritte weitergegeben.</p>
+</section>
+  
+</main>
 </main>
 
 <footer>
-© 2026 Electrician Emergency Munich
+© 2026 Elektriker Notdienst-Hotline München
 </footer>
 
+<!-- Social Sidebar -->
+<div id="social-sidebar">
+<a href="#" target="_blank">
+<img src="https://img.icons8.com/color/48/000000/instagram-new.png">
+</a>
+<a href="#" target="_blank">
+<img src="https://img.icons8.com/color/48/000000/facebook-new.png">
+</a>
+</div>
 <script>
-function setLang(lang){
-document.documentElement.lang = lang;
-document.querySelectorAll("[data-de]").forEach(el=>{
-el.innerHTML = el.getAttribute("data-"+lang);
-});
-}
+const startBtn = document.getElementById('start-btn');
+const qrImg = document.getElementById('qr-code');
+const statusDiv = document.getElementById('payment-status');
 
-// automatische Sprache anhand Browser
-const userLang = navigator.language || navigator.userLanguage;
-if(userLang.startsWith("en")){
-setLang("en");
-}
+startBtn.addEventListener('click', ()=>{
+startBtn.disabled = true;
+qrImg.style.display="block";
+statusDiv.innerHTML='<span class="spinner"></span> Zahlung wird geprüft...';
+
+setTimeout(()=>{
+qrImg.style.display="none";
+statusDiv.textContent="✅ Zahlung erfolgreich! Videochat startet...";
+setTimeout(()=>{
+window.location.href="https://wa.me/4915145932462?text=Hallo%20ich%20brauche%20Hilfe";
+},2000);
+},2000);
+});
+
+// Tabs
+const tabs = document.querySelectorAll('.tab-link');
+const contents = document.querySelectorAll('.tab-content');
+
+tabs.forEach(tab=>{
+tab.addEventListener('click',e=>{
+e.preventDefault();
+contents.forEach(c=>c.classList.remove('active'));
+document.getElementById(tab.dataset.tab).classList.add('active');
+window.scrollTo({top:0,behavior:'smooth'});
+});
+});
 </script>
 
 </body>
