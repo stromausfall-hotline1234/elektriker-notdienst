@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Elektriker Notdienst München 24h</title>
-<meta name="description" content="24h Elektriker Notdienst in München. Schnelle Hilfe bei Stromausfällen, Kurzschlüssen & FI-Schalter Problemen – jetzt per WhatsApp Videochat!">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 body { margin:0; font-family:'Montserrat',sans-serif; background:#f5f5f5; color:#222; line-height:1.6;}
@@ -39,7 +38,9 @@ a { color:#FFD000; text-decoration:underline; }
 .spinner { border:4px solid #f3f3f3; border-top:4px solid #25D366; border-radius:50%; width:20px; height:20px; animation:spin 1s linear infinite; display:inline-block; margin-right:8px; }
 @keyframes spin { 0%{transform:rotate(0deg);}100%{transform:rotate(360deg);} }
 
-@media(max-width:480px){ #qr-code{max-width:90%;} }
+/* Tab Content für Impressum & Datenschutz */
+.tab-content { display:none; }
+.tab-content.active { display:block; }
 </style>
 </head>
 <body>
@@ -47,13 +48,12 @@ a { color:#FFD000; text-decoration:underline; }
 <header>
 <h1>⚡ Elektriker Notdienst München</h1>
 <nav>
-<a href="#home">Home</a>
-<a href="#landing">Notdienst & Zahlung</a>
-<a href="#impressum">Impressum</a>
-<a href="#datenschutz">Datenschutz</a>
+<a href="#impressum" class="tab-link" data-tab="impressum">Impressum</a>
+<a href="#datenschutz" class="tab-link" data-tab="datenschutz">Datenschutz</a>
 </nav>
 </header>
 
+<main>
 <section id="home">
 <h2>Willkommen beim Elektriker Notdienst München</h2>
 <p>24 Stunden erreichbar – schnelle Hilfe bei Stromausfällen, Kurzschlüssen und FI-Schalter Problemen.</p>
@@ -92,7 +92,7 @@ a { color:#FFD000; text-decoration:underline; }
 </div>
 </section>
 
-<section id="impressum">
+<section id="impressum" class="tab-content">
 <h2>Impressum</h2>
 <p><strong>Betreiber / Anbieter:</strong><br>Stromausfall-Hotline München<br>Stroblstr. 24<br>80689 München, Deutschland</p>
 <p><strong>Vertreten durch:</strong><br>Geschäftsführer: Dennis Hajdarovac</p>
@@ -102,14 +102,15 @@ a { color:#FFD000; text-decoration:underline; }
 <p><strong>Verantwortlich für Inhalte nach § 55 Abs. 2 RStV:</strong><br>Dennis Hajdarovac, Stroblstr. 24, 80689 München</p>
 </section>
 
-<section id="datenschutz">
+<section id="datenschutz" class="tab-content">
 <h2>Datenschutz</h2>
 <p>Wir erheben nur notwendige Daten für Kommunikation und Zahlung. Ihre Daten werden vertraulich behandelt und nicht an Dritte weitergegeben.</p>
 </section>
+</main>
 
 <footer>
 <p>© 2026 Elektriker Notdienst München – 24h Video Hotline</p>
-<p><a href="#impressum">Impressum</a> | <a href="#datenschutz">Datenschutz</a></p>
+<p><a href="#impressum" class="tab-link" data-tab="impressum">Impressum</a> | <a href="#datenschutz" class="tab-link" data-tab="datenschutz">Datenschutz</a></p>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
@@ -150,6 +151,20 @@ startBtn.addEventListener('click', async ()=>{
     }
   };
   checkPayment();
+});
+
+// Tab-Funktion für Impressum & Datenschutz
+const tabs = document.querySelectorAll('.tab-link');
+const contents = document.querySelectorAll('.tab-content');
+
+tabs.forEach(tab => {
+  tab.addEventListener('click', e => {
+    e.preventDefault();
+    const target = tab.getAttribute('data-tab');
+    contents.forEach(c => c.classList.remove('active'));
+    document.getElementById(target).classList.add('active');
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
 });
 </script>
 
