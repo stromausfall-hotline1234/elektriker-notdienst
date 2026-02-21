@@ -31,7 +31,7 @@ a { color:#FFD000; text-decoration:underline; }
 /* Landing Button & QR */
 #help-container { display:flex; justify-content:center; margin:30px 0; }
 #qr-wrapper { display:flex; flex-direction:column; align-items:center; margin-top:20px; }
-#qr-code { display:none; max-width:300px; margin-top:20px; }
+#qr-code { display:inline-block; max-width:300px; margin-top:20px; }
 #payment-status { margin-top:15px; font-weight:bold; color:green; font-size:1.2em; text-align:center; }
 
 /* Spinner */
@@ -57,7 +57,7 @@ a { color:#FFD000; text-decoration:underline; }
 <section id="home">
 <h2>Willkommen beim Elektriker Notdienst-Hotline München</h2>
 <p>24 Stunden erreichbar – schnelle Hilfe bei Stromausfällen, Kurzschlüssen und FI-Schalter Problemen.</p>
-  
+
 <section>
   <h2>🌙⚡ Oh nein – Stromausfall? Kein Stress!</h2>
   <p>Keine Sorge, ich bin live für dich da – direkt per Video-Call!</p>
@@ -72,7 +72,6 @@ a { color:#FFD000; text-decoration:underline; }
   <p>🎥 Einfach Video-Call starten oder anrufen – ich begleite dich Schritt für Schritt. <br>
   Du bist nicht allein, wir schaffen das zusammen! 💪</p>
 </section>
-
 </section>
 
 <section id="landing">
@@ -84,7 +83,7 @@ a { color:#FFD000; text-decoration:underline; }
 </div>
 
 <div id="qr-wrapper">
-<img id="qr-code" src="" alt="QR-Code zur Zahlung mit SumUp">
+<img id="qr-code" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://example.com/test-payment" alt="QR-Code Dummy Zahlung">
 <div id="payment-status"></div>
 </div>
 
@@ -140,29 +139,21 @@ const startBtn = document.getElementById('start-btn');
 const qrImg = document.getElementById('qr-code');
 const statusDiv = document.getElementById('payment-status');
 
-startBtn.addEventListener('click', async ()=>{
+startBtn.addEventListener('click', ()=>{
   startBtn.disabled = true;
-  const invoice = generateInvoiceNumber();
 
-  const res = await fetch(`/create-sumup-payment?invoice=${invoice}`);
-  const data = await res.json();
-
-  const qrDataUrl = await QRCode.toDataURL(data.qr_code_url, { width: 300 });
-  qrImg.src = qrDataUrl;
   qrImg.style.display = 'inline-block';
   statusDiv.innerHTML = '<span class="spinner"></span> Bitte QR-Code scannen und bezahlen...';
 
+  // Zahlung sofort als erfolgreich simulieren
   const checkPayment = async ()=>{
-    const res = await fetch(`/check-sumup-payment?invoice=${invoice}`);
-    const status = await res.json();
+    const status = { paid: true }; // Zahlung automatisch auf true
     if(status.paid){
       qrImg.style.display="none";
       statusDiv.textContent="✅ Zahlung erfolgreich! Videochat wird gestartet...";
       setTimeout(()=>{
         window.location.href = "https://wa.me/4915145932462?text=Hallo%20ich%20brauche%20Hilfe%20bei%20einem%20Stromproblem";
       },2000);
-    } else {
-      setTimeout(checkPayment,5000);
     }
   };
   checkPayment();
