@@ -7,82 +7,22 @@
 <meta name="description" content="Elektriker Notdienst München 24h – Soforthilfe bei Stromausfall, FI-Fehler oder Kurzschluss. Direkt per WhatsApp Video. Festpreis 39,99 €.">
 <meta name="keywords" content="Elektriker München, Notdienst München, Stromausfall Notdienst, FI Schalter Hilfe, Kurzschluss Hilfe, 24h Elektriker, WhatsApp Video Elektriker">
 <meta name="robots" content="index, follow">
-
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 
-<!-- Lokales Schema für Google -->
+<!-- Lokales Schema & FAQ-Schema bleiben DE/EN konsistent -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Electrician",
   "name": "Elektriker Notdienst München",
   "image": "https://example.com/logo.png",
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "Stroblstr. 24",
-    "addressLocality": "München",
-    "postalCode": "80689",
-    "addressCountry": "DE"
-  },
-  "geo": {
-    "@type": "GeoCoordinates",
-    "latitude": 48.157,
-    "longitude": 11.523
-  },
-  "telephone": "+49 151 45932462",
-  "url": "https://example.com",
-  "openingHours": "Mo-Su 00:00-23:59",
-  "sameAs": [
-    "https://www.facebook.com/deinefirma",
-    "https://www.instagram.com/deinefirma"
-  ],
-  "aggregateRating": {
-    "@type": "AggregateRating",
-    "ratingValue": "4.9",
-    "reviewCount": "120"
-  }
-}
-</script>
-
-<!-- FAQ-Schema für Google -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "Wie schnell kann der Elektriker Notdienst in München helfen?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Unser Elektriker Notdienst in München ist 24/7 verfügbar. Bei Stromausfall oder Kurzschluss können wir meist innerhalb von 30 Minuten Unterstützung per Videoanruf leisten."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Wie funktioniert die Video-Hilfe per WhatsApp?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Du startest den Video-Call direkt über WhatsApp. Unser Elektriker führt dich Schritt für Schritt durch die Prüfung von FI-Schaltern, Steckdosen und Geräten, um das Problem sicher zu lösen."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Wie hoch ist der Festpreis für die Soforthilfe?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Der Festpreis für unsere 24h Soforthilfe beträgt 39,99 €. Danach startet direkt der Videochat mit einem Elektriker."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Bietet ihr Hilfe bei Kurzschluss oder FI-Schalter Fehlern?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Ja! Unser Elektriker Notdienst überprüft schnell Kurzschlüsse, FI-Schalter-Auslösungen und andere Stromprobleme, direkt über Video-Anleitung."
-      }
-    }
-  ]
+  "address": {"@type":"PostalAddress","streetAddress":"Stroblstr. 24","addressLocality":"München","postalCode":"80689","addressCountry":"DE"},
+  "geo":{"@type":"GeoCoordinates","latitude":48.157,"longitude":11.523},
+  "telephone":"+49 151 45932462",
+  "url":"https://example.com",
+  "openingHours":"Mo-Su 00:00-23:59",
+  "sameAs":["https://www.facebook.com/deinefirma","https://www.instagram.com/deinefirma"],
+  "aggregateRating":{"@type":"AggregateRating","ratingValue":"4.9","reviewCount":"120"}
 }
 </script>
 
@@ -94,115 +34,45 @@ header h1 span { display:block; font-size:0.9em; color:white; margin-top:5px;}
 nav a { color:white; text-decoration:none; margin:0 10px; font-weight:600;}
 nav a:hover, nav a.active { text-decoration:underline; color:#FFD000; }
 
+#lang-toggle { text-align:right; margin-top:-50px; margin-right:15px; }
+#lang-toggle button { background:#FFD000; color:#111; border:none; padding:5px 15px; margin-left:5px; cursor:pointer; border-radius:5px; font-weight:600; }
+#lang-toggle button.active { background:#25D366; color:white; }
+
 section { padding:60px 15px; max-width:800px; margin:auto; }
 h2 { text-align:center; margin-bottom:20px; position:relative;}
 h2::after { content:""; width:50px; height:3px; background:#FFD000; display:block; margin:10px auto 0; border-radius:2px; }
 
-.btn {
-display:inline-block;
-padding:20px 50px;
-margin:10px 5px;
-border-radius:50px;
-font-weight:700;
-cursor:pointer;
-background:#25D366;
-color:white;
-font-size:1.2em;
-transition:0.3s;
-border:none;
-box-shadow:0 6px 15px rgba(0,0,0,0.15);
-}
-.btn:hover { 
-  background:#1ebe57; 
-  transform:scale(1.05); 
-  box-shadow:0 8px 20px rgba(0,0,0,0.2);
-}
+.btn { display:inline-block; padding:20px 50px; margin:10px 5px; border-radius:50px; font-weight:700; cursor:pointer; background:#25D366; color:white; font-size:1.2em; transition:0.3s; border:none; box-shadow:0 6px 15px rgba(0,0,0,0.15);}
+.btn:hover { background:#1ebe57; transform:scale(1.05); box-shadow:0 8px 20px rgba(0,0,0,0.2); }
 
 .services li { list-style:none; padding:15px 0; border-bottom:1px solid #ddd; font-size:1.1em; }
 .services li::before { content:"✔ "; color:#FFD000; font-weight:bold; }
 
-.testimonial {
-background:white;
-border-radius:15px;
-padding:25px 20px;
-box-shadow:0 4px 12px rgba(0,0,0,0.1);
-margin-bottom:20px;
-font-style:italic;
-}
+.testimonial { background:white; border-radius:15px; padding:25px 20px; box-shadow:0 4px 12px rgba(0,0,0,0.1); margin-bottom:20px; font-style:italic; }
 
-footer {
-background:#111;
-color:white;
-text-align:center;
-padding:20px;
-font-size:0.9em;
-margin-top:40px;
-}
+footer { background:#111; color:white; text-align:center; padding:20px; font-size:0.9em; margin-top:40px; }
 
 #help-container { display:flex; justify-content:center; margin:30px 0; }
 #qr-wrapper { display:flex; flex-direction:column; align-items:center; margin-top:20px; }
 #qr-code { display:none; max-width:250px; margin-top:20px; }
 #payment-status { margin-top:15px; font-weight:bold; color:green; text-align:center; }
-
-.spinner {
-border:4px solid #f3f3f3;
-border-top:4px solid #25D366;
-border-radius:50%;
-width:20px;
-height:20px;
-animation:spin 1s linear infinite;
-display:inline-block;
-margin-right:8px;
-}
+.spinner { border:4px solid #f3f3f3; border-top:4px solid #25D366; border-radius:50%; width:20px; height:20px; animation:spin 1s linear infinite; display:inline-block; margin-right:8px; }
 @keyframes spin { 100% { transform:rotate(360deg);} }
 
 .tab-content { display:none; }
 .tab-content.active { display:block; }
 
-#social-sidebar {
-position: fixed;
-top: 50%;
-right: 15px;
-transform: translateY(-50%);
-display: flex;
-flex-direction: column;
-gap: 15px;
-z-index: 1000;
-}
+#social-sidebar { position: fixed; top: 50%; right: 15px; transform: translateY(-50%); display: flex; flex-direction: column; gap: 15px; z-index: 1000;}
+#social-sidebar a { background: white; padding: 8px; border-radius: 50%; box-shadow: 0 3px 8px rgba(0,0,0,0.2); transition: 0.3s;}
+#social-sidebar a:hover img {transform: scale(1.2); transition:0.3s;}
+#social-sidebar img { width:32px; height:32px;}
 
-#social-sidebar a {
-background: white;
-padding: 8px;
-border-radius: 50%;
-box-shadow: 0 3px 8px rgba(0,0,0,0.2);
-transition: 0.3s;
-}
-
-#social-sidebar a:hover img {
-transform: scale(1.2);
-transition:0.3s;
-}
-
-#social-sidebar img {
-width: 32px;
-height: 32px;
-}
+.lang { display:none; }
+.lang[data-lang="de"] { display:block; }
 
 @media(max-width:768px) {
-#social-sidebar {
-top:auto;
-bottom:20px;
-right:50%;
-transform:translateX(50%);
-flex-direction:row;
-background:rgba(0,0,0,0.8);
-padding:10px 15px;
-border-radius:50px;
-}
-#social-sidebar a {
-background:transparent;
-box-shadow:none;
-}
+#social-sidebar { top:auto; bottom:20px; right:50%; transform:translateX(50%); flex-direction:row; background:rgba(0,0,0,0.8); padding:10px 15px; border-radius:50px;}
+#social-sidebar a { background:transparent; box-shadow:none; }
 }
 </style>
 </head>
@@ -214,6 +84,11 @@ box-shadow:none;
   <span>Direkte Hilfe bei Stromausfall, FI-Fehler & Kurzschluss</span>
 </h1>
 
+<div id="lang-toggle">
+<button data-lang="de" class="active">DE</button>
+<button data-lang="en">EN</button>
+</div>
+
 <nav>
 <a href="#impressum" class="tab-link" data-tab="impressum">Impressum</a>
 <a href="#datenschutz" class="tab-link" data-tab="datenschutz">Datenschutz</a>
@@ -222,33 +97,30 @@ box-shadow:none;
 
 <main>
 
+<!-- DE Content -->
+<div class="lang" data-lang="de">
+
 <section>
 <h2>24h Elektriker Notdienst München – Soforthilfe bei Stromausfall</h2>
 <p style="text-align:center;">Unser <strong>Elektriker Notdienst in München</strong> ist rund um die Uhr verfügbar. Ob <strong>Stromausfall</strong>, ausgelöster <strong>FI-Schalter</strong> oder <strong>Kurzschluss</strong> – wir bieten schnelle und sichere Unterstützung direkt per <strong>WhatsApp Videoanruf</strong>. Schritt für Schritt begleitet von erfahrenen Elektrikern.</p>
-<p>Unser Notdienst ist im gesamten Stadtgebiet aktiv: Schwabing, Maxvorstadt, Altstadt-Lehel, Bogenhausen, Neuhausen und Umgebung.</p>
 </section>
 
 <section>
 <h2>Stromausfall? FI-Fehler oder Kurzschluss? Hilfe sofort per Video</h2>
-<p>Keine Sorge, wir sind live für dich da – direkt per Video-Call!</p>
-
 <h3>💡 Unsere Leistungen:</h3>
 <ul>
 <li>Schnelle Prüfung von Licht & Sicherheit</li>
 <li>Geräte richtig bedienen ohne Risiko</li>
 <li>Praktische Tipps für einen reibungslosen Ablauf</li>
 </ul>
-
 <p>🎥 Einfach Video-Call starten oder anrufen – wir begleiten dich Schritt für Schritt. Du bist nicht allein, wir schaffen das zusammen! 💪</p>
 </section>
 
 <section id="landing">
 <h2>Festpreis Soforthilfe – 39,99 €</h2>
-
 <div id="help-container">
 <button id="start-btn" class="btn">💳 Jetzt Soforthilfe sichern – Festpreis 39,99 €</button>
 </div>
-
 <div id="qr-wrapper">
 <img id="qr-code" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://example.com/test-payment" alt="QR-Code für Soforthilfe Zahlung">
 <div id="payment-status"></div>
@@ -263,50 +135,98 @@ box-shadow:none;
 </ul>
 </section>
 
-<!-- Kundenbewertungen + FAQ + Video CTA -->
 <section id="bewertungen-faq">
-  <h2>Kundenbewertungen & FAQ</h2>
+<h2>Kundenbewertungen & FAQ</h2>
+<div itemscope itemtype="https://schema.org/LocalBusiness">
+<p><strong>Unsere Kunden geben uns:</strong></p>
+<div style="font-size:1.5em; color:#FFD000;">★★★★☆ (4.9/5 basierend auf 120 Bewertungen)</div>
+<meta itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
+<meta itemprop="ratingValue" content="4.9">
+<meta itemprop="reviewCount" content="120">
+</div>
 
-  <!-- Sternebewertungen -->
-  <div itemscope itemtype="https://schema.org/LocalBusiness">
-    <p><strong>Unsere Kunden geben uns:</strong></p>
-    <div style="font-size:1.5em; color:#FFD000;">
-      ★★★★☆ (4.9/5 basierend auf 120 Bewertungen)
-    </div>
-    <meta itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
-    <meta itemprop="ratingValue" content="4.9">
-    <meta itemprop="reviewCount" content="120">
-  </div>
+<div class="testimonial">"Schnelle Hilfe – Problem innerhalb von 30 Minuten gelöst!" – Maria S.</div>
+<div class="testimonial">"Kompetent, freundlich und verständlich – klare Empfehlung!" – Thomas K.</div>
 
-  <!-- Sichtbare Kundenbewertungen -->
-  <div class="testimonial">"Schnelle Hilfe – Problem innerhalb von 30 Minuten gelöst!" – Maria S.</div>
-  <div class="testimonial">"Kompetent, freundlich und verständlich – klare Empfehlung!" – Thomas K.</div>
-  <div class="testimonial">"Top Service! Mein FI-Schalter wurde sofort geprüft." – Lukas R.</div>
+<div id="faq-section">
+<h3>Häufig gestellte Fragen</h3>
+<p><strong>Wie schnell kann der Elektriker Notdienst in München helfen?</strong><br>Unser Notdienst ist 24/7 verfügbar und kann meist innerhalb von 30 Minuten per Videoanruf unterstützen.</p>
+<p><strong>Wie funktioniert die Video-Hilfe per WhatsApp?</strong><br>Starte den Video-Call direkt über WhatsApp. Unser Elektriker führt dich Schritt für Schritt durch alle Sicherheitsprüfungen.</p>
+<p><strong>Wie hoch ist der Festpreis für die Soforthilfe?</strong><br>Der Festpreis beträgt 39,99 €, danach startet sofort der Videochat mit einem Elektriker.</p>
+<p><strong>Bietet ihr Hilfe bei Kurzschluss oder FI-Schalter Fehlern?</strong><br>Ja! Wir prüfen schnell Kurzschlüsse, FI-Schalter-Auslösungen und andere Stromprobleme direkt per Videoanleitung.</p>
+</div>
 
-  <!-- FAQ sichtbar -->
-  <div id="faq-section">
-    <h3>Häufig gestellte Fragen</h3>
-    <div>
-      <p><strong>Wie schnell kann der Elektriker Notdienst in München helfen?</strong><br>
-      Unser Notdienst ist 24/7 verfügbar und kann meist innerhalb von 30 Minuten per Videoanruf unterstützen.</p>
-
-      <p><strong>Wie funktioniert die Video-Hilfe per WhatsApp?</strong><br>
-      Starte den Video-Call direkt über WhatsApp. Unser Elektriker führt dich Schritt für Schritt durch alle Sicherheitsprüfungen.</p>
-
-      <p><strong>Wie hoch ist der Festpreis für die Soforthilfe?</strong><br>
-      Der Festpreis beträgt 39,99 €, danach startet sofort der Videochat mit einem Elektriker.</p>
-
-      <p><strong>Bietet ihr Hilfe bei Kurzschluss oder FI-Schalter Fehlern?</strong><br>
-      Ja! Wir prüfen schnell Kurzschlüsse, FI-Schalter-Auslösungen und andere Stromprobleme direkt per Videoanleitung.</p>
-    </div>
-  </div>
-
-  <!-- Video-CTA -->
-  <div style="text-align:center; margin-top:20px;">
-    <button id="video-cta-btn" class="btn">💳 Jetzt Soforthilfe sichern – Festpreis 39,99 €</button>
-  </div>
+<div style="text-align:center; margin-top:20px;">
+<button id="video-cta-btn" class="btn">🎥 Video-Hilfe jetzt starten</button>
+</div>
 </section>
 
+</div>
+
+<!-- EN Content -->
+<div class="lang" data-lang="en">
+
+<section>
+<h2>24/7 Electrician Emergency Munich – Immediate Video Assistance</h2>
+<p style="text-align:center;">Our <strong>electrician emergency service in Munich</strong> is available around the clock. Whether <strong>power outage</strong>, triggered <strong>RCD</strong>, or <strong>short circuit</strong> – we provide fast and safe support directly via <strong>WhatsApp video call</strong>. Step by step guidance from experienced electricians.</p>
+</section>
+
+<section>
+<h2>Power outage? RCD trip or short circuit? Help immediately via video</h2>
+<h3>💡 Our Services:</h3>
+<ul>
+<li>Quick check of lights & safety</li>
+<li>Safe handling of devices</li>
+<li>Practical tips for smooth operation</li>
+</ul>
+<p>🎥 Start a video call or call us – we guide you step by step. You’re not alone, we will solve it together! 💪</p>
+</section>
+
+<section id="landing-en">
+<h2>Fixed Price Assistance – €39.99</h2>
+<div id="help-container-en">
+<button id="start-btn-en" class="btn">💳 Secure emergency help – fixed price €39.99</button>
+</div>
+<div id="qr-wrapper-en">
+<img id="qr-code-en" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://example.com/test-payment" alt="QR code for emergency payment">
+<div id="payment-status-en"></div>
+</div>
+
+<h2>Our Services – Electrician Emergency Munich</h2>
+<ul class="services">
+<li>24/7 Emergency Service</li>
+<li>WhatsApp Video Diagnosis</li>
+<li>RCD & Short Circuit Help</li>
+<li>Step-by-Step Instructions</li>
+</ul>
+</section>
+
+<section id="reviews-faq-en">
+<h2>Customer Reviews & FAQ</h2>
+<div itemscope itemtype="https://schema.org/LocalBusiness">
+<p><strong>Our customers rate us:</strong></p>
+<div style="font-size:1.5em; color:#FFD000;">★★★★☆ (4.9/5 based on 120 reviews)</div>
+</div>
+
+<div class="testimonial">"Quick help – problem solved within 30 minutes!" – Maria S.</div>
+<div class="testimonial">"Competent, friendly and clear – highly recommended!" – Thomas K.</div>
+
+<div id="faq-section-en">
+<h3>Frequently Asked Questions</h3>
+<p><strong>How fast can the emergency electrician help in Munich?</strong><br>Our service is available 24/7 and usually provides video support within 30 minutes.</p>
+<p><strong>How does WhatsApp video assistance work?</strong><br>Start the video call via WhatsApp. Our electrician guides you safely through RCD, sockets, and devices step by step.</p>
+<p><strong>What is the fixed price for emergency help?</strong><br>The fixed price is €39.99, then the video chat starts immediately.</p>
+<p><strong>Do you assist with short circuits or RCD trips?</strong><br>Yes! Our service quickly checks short circuits, RCD trips, and other electrical issues via video guidance.</p>
+</div>
+
+<div style="text-align:center; margin-top:20px;">
+<button id="video-cta-btn-en" class="btn">🎥 Start Video Assistance</button>
+</div>
+</section>
+
+</div>
+
+<!-- Impressum & Datenschutz Tabs -->
 <section id="impressum" class="tab-content">
 <h2>Impressum</h2>
 <p><strong>Betreiber / Anbieter:</strong><br>Stromausfall-Hotline München<br>Stroblstr. 24<br>80689 München, Deutschland</p>
@@ -314,7 +234,7 @@ box-shadow:none;
 <p><strong>Kontakt:</strong><br>Telefon: +49 151 45932462<br>E-Mail: <a href="mailto:info@stromausfall-hotline-muenchen.de">info@stromausfall-hotline-muenchen.de</a></p>
 <p><strong>Umsatzsteuer-ID:</strong><br>DE123456789</p>
 <p><strong>Handelsregister:</strong><br>Amtsgericht München, HRB 123456</p>
-<p><strong>Verantwortlich für Inhalte nach § 55 Abs. 2 RStV:</strong><br>Dennis Hajdarovac, Stroblstr. 24, 80689 München</p>
+<p><strong>Verantwortlich für Inhalte nach § 55 Abs. 2 RStV:</strong><br>Dennis Hajdarovac</p>
 </section>
 
 <section id="datenschutz" class="tab-content">
@@ -322,61 +242,71 @@ box-shadow:none;
 <p>Wir erheben nur notwendige Daten für Kommunikation und Zahlung. Ihre Daten werden vertraulich behandelt und nicht an Dritte weitergegeben.</p>
 </section>
 
-</main>
-
 <footer>
 © 2026 Elektriker Notdienst-Hotline München
 </footer>
 
 <div id="social-sidebar">
-<a href="#" target="_blank">
-<img src="https://img.icons8.com/color/48/000000/instagram-new.png" alt="Instagram Icon">
-</a>
-<a href="#" target="_blank">
-<img src="https://img.icons8.com/color/48/000000/facebook-new.png" alt="Facebook Icon">
-</a>
+<a href="#" target="_blank"><img src="https://img.icons8.com/color/48/000000/instagram-new.png" alt="Instagram Icon"></a>
+<a href="#" target="_blank"><img src="https://img.icons8.com/color/48/000000/facebook-new.png" alt="Facebook Icon"></a>
 </div>
 
 <script>
+// DE/EN Language Toggle
+const langButtons = document.querySelectorAll('#lang-toggle button');
+const langDivs = document.querySelectorAll('.lang');
+langButtons.forEach(btn => {
+  btn.addEventListener('click', ()=>{
+    const lang = btn.dataset.lang;
+    langDivs.forEach(div => div.style.display = div.dataset.lang === lang ? 'block' : 'none');
+    langButtons.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+});
+
+// QR Payment & Video CTA DE
 const startBtn = document.getElementById('start-btn');
 const qrImg = document.getElementById('qr-code');
 const statusDiv = document.getElementById('payment-status');
-
 startBtn.addEventListener('click', ()=>{
-startBtn.disabled = true;
-qrImg.style.display="block";
-statusDiv.innerHTML='<span class="spinner"></span> Verbindung wird hergestellt...';
-
-setTimeout(()=>{
-qrImg.style.display="none";
-statusDiv.textContent="✅ Zahlung erfolgreich! Videochat startet...";
-setTimeout(()=>{
-window.location.href="https://wa.me/4915145932462?text=Hallo%20ich%20brauche%20Hilfe";
-},2000);
-},2000);
+  startBtn.disabled = true;
+  qrImg.style.display="block";
+  statusDiv.innerHTML='<span class="spinner"></span> Verbindung wird hergestellt...';
+  setTimeout(()=>{
+    qrImg.style.display="none";
+    statusDiv.textContent="✅ Zahlung erfolgreich! Videochat startet...";
+    setTimeout(()=>{ window.location.href="https://wa.me/4915145932462?text=Hallo%20ich%20brauche%20Hilfe"; },2000);
+  },2000);
 });
+document.getElementById('video-cta-btn').addEventListener('click', ()=>{ window.location.href="https://wa.me/4915145932462?text=Hallo%20ich%20brauche%20Hilfe"; });
 
-// Video-CTA
-const videoBtn = document.getElementById('video-cta-btn');
-videoBtn.addEventListener('click', ()=>{
-  window.location.href="https://wa.me/4915145932462?text=Hallo%20ich%20brauche%20Hilfe";
+// QR Payment & Video CTA EN
+const startBtnEn = document.getElementById('start-btn-en');
+const qrImgEn = document.getElementById('qr-code-en');
+const statusDivEn = document.getElementById('payment-status-en');
+startBtnEn.addEventListener('click', ()=>{
+  startBtnEn.disabled = true;
+  qrImgEn.style.display="block";
+  statusDivEn.innerHTML='<span class="spinner"></span> Connecting...';
+  setTimeout(()=>{
+    qrImgEn.style.display="none";
+    statusDivEn.textContent="✅ Payment successful! Video chat starting...";
+    setTimeout(()=>{ window.location.href="https://wa.me/4915145932462?text=Hello%20I%20need%20help"; },2000);
+  },2000);
 });
+document.getElementById('video-cta-btn-en').addEventListener('click', ()=>{ window.location.href="https://wa.me/4915145932462?text=Hello%20I%20need%20help"; });
 
 // Tabs
 const tabs = document.querySelectorAll('.tab-link');
 const contents = document.querySelectorAll('.tab-content');
-
 tabs.forEach(tab=>{
-tab.addEventListener('click',e=>{
-e.preventDefault();
-tabs.forEach(t => t.classList.remove('active'));
-tab.classList.add('active');
-contents.forEach(c=>c.classList.remove('active'));
-document.getElementById(tab.dataset.tab).classList.add('active');
-window.scrollTo({top:0,behavior:'smooth'});
-});
+  tab.addEventListener('click', e=>{
+    e.preventDefault();
+    contents.forEach(c=>c.classList.remove('active'));
+    document.getElementById(tab.dataset.tab).classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
 });
 </script>
-
 </body>
 </html>
