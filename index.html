@@ -18,8 +18,8 @@ h2{text-align:center;margin-bottom:30px;}
 .features li{list-style:none;padding:12px 0;border-bottom:1px solid #ddd;}
 .features li::before{content:"✔ ";color:#FFD000;font-weight:bold;}
 footer{background:#111;color:white;text-align:center;padding:20px;}
-#modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:1000;justify-content:center;align-items:center;}
-.modal-box{background:white;padding:30px;border-radius:15px;max-width:480px;width:90%;}
+#modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:1000;justify-content:center;align-items:center;padding:20px;overflow-y:auto;}
+.modal-box{background:white;padding:30px;border-radius:15px;max-width:480px;width:100%;max-height:90vh;overflow-y:auto;}
 input, select, textarea{width:100%;padding:12px;margin:8px 0;border-radius:8px;border:1px solid #ccc;font-size:1em;}
 #errorMsg{color:red;font-size:0.9em;margin-bottom:10px;}
 .checkbox-label{font-size:0.9em;margin-top:10px;display:flex;align-items:flex-start;gap:8px;flex-wrap:wrap;}
@@ -143,7 +143,10 @@ document.getElementById("cityName4").textContent = city;
 const modal = document.getElementById("modal");
 const openBtn = document.getElementById("openBtn");
 const closeModalBtn = () => modal.style.display = "none";
-openBtn.addEventListener("click", () => { modal.style.display = "flex"; });
+openBtn.addEventListener("click", () => {
+  modal.style.display = "flex";
+  document.querySelector(".modal-box").scrollTop = 0; // start oben
+});
 function closeModal(){ closeModalBtn(); }
 
 // Buttons
