@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Elektriker Notdienst München 24h | Soforthilfe bei Stromausfall & FI-Fehler</title>
-<meta name="description" content="24h Elektriker Notdienst in München. Soforthilfe bei Stromausfall, FI-Schalter oder Kurzschluss. Jetzt direkt Hilfe anfordern.">
+<title>Elektriker Notdienst München 24h | Soforthilfe bei Stromausfall</title>
+<meta name="description" content="24h Elektriker Notdienst in München. Schnelle Hilfe bei Stromausfall, FI-Schalter oder Kurzschluss. Jetzt Soforthilfe anfordern.">
 <meta name="robots" content="index, follow">
 
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
@@ -31,7 +31,7 @@
 body{
 margin:0;
 font-family:'Montserrat',sans-serif;
-background:#f4f4f4;
+background:#f5f5f5;
 color:#222;
 line-height:1.6;
 }
@@ -40,29 +40,29 @@ header{
 background:linear-gradient(135deg,#111,#333);
 color:white;
 text-align:center;
-padding:40px 20px;
+padding:50px 20px;
 }
 
 h1{
 color:#FFD000;
 margin:0;
-font-size:2em;
+font-size:2.2em;
 }
 
 section{
-padding:60px 20px;
+padding:70px 20px;
 max-width:900px;
 margin:auto;
 }
 
 h2{
 text-align:center;
-margin-bottom:25px;
+margin-bottom:30px;
 }
 
 .btn{
 display:inline-block;
-padding:18px 40px;
+padding:18px 45px;
 border-radius:50px;
 background:#25D366;
 color:white;
@@ -78,17 +78,13 @@ background:#1ebe57;
 transform:scale(1.05);
 }
 
-ul{
-padding:0;
-}
-
-.services li{
+.features li{
 list-style:none;
 padding:12px 0;
 border-bottom:1px solid #ddd;
 }
 
-.services li::before{
+.features li::before{
 content:"✔ ";
 color:#FFD000;
 font-weight:bold;
@@ -102,17 +98,17 @@ padding:20px;
 }
 
 /* Modal */
-#help-modal{
+#modal{
 display:none;
 position:fixed;
 inset:0;
 background:rgba(0,0,0,0.6);
-z-index:2000;
+z-index:1000;
 justify-content:center;
 align-items:center;
 }
 
-.modal-content{
+.modal-box{
 background:white;
 padding:30px;
 border-radius:15px;
@@ -123,13 +119,14 @@ width:90%;
 input, select, textarea{
 width:100%;
 padding:12px;
-margin:8px 0;
+margin:10px 0;
 border-radius:8px;
 border:1px solid #ccc;
+font-size:1em;
 }
 
 @media(max-width:768px){
-h1{font-size:1.5em;}
+h1{font-size:1.6em;}
 }
 </style>
 </head>
@@ -138,27 +135,23 @@ h1{font-size:1.5em;}
 
 <header>
 <h1>⚡ Elektriker Notdienst München – 24h Soforthilfe ⚡</h1>
-<p>Schnelle Hilfe bei Stromausfall, FI-Fehler & Kurzschluss</p>
+<p>Schnelle Hilfe bei Stromausfall, FI-Schalter & Kurzschluss</p>
 </header>
 
 <main>
 
 <section>
-<h2>24h Elektriker Notdienst in München</h2>
+<h2>Elektriker Notdienst in München</h2>
 
 <p>
 Unser Elektriker Notdienst in 
 :contentReference[oaicite:0]{index=0} 
-ist rund um die Uhr für Sie erreichbar.
-Bei Stromausfall, FI-Schalter-Auslösung oder Kurzschluss helfen wir sofort weiter.
-</p>
-
-<p>
-Wir sind aktiv in Schwabing, Bogenhausen, Sendling, Neuhausen, Maxvorstadt und Umgebung.
+ist rund um die Uhr erreichbar.
+Wir helfen sofort bei Stromausfall, FI-Auslösung oder Kurzschluss.
 </p>
 
 <div style="text-align:center; margin-top:30px;">
-<button id="open-form-btn" class="btn">
+<button id="openBtn" class="btn">
 📞 Soforthilfe anfordern – 39,99 €
 </button>
 </div>
@@ -167,27 +160,13 @@ Wir sind aktiv in Schwabing, Bogenhausen, Sendling, Neuhausen, Maxvorstadt und U
 
 <section>
 <h2>Unsere Leistungen</h2>
-<ul class="services">
+<ul class="features">
 <li>24h Notdienst Service</li>
-<li>Sofortige WhatsApp Verbindung</li>
+<li>Schneller Rückruf (Ø 5–10 Minuten)</li>
 <li>FI-Schalter & Kurzschluss Diagnose</li>
-<li>Telefonischer Rückruf innerhalb 5–10 Minuten</li>
+<li>WhatsApp Direktverbindung</li>
 <li>Transparenter Festpreis</li>
 </ul>
-</section>
-
-<section>
-<h2>Häufige Fragen</h2>
-
-<p><strong>Wie schnell erfolgt der Rückruf?</strong><br>
-In der Regel innerhalb von 5–10 Minuten.</p>
-
-<p><strong>Wie funktioniert die Soforthilfe?</strong><br>
-Nach dem Absenden öffnet sich WhatsApp. Wir melden uns telefonisch bei Ihnen.</p>
-
-<p><strong>Ist der Preis fest?</strong><br>
-Ja – 39,99 € für die Soforthilfe.</p>
-
 </section>
 
 <section>
@@ -206,17 +185,23 @@ Telefon: +49 151 45932462
 © 2026 Elektriker Notdienst München
 </footer>
 
-<!-- Modal Formular -->
+<!-- Formular Modal -->
 
-<div id="help-modal">
-<div class="modal-content">
+<div id="modal">
+<div class="modal-box">
 
 <h3>Soforthilfe anfordern</h3>
 
-<form id="help-form">
+<form id="helpForm">
 
 <input type="text" id="name" placeholder="Ihr Name" required>
-<input type="tel" id="phone" placeholder="Ihre Rückrufnummer" required>
+
+<input type="tel"
+       id="phone"
+       inputmode="numeric"
+       autocomplete="tel"
+       placeholder="Ihre Rückrufnummer (z.B. 0151...)"
+       required>
 
 <select id="problem" required>
 <option value="">Problem auswählen</option>
@@ -244,10 +229,10 @@ Abbrechen
 
 <script>
 
-const modal = document.getElementById('help-modal');
-const openBtn = document.getElementById('open-form-btn');
+const modal = document.getElementById("modal");
+const openBtn = document.getElementById("openBtn");
 
-openBtn.addEventListener('click', ()=>{
+openBtn.addEventListener("click", () => {
 modal.style.display = "flex";
 });
 
@@ -255,13 +240,18 @@ function closeModal(){
 modal.style.display = "none";
 }
 
-document.getElementById('help-form').addEventListener('submit', function(e){
+document.getElementById("helpForm").addEventListener("submit", function(e){
 e.preventDefault();
 
-const name = document.getElementById('name').value;
-const phone = document.getElementById('phone').value;
-const problem = document.getElementById('problem').value;
-const message = document.getElementById('message').value;
+const name = document.getElementById("name").value.trim();
+let phone = document.getElementById("phone").value.trim();
+const problem = document.getElementById("problem").value;
+const message = document.getElementById("message").value.trim();
+
+/* Führende 0 bleibt erhalten */
+if(phone.startsWith("+49")){
+phone = "0" + phone.substring(3);
+}
 
 const whatsappNumber = "4915145932462";
 
@@ -271,7 +261,10 @@ const text =
 Name: ${name}
 Rückrufnummer: ${phone}
 Problem: ${problem}
-Beschreibung: ${message} `;
+Beschreibung: ${message}
+
+Vielen Dank für Ihre Anfrage.
+Wir melden uns innerhalb von 5–10 Minuten telefonisch zurück.`;
 
 const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`;
 
