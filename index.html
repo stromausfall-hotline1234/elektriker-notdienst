@@ -131,11 +131,11 @@ Ich stimme zu, dass meine Daten für Rückruf & WhatsApp Verarbeitung verwendet 
 </div>
 
 <script>
-// Stadt dynamisch
+// Stadt dynamisch setzen
 const city = "München";
 ["cityName","cityName2","cityName3","cityName4"].forEach(id => document.getElementById(id).textContent = city);
 
-// Modal
+// Modal öffnen & schließen
 const modal = document.getElementById("modal");
 const openBtn = document.getElementById("openBtn");
 openBtn.addEventListener("click", () => { modal.style.display = "flex"; });
@@ -143,7 +143,7 @@ function closeModal(){ modal.style.display = "none"; }
 modal.addEventListener("click", (e)=>{ if(e.target===modal) closeModal(); });
 document.addEventListener("keydown", (e)=>{ if(e.key==="Escape") closeModal(); });
 
-// Formular + SumUp Simulation + WhatsApp
+// Formular Submission: Validierung, Zahlung + WhatsApp
 document.getElementById("helpForm").addEventListener("submit", async function(e){
 e.preventDefault();
 const errorMsg = document.getElementById("errorMsg");
@@ -160,7 +160,7 @@ const problem = document.getElementById("problem").value;
 const message = document.getElementById("message").value.trim();
 const consent = document.getElementById("consent").checked;
 
-// Validation
+// Validierung
 if(name.length<3){ errorMsg.textContent="Bitte vollständigen Namen eingeben."; return; }
 if(!/^[0-9+ ]{10,15}$/.test(phone)){ errorMsg.textContent="Bitte gültige Telefonnummer eingeben."; return; }
 if(phone.startsWith("+49")){ phone="0"+phone.substring(3); }
@@ -171,17 +171,17 @@ if(cityInput.length<2){ errorMsg.textContent="Bitte Ort eingeben."; return; }
 if(problem===""){ errorMsg.textContent="Bitte Problem auswählen."; return; }
 if(!consent){ errorMsg.textContent="Bitte DSGVO-Zustimmung bestätigen."; return; }
 
-// Simulierte SumUp Zahlung
+// SumUp-Zahlung simulieren
 const paymentConfirmed = await new Promise(resolve => {
     const ok = confirm("Bitte bestätigen Sie die Zahlung von 39,99 € für die Soforthilfe.\n(OK = erfolgreich, Abbrechen = fehlgeschlagen)");
     resolve(ok);
 });
 if(!paymentConfirmed){ errorMsg.textContent="Zahlung abgebrochen."; return; }
 
-// WhatsApp Nachricht
+// WhatsApp vom Kunden starten
 const whatsappNumber = "4915145932462";
 const text =
-`🚨 Neue Soforthilfe Anfrage 🚨
+`Hallo Notdienst-Team, ich benötige Soforthilfe:
 
 Name: ${name}
 Telefon: ${phone}
