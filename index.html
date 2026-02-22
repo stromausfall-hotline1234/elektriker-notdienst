@@ -25,9 +25,26 @@ footer{background:#111;color:white;text-align:center;padding:20px;}
 .modal-box{background:white;padding:30px;border-radius:15px;max-width:480px;width:90%;}
 input, select, textarea{width:100%;padding:12px;margin:8px 0;border-radius:8px;border:1px solid #ccc;font-size:1em;}
 #errorMsg{color:red;font-size:0.9em;margin-bottom:10px;}
-.checkbox-label{font-size:0.9em;margin-top:10px;display:flex;align-items:center;}
-.checkbox-label input{margin-right:8px;}
-@media(max-width:768px){h1{font-size:1.6em;}}
+/* DSGVO Checkbox responsive */
+.checkbox-label{
+  font-size:0.9em;
+  margin-top:10px;
+  display:flex;
+  align-items:flex-start;
+  gap:8px;
+  flex-wrap:wrap;
+}
+.checkbox-label input{
+  width:18px;
+  height:18px;
+  margin-top:3px;
+  flex-shrink:0;
+}
+@media(max-width:768px){
+h1{font-size:1.6em;}
+.modal-box{padding:20px;}
+.btn{padding:15px 30px;font-size:1em;}
+}
 </style>
 </head>
 
@@ -40,7 +57,6 @@ input, select, textarea{width:100%;padding:12px;margin:8px 0;border-radius:8px;b
 
 <main>
 
-<!-- Dynamische Stadtvariable -->
 <section>
 <h2>Elektriker Notdienst in <span id="cityName">München</span></h2>
 <p>
