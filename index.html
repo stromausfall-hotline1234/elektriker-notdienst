@@ -3,20 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Elektriker Notdienst – Soforthilfe 24h</title>
 <meta name="description" content="24h Elektriker Notdienst in der Stadt. Schnelle Hilfe bei Stromausfall, FI-Schalter oder Kurzschluss. Jetzt Soforthilfe anfordern.">
 <meta name="robots" content="index, follow">
-
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
-
 <style>
 body{margin:0;font-family:'Montserrat',sans-serif;background:#f5f5f5;color:#222;line-height:1.6;}
 header{background:linear-gradient(135deg,#111,#333);color:white;text-align:center;padding:50px 20px;}
 h1{color:#FFD000;margin:0;font-size:2.2em;}
 section{padding:70px 20px;max-width:900px;margin:auto;}
 h2{text-align:center;margin-bottom:30px;}
-.btn{display:inline-block;padding:18px 45px;border-radius:50px;background:#25D366;color:white;font-weight:700;cursor:pointer;border:none;font-size:1.1em;transition:0.3s;}
+.btn{display:inline-block;padding:18px 45px;border-radius:50px;background:#25D366;color:white;font-weight:700;cursor:pointer;border:none;font-size:1.1em;transition:0.3s;opacity:1;}
 .btn:hover{background:#1ebe57;transform:scale(1.05);}
 .features li{list-style:none;padding:12px 0;border-bottom:1px solid #ddd;}
 .features li::before{content:"✔ ";color:#FFD000;font-weight:bold;}
@@ -25,21 +22,9 @@ footer{background:#111;color:white;text-align:center;padding:20px;}
 .modal-box{background:white;padding:30px;border-radius:15px;max-width:480px;width:90%;}
 input, select, textarea{width:100%;padding:12px;margin:8px 0;border-radius:8px;border:1px solid #ccc;font-size:1em;}
 #errorMsg{color:red;font-size:0.9em;margin-bottom:10px;}
-/* DSGVO Checkbox responsive */
-.checkbox-label{
-  font-size:0.9em;
-  margin-top:10px;
-  display:flex;
-  align-items:flex-start;
-  gap:8px;
-  flex-wrap:wrap;
-}
-.checkbox-label input{
-  width:18px;
-  height:18px;
-  margin-top:3px;
-  flex-shrink:0;
-}
+.checkbox-label{font-size:0.9em;margin-top:10px;display:flex;align-items:flex-start;gap:8px;flex-wrap:wrap;}
+.checkbox-label input{width:18px;height:18px;margin-top:3px;flex-shrink:0;}
+#loadingOverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:1100;justify-content:center;align-items:center;color:white;font-size:1.5em;font-weight:bold;}
 @media(max-width:768px){
 h1{font-size:1.6em;}
 .modal-box{padding:20px;}
@@ -47,7 +32,6 @@ h1{font-size:1.6em;}
 }
 </style>
 </head>
-
 <body>
 
 <header>
@@ -56,7 +40,6 @@ h1{font-size:1.6em;}
 </header>
 
 <main>
-
 <section>
 <h2>Elektriker Notdienst in <span id="cityName">München</span></h2>
 <p>
@@ -95,7 +78,6 @@ Stroblstr. 24<br>
 Telefon: +49 151 45932462
 </p>
 </section>
-
 </main>
 
 <footer>
@@ -124,63 +106,94 @@ Telefon: +49 151 45932462
 </select>
 <textarea id="message" placeholder="Kurzbeschreibung (optional)"></textarea>
 
-<!-- DSGVO Checkbox -->
 <label class="checkbox-label">
 <input type="checkbox" id="consent" required>
 Ich stimme zu, dass meine Daten für Rückruf & WhatsApp Verarbeitung verwendet werden.
 </label>
 
 <div id="errorMsg"></div>
-<button type="submit" class="btn" style="width:100%;">✅ Hilfe bekommen</button>
+
+<!-- Simulierter Zahlungsbutton -->
+<button type="button" id="payBtn" class="btn" style="width:100%; margin-top:10px;">
+💳 Zahlung simulieren (39,99 €)
+</button>
+
+<!-- Hilfe bekommen Button, zunächst deaktiviert -->
+<button type="submit" id="helpBtn" class="btn" style="width:100%; margin-top:10px;" disabled>
+✅ Hilfe bekommen
+</button>
+
 <button type="button" onclick="closeModal()" style="width:100%; margin-top:10px;">Abbrechen</button>
 </form>
 </div>
 </div>
 
+<!-- Lade-Overlay -->
+<div id="loadingOverlay">💳 Zahlung wird verarbeitet...</div>
+
 <script>
-// Stadt dynamisch ändern
+// Stadt dynamisch
 const city = "München";
 document.getElementById("cityName").textContent = city;
 document.getElementById("cityName2").textContent = city;
 document.getElementById("cityName3").textContent = city;
 document.getElementById("cityName4").textContent = city;
 
-// Modal öffnen
+// Modal öffnen/ schließen
 const modal = document.getElementById("modal");
 const openBtn = document.getElementById("openBtn");
+const closeModalBtn = () => modal.style.display = "none";
 openBtn.addEventListener("click", () => { modal.style.display = "flex"; });
-function closeModal(){ modal.style.display = "none"; }
+function closeModal(){ closeModalBtn(); }
+
+// Buttons
+const payBtn = document.getElementById("payBtn");
+const helpBtn = document.getElementById("helpBtn");
+const overlay = document.getElementById("loadingOverlay");
+
+// Simulierte Zahlung
+payBtn.addEventListener("click", function(){
+  overlay.style.display = "flex";
+  payBtn.disabled = true;
+  payBtn.style.opacity = "0.6";
+
+  setTimeout(() => {
+    overlay.style.display = "none";
+    alert("Zahlung erfolgreich simuliert! ✅\nDer 'Hilfe bekommen'-Button ist jetzt freigeschaltet.");
+    helpBtn.disabled = false;
+    helpBtn.style.opacity = "1";
+    helpBtn.style.cursor = "pointer";
+  }, 2000); // 2 Sekunden Ladeanimation
+});
 
 // Formular-Validierung & WhatsApp
 document.getElementById("helpForm").addEventListener("submit", function(e){
-e.preventDefault();
+  e.preventDefault();
 
-const name = document.getElementById("name").value.trim();
-let phone = document.getElementById("phone").value.trim();
-const email = document.getElementById("email").value.trim();
-const street = document.getElementById("street").value.trim();
-const zip = document.getElementById("zip").value.trim();
-const cityInput = document.getElementById("city").value.trim();
-const problem = document.getElementById("problem").value;
-const message = document.getElementById("message").value.trim();
-const consent = document.getElementById("consent").checked;
-const errorMsg = document.getElementById("errorMsg");
-errorMsg.textContent = "";
+  const name = document.getElementById("name").value.trim();
+  let phone = document.getElementById("phone").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const street = document.getElementById("street").value.trim();
+  const zip = document.getElementById("zip").value.trim();
+  const cityInput = document.getElementById("city").value.trim();
+  const problem = document.getElementById("problem").value;
+  const message = document.getElementById("message").value.trim();
+  const consent = document.getElementById("consent").checked;
+  const errorMsg = document.getElementById("errorMsg");
+  errorMsg.textContent = "";
 
-// Validierung
-if(name.length < 3){ errorMsg.textContent = "Bitte vollständigen Namen eingeben."; return; }
-if(!/^[0-9+ ]{10,15}$/.test(phone)){ errorMsg.textContent = "Bitte gültige Telefonnummer eingeben."; return; }
-if(phone.startsWith("+49")){ phone = "0" + phone.substring(3); }
-if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ errorMsg.textContent = "Bitte gültige E-Mail Adresse eingeben."; return; }
-if(street.length < 3){ errorMsg.textContent = "Bitte Straße & Hausnummer eingeben."; return; }
-if(!/^[0-9]{5}$/.test(zip)){ errorMsg.textContent = "Bitte gültige 5-stellige PLZ eingeben."; return; }
-if(cityInput.length < 2){ errorMsg.textContent = "Bitte Ort eingeben."; return; }
-if(problem === ""){ errorMsg.textContent = "Bitte Problem auswählen."; return; }
-if(!consent){ errorMsg.textContent = "Bitte DSGVO-Zustimmung bestätigen."; return; }
+  if(name.length < 3){ errorMsg.textContent = "Bitte vollständigen Namen eingeben."; return; }
+  if(!/^[0-9+ ]{10,15}$/.test(phone)){ errorMsg.textContent = "Bitte gültige Telefonnummer eingeben."; return; }
+  if(phone.startsWith("+49")){ phone = "0" + phone.substring(3); }
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ errorMsg.textContent = "Bitte gültige E-Mail Adresse eingeben."; return; }
+  if(street.length < 3){ errorMsg.textContent = "Bitte Straße & Hausnummer eingeben."; return; }
+  if(!/^[0-9]{5}$/.test(zip)){ errorMsg.textContent = "Bitte gültige 5-stellige PLZ eingeben."; return; }
+  if(cityInput.length < 2){ errorMsg.textContent = "Bitte Ort eingeben."; return; }
+  if(problem === ""){ errorMsg.textContent = "Bitte Problem auswählen."; return; }
+  if(!consent){ errorMsg.textContent = "Bitte DSGVO-Zustimmung bestätigen."; return; }
 
-// WhatsApp Nachricht
-const whatsappNumber = "4915145932462";
-const text =
+  const whatsappNumber = "4915145932462";
+  const text =
 `🚨 Neue Soforthilfe Anfrage 🚨
 
 Name: ${name}
@@ -192,11 +205,11 @@ ${street}
 ${zip} ${cityInput}
 
 Problem: ${problem}
-Beschreibung: ${message} `;
+Beschreibung: ${message}`;
 
-const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`;
-window.open(url, "_blank");
-closeModal();
+  const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`;
+  window.open(url, "_blank");
+  closeModal();
 });
 </script>
 
