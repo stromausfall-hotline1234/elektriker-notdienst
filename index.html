@@ -4,28 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Elektriker Notdienst München 24h | Soforthilfe bei Stromausfall</title>
-<meta name="description" content="24h Elektriker Notdienst in München. Schnelle Hilfe bei Stromausfall, FI-Schalter oder Kurzschluss. Jetzt Soforthilfe anfordern.">
+<title>Elektriker Notdienst – Soforthilfe 24h</title>
+<meta name="description" content="24h Elektriker Notdienst in der Stadt. Schnelle Hilfe bei Stromausfall, FI-Schalter oder Kurzschluss. Jetzt Soforthilfe anfordern.">
 <meta name="robots" content="index, follow">
 
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Electrician",
-  "name": "Elektriker Notdienst München",
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "Stroblstr. 24",
-    "addressLocality": "München",
-    "postalCode": "80689",
-    "addressCountry": "DE"
-  },
-  "telephone": "+49 151 45932462",
-  "openingHours": "Mo-Su 00:00-23:59"
-}
-</script>
 
 <style>
 body{
@@ -35,31 +18,26 @@ background:#f5f5f5;
 color:#222;
 line-height:1.6;
 }
-
 header{
 background:linear-gradient(135deg,#111,#333);
 color:white;
 text-align:center;
 padding:50px 20px;
 }
-
 h1{
 color:#FFD000;
 margin:0;
 font-size:2.2em;
 }
-
 section{
 padding:70px 20px;
 max-width:900px;
 margin:auto;
 }
-
 h2{
 text-align:center;
 margin-bottom:30px;
 }
-
 .btn{
 display:inline-block;
 padding:18px 45px;
@@ -72,32 +50,26 @@ border:none;
 font-size:1.1em;
 transition:0.3s;
 }
-
 .btn:hover{
 background:#1ebe57;
 transform:scale(1.05);
 }
-
 .features li{
 list-style:none;
 padding:12px 0;
 border-bottom:1px solid #ddd;
 }
-
 .features li::before{
 content:"✔ ";
 color:#FFD000;
 font-weight:bold;
 }
-
 footer{
 background:#111;
 color:white;
 text-align:center;
 padding:20px;
 }
-
-/* Modal */
 #modal{
 display:none;
 position:fixed;
@@ -107,7 +79,6 @@ z-index:1000;
 justify-content:center;
 align-items:center;
 }
-
 .modal-box{
 background:white;
 padding:30px;
@@ -115,7 +86,6 @@ border-radius:15px;
 max-width:480px;
 width:90%;
 }
-
 input, select, textarea{
 width:100%;
 padding:12px;
@@ -124,13 +94,11 @@ border-radius:8px;
 border:1px solid #ccc;
 font-size:1em;
 }
-
 #errorMsg{
 color:red;
 font-size:0.9em;
 margin-bottom:10px;
 }
-
 @media(max-width:768px){
 h1{font-size:1.6em;}
 }
@@ -140,18 +108,18 @@ h1{font-size:1.6em;}
 <body>
 
 <header>
-<h1>⚡ Elektriker Notdienst München – 24h Soforthilfe ⚡</h1>
+<h1>⚡ Elektriker Notdienst – 24h Soforthilfe ⚡</h1>
 <p>Schnelle Hilfe bei Stromausfall, FI-Schalter & Kurzschluss</p>
 </header>
 
 <main>
 
+<!-- Dynamische Stadtvariable -->
 <section>
-<h2>Elektriker Notdienst in München</h2>
+<h2>Elektriker Notdienst in <span id="cityName">München</span></h2>
 <p>
-Unser Elektriker Notdienst in 
-:contentReference[oaicite:0]{index=0} 
-ist rund um die Uhr erreichbar. Wir helfen sofort bei Stromausfall, FI-Auslösung oder Kurzschluss.
+Unser Elektriker Notdienst in <strong><span id="cityName2">München</span></strong> ist rund um die Uhr erreichbar. 
+Wir helfen sofort bei Stromausfall, FI-Auslösung oder Kurzschluss.
 </p>
 <div style="text-align:center; margin-top:30px;">
 <button id="openBtn" class="btn">📞 Soforthilfe anfordern – 39,99 €</button>
@@ -179,9 +147,9 @@ ist rund um die Uhr erreichbar. Wir helfen sofort bei Stromausfall, FI-Auslösun
 <section>
 <h2>Impressum</h2>
 <p>
-Stromausfall-Hotline München<br>
+Stromausfall-Hotline <span id="cityName3">München</span><br>
 Stroblstr. 24<br>
-80689 München<br>
+80689 <span id="cityName4">München</span><br>
 Telefon: +49 151 45932462
 </p>
 </section>
@@ -189,7 +157,7 @@ Telefon: +49 151 45932462
 </main>
 
 <footer>
-© 2026 Elektriker Notdienst München
+© 2026 Elektriker Notdienst
 </footer>
 
 <!-- Modal Formular -->
@@ -198,19 +166,12 @@ Telefon: +49 151 45932462
 <h3>Soforthilfe anfordern</h3>
 
 <form id="helpForm">
-
 <input type="text" id="name" placeholder="Ihr vollständiger Name" required>
-
 <input type="tel" id="phone" placeholder="Ihre Rückrufnummer (z.B. 015112345678)" inputmode="numeric" autocomplete="tel" required>
-
 <input type="email" id="email" placeholder="Ihre E-Mail Adresse" required>
-
 <input type="text" id="street" placeholder="Straße & Hausnummer" required>
-
 <input type="text" id="zip" placeholder="PLZ" inputmode="numeric" required>
-
 <input type="text" id="city" placeholder="Ort" value="München" required>
-
 <select id="problem" required>
 <option value="">Problem auswählen</option>
 <option>Stromausfall</option>
@@ -219,25 +180,29 @@ Telefon: +49 151 45932462
 <option>Kompletter Wohnungs-Ausfall</option>
 <option>Sonstiges</option>
 </select>
-
 <textarea id="message" placeholder="Kurzbeschreibung (optional)"></textarea>
-
 <div id="errorMsg"></div>
-
 <button type="submit" class="btn" style="width:100%;">✅ Hilfe bekommen</button>
 <button type="button" onclick="closeModal()" style="width:100%; margin-top:10px;">Abbrechen</button>
-
 </form>
 </div>
 </div>
 
 <script>
+// Stadt dynamisch ändern (einfach hier ändern)
+const city = "München";
+document.getElementById("cityName").textContent = city;
+document.getElementById("cityName2").textContent = city;
+document.getElementById("cityName3").textContent = city;
+document.getElementById("cityName4").textContent = city;
+
+// Modal öffnen
 const modal = document.getElementById("modal");
 const openBtn = document.getElementById("openBtn");
-
 openBtn.addEventListener("click", () => { modal.style.display = "flex"; });
 function closeModal(){ modal.style.display = "none"; }
 
+// Formular-Validierung & WhatsApp
 document.getElementById("helpForm").addEventListener("submit", function(e){
 e.preventDefault();
 
@@ -246,23 +211,23 @@ let phone = document.getElementById("phone").value.trim();
 const email = document.getElementById("email").value.trim();
 const street = document.getElementById("street").value.trim();
 const zip = document.getElementById("zip").value.trim();
-const city = document.getElementById("city").value.trim();
+const cityInput = document.getElementById("city").value.trim();
 const problem = document.getElementById("problem").value;
 const message = document.getElementById("message").value.trim();
 const errorMsg = document.getElementById("errorMsg");
 errorMsg.textContent = "";
 
-/* Validierung */
+// Validierung
 if(name.length < 3){ errorMsg.textContent = "Bitte vollständigen Namen eingeben."; return; }
 if(!/^[0-9+ ]{10,15}$/.test(phone)){ errorMsg.textContent = "Bitte gültige Telefonnummer eingeben."; return; }
 if(phone.startsWith("+49")){ phone = "0" + phone.substring(3); }
 if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ errorMsg.textContent = "Bitte gültige E-Mail Adresse eingeben."; return; }
 if(street.length < 3){ errorMsg.textContent = "Bitte Straße & Hausnummer eingeben."; return; }
 if(!/^[0-9]{5}$/.test(zip)){ errorMsg.textContent = "Bitte gültige 5-stellige PLZ eingeben."; return; }
-if(city.length < 2){ errorMsg.textContent = "Bitte Ort eingeben."; return; }
+if(cityInput.length < 2){ errorMsg.textContent = "Bitte Ort eingeben."; return; }
 if(problem === ""){ errorMsg.textContent = "Bitte Problem auswählen."; return; }
 
-/* WhatsApp Nachricht */
+// WhatsApp Nachricht
 const whatsappNumber = "4915145932462";
 const text =
 `🚨 Neue Soforthilfe Anfrage 🚨
@@ -273,15 +238,16 @@ E-Mail: ${email}
 
 Adresse:
 ${street}
-${zip} ${city}
+${zip} ${cityInput}
 
 Problem: ${problem}
-Beschreibung: ${message} `;
+Beschreibung: ${message}
+
+Bitte schnellstmöglich zurückrufen.`;
 
 const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`;
 window.open(url, "_blank");
 closeModal();
-
 });
 </script>
 
