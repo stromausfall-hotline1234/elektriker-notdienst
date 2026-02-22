@@ -3,14 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Elektriker Notdienst – Soforthilfe 24h</title>
 <meta name="description" content="24h Elektriker Notdienst in der Stadt. Schnelle Hilfe bei Stromausfall, FI-Schalter oder Kurzschluss. Jetzt Soforthilfe anfordern.">
 <meta name="robots" content="index, follow">
-
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
+*{box-sizing:border-box;}
 body{margin:0;font-family:'Montserrat',sans-serif;background:#f5f5f5;color:#222;line-height:1.6;}
 header{background:linear-gradient(135deg,#111,#333);color:white;text-align:center;padding:50px 20px;}
 h1{color:#FFD000;margin:0;font-size:2.2em;}
@@ -25,7 +24,6 @@ footer{background:#111;color:white;text-align:center;padding:20px;}
 .modal-box{background:white;padding:30px;border-radius:15px;max-width:480px;width:90%;}
 input, select, textarea{width:100%;padding:12px;margin:8px 0;border-radius:8px;border:1px solid #ccc;font-size:1em;}
 #errorMsg{color:red;font-size:0.9em;margin-bottom:10px;}
-/* DSGVO Checkbox responsive */
 .checkbox-label{
   font-size:0.9em;
   margin-top:10px;
@@ -47,7 +45,6 @@ h1{font-size:1.6em;}
 }
 </style>
 </head>
-
 <body>
 
 <header>
@@ -56,7 +53,6 @@ h1{font-size:1.6em;}
 </header>
 
 <main>
-
 <section>
 <h2>Elektriker Notdienst in <span id="cityName">München</span></h2>
 <p>
@@ -95,7 +91,6 @@ Stroblstr. 24<br>
 Telefon: +49 151 45932462
 </p>
 </section>
-
 </main>
 
 <footer>
@@ -106,7 +101,6 @@ Telefon: +49 151 45932462
 <div id="modal">
 <div class="modal-box">
 <h3>Soforthilfe anfordern</h3>
-
 <form id="helpForm">
 <input type="text" id="name" placeholder="Ihr vollständiger Name" required>
 <input type="tel" id="phone" placeholder="Ihre Rückrufnummer (z.B. 015112345678)" inputmode="numeric" autocomplete="tel" required>
@@ -124,9 +118,8 @@ Telefon: +49 151 45932462
 </select>
 <textarea id="message" placeholder="Kurzbeschreibung (optional)"></textarea>
 
-<!-- DSGVO Checkbox -->
 <label class="checkbox-label">
-<input type="checkbox" id="consent" required>
+<input type="checkbox" id="consent" required aria-required="true">
 Ich stimme zu, dass meine Daten für Rückruf & WhatsApp Verarbeitung verwendet werden.
 </label>
 
@@ -138,23 +131,25 @@ Ich stimme zu, dass meine Daten für Rückruf & WhatsApp Verarbeitung verwendet 
 </div>
 
 <script>
-// Stadt dynamisch ändern
+// Stadt dynamisch
 const city = "München";
-document.getElementById("cityName").textContent = city;
-document.getElementById("cityName2").textContent = city;
-document.getElementById("cityName3").textContent = city;
-document.getElementById("cityName4").textContent = city;
+["cityName","cityName2","cityName3","cityName4"].forEach(id => document.getElementById(id).textContent = city);
 
-// Modal öffnen
+// Modal
 const modal = document.getElementById("modal");
 const openBtn = document.getElementById("openBtn");
 openBtn.addEventListener("click", () => { modal.style.display = "flex"; });
 function closeModal(){ modal.style.display = "none"; }
+modal.addEventListener("click", (e)=>{ if(e.target===modal) closeModal(); });
+document.addEventListener("keydown", (e)=>{ if(e.key==="Escape") closeModal(); });
 
-// Formular-Validierung & WhatsApp
-document.getElementById("helpForm").addEventListener("submit", function(e){
+// Formular + SumUp Simulation + WhatsApp
+document.getElementById("helpForm").addEventListener("submit", async function(e){
 e.preventDefault();
+const errorMsg = document.getElementById("errorMsg");
+errorMsg.textContent="";
 
+// Inputs
 const name = document.getElementById("name").value.trim();
 let phone = document.getElementById("phone").value.trim();
 const email = document.getElementById("email").value.trim();
@@ -164,19 +159,24 @@ const cityInput = document.getElementById("city").value.trim();
 const problem = document.getElementById("problem").value;
 const message = document.getElementById("message").value.trim();
 const consent = document.getElementById("consent").checked;
-const errorMsg = document.getElementById("errorMsg");
-errorMsg.textContent = "";
 
-// Validierung
-if(name.length < 3){ errorMsg.textContent = "Bitte vollständigen Namen eingeben."; return; }
-if(!/^[0-9+ ]{10,15}$/.test(phone)){ errorMsg.textContent = "Bitte gültige Telefonnummer eingeben."; return; }
-if(phone.startsWith("+49")){ phone = "0" + phone.substring(3); }
-if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ errorMsg.textContent = "Bitte gültige E-Mail Adresse eingeben."; return; }
-if(street.length < 3){ errorMsg.textContent = "Bitte Straße & Hausnummer eingeben."; return; }
-if(!/^[0-9]{5}$/.test(zip)){ errorMsg.textContent = "Bitte gültige 5-stellige PLZ eingeben."; return; }
-if(cityInput.length < 2){ errorMsg.textContent = "Bitte Ort eingeben."; return; }
-if(problem === ""){ errorMsg.textContent = "Bitte Problem auswählen."; return; }
-if(!consent){ errorMsg.textContent = "Bitte DSGVO-Zustimmung bestätigen."; return; }
+// Validation
+if(name.length<3){ errorMsg.textContent="Bitte vollständigen Namen eingeben."; return; }
+if(!/^[0-9+ ]{10,15}$/.test(phone)){ errorMsg.textContent="Bitte gültige Telefonnummer eingeben."; return; }
+if(phone.startsWith("+49")){ phone="0"+phone.substring(3); }
+if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ errorMsg.textContent="Bitte gültige E-Mail Adresse eingeben."; return; }
+if(street.length<3){ errorMsg.textContent="Bitte Straße & Hausnummer eingeben."; return; }
+if(!/^[0-9]{5}$/.test(zip)){ errorMsg.textContent="Bitte gültige 5-stellige PLZ eingeben."; return; }
+if(cityInput.length<2){ errorMsg.textContent="Bitte Ort eingeben."; return; }
+if(problem===""){ errorMsg.textContent="Bitte Problem auswählen."; return; }
+if(!consent){ errorMsg.textContent="Bitte DSGVO-Zustimmung bestätigen."; return; }
+
+// Simulierte SumUp Zahlung
+const paymentConfirmed = await new Promise(resolve => {
+    const ok = confirm("Bitte bestätigen Sie die Zahlung von 39,99 € für die Soforthilfe.\n(OK = erfolgreich, Abbrechen = fehlgeschlagen)");
+    resolve(ok);
+});
+if(!paymentConfirmed){ errorMsg.textContent="Zahlung abgebrochen."; return; }
 
 // WhatsApp Nachricht
 const whatsappNumber = "4915145932462";
@@ -192,13 +192,11 @@ ${street}
 ${zip} ${cityInput}
 
 Problem: ${problem}
-Beschreibung: ${message} `;
+Beschreibung: ${message}`;
 
-const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`;
-window.open(url, "_blank");
+window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`,"_blank");
 closeModal();
 });
 </script>
-
 </body>
 </html>
