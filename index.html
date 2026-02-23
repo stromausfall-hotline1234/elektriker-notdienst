@@ -143,61 +143,79 @@ hamburger.addEventListener('click', () => {
     hamburger.classList.toggle('open');
 });
 
-// Modal
+// Modal öffnen/schließen
 const modal = document.getElementById("modal");
 const openBtn = document.getElementById("openBtn");
 function closeModal(){ modal.style.display="none"; document.body.style.overflow="auto"; }
 openBtn.addEventListener("click", () => { modal.style.display="flex"; document.body.style.overflow="hidden"; document.querySelector(".modal-box").scrollTop=0; });
 document.addEventListener('keydown',(e)=>{ if(e.key==='Escape') closeModal(); });
 
-// Buttons & Checkboxes
+// Buttons & Validierung
 const payBtnEl = document.getElementById("payBtn");
 const helpBtnEl = document.getElementById("helpBtn");
 const consentEl = document.getElementById("consent");
 const widerrufEl = document.getElementById("widerrufConsent");
+const nameEl = document.getElementById("name");
+const phoneEl = document.getElementById("phone");
+const emailEl = document.getElementById("email");
 const overlay = document.getElementById("loadingOverlay");
 
-// Prüfen, ob beide Checkboxen aktiv sind
-function updatePayButtonState(){
-    if(consentEl.checked && widerrufEl.checked){
-        payBtnEl.disabled=false; payBtnEl.style.opacity="1"; payBtnEl.style.cursor="pointer";
+// Prüfen, ob alles korrekt ist, um Zahlung zu erlauben
+function updatePayButtonState() {
+    const nameValid = nameEl.value.trim().length >= 3;
+    let phone = phoneEl.value.trim();
+    const phoneValid = /^[0-9+ ]{10,15}$/.test(phone);
+    const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value.trim());
+    const checkboxesValid = consentEl.checked && widerrufEl.checked;
+
+    if(nameValid && phoneValid && emailValid && checkboxesValid){
+        payBtnEl.disabled = false;
+        payBtnEl.style.opacity = "1";
+        payBtnEl.style.cursor = "pointer";
     } else {
-        payBtnEl.disabled=true; payBtnEl.style.opacity="0.6"; payBtnEl.style.cursor="not-allowed";
+        payBtnEl.disabled = true;
+        payBtnEl.style.opacity = "0.6";
+        payBtnEl.style.cursor = "not-allowed";
     }
 }
-consentEl.addEventListener("change", updatePayButtonState);
-widerrufEl.addEventListener("change", updatePayButtonState);
+
+// Listener für Inputs & Checkboxen
+[nameEl, phoneEl, emailEl, consentEl, widerrufEl].forEach(el => {
+    el.addEventListener('input', updatePayButtonState);
+    el.addEventListener('change', updatePayButtonState);
+});
 updatePayButtonState();
 
 // Zahlung simulieren
 payBtnEl.addEventListener("click", function(){
     overlay.style.display="flex";
     payBtnEl.disabled=true; payBtnEl.style.opacity="0.6";
+
     setTimeout(()=>{
         overlay.style.display="none";
         alert("💳 Zahlung erfolgreich simuliert!");
-        helpBtnEl.disabled=false; helpBtnEl.style.opacity="1"; helpBtnEl.style.cursor="pointer";
+        helpBtnEl.disabled=false;
+        helpBtnEl.style.opacity="1";
+        helpBtnEl.style.cursor="pointer";
     },2000);
 });
 
 // Formular-Submit -> WhatsApp
 document.getElementById("helpForm").addEventListener("submit", function(e){
     e.preventDefault();
-    const name=document.getElementById("name").value.trim();
-    let phone=document.getElementById("phone").value.trim();
-    const email=document.getElementById("email").value.trim();
-    const message=document.getElementById("message").value.trim();
-    const consent=consentEl.checked;
-    const widerrufConsent=widerrufEl.checked;
-    const errorMsg=document.getElementById("errorMsg");
-    errorMsg.textContent="";
+    const name = nameEl.value.trim();
+    let phone = phoneEl.value.trim();
+    const email = emailEl.value.trim();
+    const message = document.getElementById("message").value.trim();
+    const errorMsg = document.getElementById("errorMsg");
+    errorMsg.textContent = "";
 
     if(name.length<3){ errorMsg.textContent="Bitte vollständigen Namen eingeben."; return; }
     if(!/^[0-9+ ]{10,15}$/.test(phone)){ errorMsg.textContent="Bitte gültige Telefonnummer eingeben."; return; }
     if(phone.startsWith("+49")){ phone="0"+phone.substring(3); }
     if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ errorMsg.textContent="Bitte gültige E-Mail Adresse eingeben."; return; }
-    if(!consent){ errorMsg.textContent="Bitte DSGVO-Zustimmung bestätigen."; return; }
-    if(!widerrufConsent){ errorMsg.textContent="Bitte Zustimmung zum vorzeitigen Beginn bestätigen."; return; }
+    if(!consentEl.checked){ errorMsg.textContent="Bitte DSGVO-Zustimmung bestätigen."; return; }
+    if(!widerrufEl.checked){ errorMsg.textContent="Bitte Zustimmung zum vorzeitigen Beginn bestätigen."; return; }
 
     const whatsappNumber="4915145932462";
     const text=`🚨 Neue Video-Soforthilfe Anfrage 🚨\n\nName: ${name}\nTelefon: ${phone}\nE-Mail: ${email}\n\nProblem: Video-Soforthilfe bei Stromausfall\nBeschreibung: ${message}`;
