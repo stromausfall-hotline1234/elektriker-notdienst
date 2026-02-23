@@ -9,8 +9,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 body{margin:0;font-family:'Montserrat',sans-serif;background:#f5f5f5;color:#222;line-height:1.6;}
-header{background:linear-gradient(135deg,#111,#333);color:white;text-align:center;padding:50px 20px;}
+header{background:linear-gradient(135deg,#111,#333);color:white;text-align:center;padding:50px 20px;margin-top:60px;}
 h1{color:#FFD000;margin:0;font-size:2.2em;}
+nav{position:fixed;top:0;width:100%;background:#111;z-index:1001;display:flex;justify-content:center;gap:15px;padding:15px 0;}
+nav a{color:#FFD000;text-decoration:none;font-weight:600;}
+nav a:hover{text-decoration:underline;}
 section{padding:70px 20px;max-width:900px;margin:auto;}
 h2{text-align:center;margin-bottom:30px;}
 .btn{display:inline-block;padding:18px 45px;border-radius:50px;background:#25D366;color:white;font-weight:700;cursor:pointer;border:none;font-size:1.1em;transition:0.3s;opacity:1;}
@@ -18,8 +21,6 @@ h2{text-align:center;margin-bottom:30px;}
 .features li{list-style:none;padding:12px 0;border-bottom:1px solid #ddd;}
 .features li::before{content:"✔ ";color:#FFD000;font-weight:bold;}
 footer{background:#111;color:white;text-align:center;padding:20px;}
-footer a{color:#FFD000;text-decoration:none; margin:0 5px;}
-footer a:hover{text-decoration:underline;}
 #modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:1000;justify-content:center;align-items:center;padding:20px;overflow-y:auto;}
 .modal-box{background:white;padding:30px;border-radius:15px;max-width:480px;width:100%;max-height:90vh;overflow-y:auto;}
 input, select, textarea{width:100%;padding:12px;margin:8px 0;border-radius:8px;border:1px solid #ccc;font-size:1em;}
@@ -31,12 +32,21 @@ input, select, textarea{width:100%;padding:12px;margin:8px 0;border-radius:8px;b
 h1{font-size:1.6em;}
 .modal-box{padding:20px;}
 .btn{padding:15px 30px;font-size:1em;}
+nav{flex-direction:column;gap:10px;padding:10px 0;}
 }
 </style>
 </head>
 <body>
 
-<header>
+<!-- Top Navigation -->
+<nav>
+  <a href="#mainContent">Home</a>
+  <a href="#impressum">Impressum</a>
+  <a href="#agb">AGB</a>
+  <a href="#datenschutz">Datenschutzerklärung</a>
+</nav>
+
+<header id="mainContent">
 <h1>⚡ Video-Soforthilfe bei Stromausfall ⚡</h1>
 <p>Schnelle technische Unterstützung per WhatsApp Video – 39,99 € Festpreis</p>
 </header>
@@ -99,10 +109,7 @@ Die Weitergabe an Dritte erfolgt nicht. Sie können Ihre Zustimmung jederzeit wi
 </main>
 
 <footer>
-© 2026 Video-Soforthilfe |
-<a href="#impressum">Impressum</a> |
-<a href="#agb">AGB</a> |
-<a href="#datenschutz">Datenschutzerklärung</a>
+© 2026 Video-Soforthilfe
 </footer>
 
 <!-- Modal Formular -->
