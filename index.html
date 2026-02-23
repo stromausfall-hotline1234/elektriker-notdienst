@@ -3,194 +3,214 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>⚡ Soforthilfe bei Stromausfall – In 5 Minuten Hilfe</title>
-<meta name="description" content="Kein Strom? Erhalten Sie sofort professionelle Video-Unterstützung per WhatsApp. Festpreis 39,99 €. Sofort verfügbar.">
-
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+<title>Video-Soforthilfe bei Stromausfall – 24h Unterstützung</title>
+<meta name="description" content="Sofortige Video-Unterstützung bei Stromausfall. Schnelle technische Hilfe per WhatsApp Video. 39,99 € Festpreis.">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
 body{
   margin:0;
   font-family:'Montserrat',sans-serif;
-  background:#0f0f0f;
-  color:white;
+  background:#f0f2f5;
+  color:#222;
   line-height:1.6;
+  scroll-behavior:smooth;
 }
-a{text-decoration:none;color:#ffca28}
+a{text-decoration:none;}
+h1,h2,h3{margin:0 0 15px;}
+h1{font-size:2.8rem;color:#ffca28;}
+h2{text-align:center;margin-bottom:30px;}
+p{color:#555}
+
+/* NAVIGATION */
 nav{
   position:fixed;
   top:0;
   width:100%;
-  background:rgba(0,0,0,0.85);
-  backdrop-filter:blur(10px);
+  background:#111;
   display:flex;
   justify-content:space-between;
-  padding:18px 40px;
-  z-index:1000;
+  align-items:center;
+  padding:15px 40px;
+  z-index:1001;
+  box-shadow:0 4px 15px rgba(0,0,0,0.3);
 }
-.logo{
-  font-weight:800;
-  font-size:1.4rem;
+.logo{color:#ffca28;font-weight:700;font-size:1.3rem;}
+.nav-links{display:flex;gap:25px;}
+.nav-links a{
   color:#ffca28;
+  font-weight:600;
+  position:relative;
+  padding:4px 0;
 }
-header{
-  padding:160px 20px 120px;
-  text-align:center;
-  background:radial-gradient(circle at top,#1c1c1c,#0f0f0f);
-}
-header h1{
-  font-size:3rem;
-  margin-bottom:15px;
-}
-header p{
-  font-size:1.2rem;
-  color:#ccc;
-  max-width:700px;
-  margin:auto;
-}
-.urgency{
-  color:#ff4d4d;
-  font-weight:700;
-  margin-top:20px;
-}
-.online-badge{
-  display:inline-block;
-  margin-top:15px;
-  padding:8px 15px;
+.nav-links a::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-3px;
+  width:0;
+  height:2px;
   background:#25d366;
-  border-radius:20px;
-  font-size:0.9rem;
+  transition:0.3s;
 }
+.nav-links a:hover::after{width:100%;}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;}
+.hamburger div{width:28px;height:3px;background:#ffca28;}
+
+@media(max-width:768px){
+  .nav-links{
+    position:fixed;
+    top:60px;
+    right:-100%;
+    width:220px;
+    height:calc(100% - 60px);
+    background:#111;
+    flex-direction:column;
+    padding:25px;
+    gap:20px;
+    transition:right 0.3s ease;
+  }
+  .nav-links.active{right:0;}
+  .hamburger{display:flex;}
+}
+
+/* HEADER */
+header{
+  background:linear-gradient(135deg,#1a1a1a,#333);
+  color:white;
+  text-align:center;
+  padding:120px 20px 80px;
+}
+header p{font-size:1.2rem;margin-bottom:30px;color:#f0f0f0;}
+
 .btn{
-  margin-top:35px;
-  padding:20px 60px;
-  font-size:1.2rem;
+  display:inline-block;
+  padding:18px 45px;
   border-radius:50px;
-  border:none;
-  background:linear-gradient(45deg,#25d366,#1ebe57);
+  background:#25d366;
   color:white;
   font-weight:700;
+  border:none;
   cursor:pointer;
   transition:0.3s;
 }
-.btn:hover{
-  transform:translateY(-3px);
-  box-shadow:0 10px 30px rgba(37,211,102,0.4);
-}
-.btn:disabled{
-  opacity:0.5;
-  cursor:not-allowed;
-}
-.price-note{
-  margin-top:10px;
-  font-size:0.9rem;
-  color:#aaa;
-}
-section{
-  padding:80px 20px;
-  max-width:1000px;
-  margin:auto;
-}
-.trust-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:25px;
-}
-.trust-item{
-  background:#1c1c1c;
-  padding:25px;
-  border-radius:15px;
-  text-align:center;
-}
-footer{
-  background:#0a0a0a;
-  text-align:center;
-  padding:40px;
-  color:#777;
-}
+.btn:hover{background:#1ebe57;transform:scale(1.05);}
+.btn:disabled{opacity:0.6;cursor:not-allowed;}
 
-/* Modal */
+/* CONTENT */
+section{padding:80px 20px;max-width:1000px;margin:auto;}
+.features-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:30px;
+}
+.feature-card{
+  background:white;
+  padding:25px;
+  border-radius:12px;
+  text-align:center;
+  box-shadow:0 6px 15px rgba(0,0,0,0.05);
+  transition:0.3s;
+}
+.feature-card:hover{
+  transform:translateY(-5px);
+  box-shadow:0 10px 25px rgba(0,0,0,0.1);
+}
+.feature-card h3{color:#ffca28;}
+
+/* MODAL */
 #modal{
   display:none;
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,0.8);
-  z-index:1001;
+  background:rgba(0,0,0,0.6);
+  z-index:1000;
   justify-content:center;
   align-items:center;
   padding:20px;
 }
 .modal-box{
-  background:#1c1c1c;
+  background:white;
   padding:35px;
-  border-radius:20px;
+  border-radius:15px;
   max-width:480px;
   width:100%;
 }
-input,textarea{
+input, textarea{
   width:100%;
   padding:14px;
   margin:8px 0;
-  border-radius:10px;
-  border:none;
-  background:#2a2a2a;
-  color:white;
+  border-radius:8px;
+  border:1px solid #ccc;
 }
 .checkbox-label{
-  font-size:0.85rem;
+  font-size:0.9em;
   margin-top:10px;
   display:flex;
   gap:8px;
   flex-wrap:wrap;
 }
-#errorMsg{
-  color:#ff4d4d;
-  font-size:0.9rem;
-}
+.checkbox-label a{color:#25d366;font-weight:600;}
+#errorMsg{color:red;font-size:0.9em;}
 #loadingOverlay{
   display:none;
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,0.9);
+  background:rgba(0,0,0,0.7);
   z-index:1100;
   justify-content:center;
   align-items:center;
-  font-size:1.5rem;
+  color:white;
+  font-size:1.5em;
+  font-weight:bold;
 }
+
+/* FOOTER */
+footer{
+  background:#1a1a1a;
+  color:white;
+  text-align:center;
+  padding:25px;
+}
+footer a{color:#ffca28;margin:0 8px;}
 </style>
 </head>
 <body>
 
 <nav>
-<div class="logo">⚡ Soforthilfe</div>
-<div>
-<a href="impressum.html">Impressum</a> |
-<a href="agb.html">AGB</a> |
-<a href="datenschutz.html">Datenschutz</a>
-</div>
+  <div class="logo">⚡ Soforthilfe</div>
+  <div class="nav-links" id="navLinks">
+    <a href="#mainContent">Home</a>
+    <a href="impressum.html">Impressum</a>
+    <a href="agb.html">AGB</a>
+    <a href="datenschutz.html">Datenschutzerklärung</a>
+  </div>
+  <div class="hamburger" id="hamburger">
+    <div></div><div></div><div></div>
+  </div>
 </nav>
 
-<header>
-<h1>Kein Strom? Keine Panik.</h1>
-<p>Sofort professionelle Video-Unterstützung bei Stromausfall – direkt per WhatsApp.</p>
-<div class="urgency">⚠ Jede Minute ohne Strom kann Schäden verursachen.</div>
-<div class="online-badge">🟢 Techniker jetzt online</div>
-<button id="openBtn" class="btn">Jetzt sofort Hilfe erhalten</button>
-<div class="price-note">Festpreis 39,99 € – kein Abo, keine versteckten Kosten</div>
+<header id="mainContent">
+  <h1>⚡ Video-Soforthilfe bei Stromausfall ⚡</h1>
+  <p>Schnelle technische Unterstützung per WhatsApp Video – 39,99 € Festpreis</p>
+  <button id="openBtn" class="btn">Soforthilfe anfordern – 39,99 €</button>
 </header>
 
 <section>
-<h2 style="text-align:center;">Warum Kunden uns vertrauen</h2>
-<div class="trust-grid">
-<div class="trust-item">✔ Über 1.248 erfolgreich gelöste Fälle</div>
-<div class="trust-item">✔ Rückmeldung meist unter 10 Minuten</div>
-<div class="trust-item">✔ DSGVO-konforme Datenverarbeitung</div>
-<div class="trust-item">✔ Transparenter Festpreis</div>
+<h2>Unsere Leistungen</h2>
+<div class="features-grid">
+  <div class="feature-card"><h3>📹 Live-Video</h3><p>Direkte Unterstützung per WhatsApp.</p></div>
+  <div class="feature-card"><h3>🔒 Sicherheitsprüfung</h3><p>Überprüfung von FI & Sicherungen.</p></div>
+  <div class="feature-card"><h3>⏱ Schnell</h3><p>Rückmeldung in 5–10 Minuten.</p></div>
+  <div class="feature-card"><h3>💰 Festpreis</h3><p>39,99 € inkl. MwSt.</p></div>
 </div>
 </section>
 
 <footer>
-© 2026 Video-Soforthilfe
+© 2026 Video-Soforthilfe<br><br>
+<a href="impressum.html">Impressum</a> |
+<a href="agb.html">AGB</a> |
+<a href="datenschutz.html">Datenschutz</a>
 </footer>
 
 <!-- MODAL -->
@@ -198,28 +218,26 @@ input,textarea{
 <div class="modal-box">
 <h3>Soforthilfe anfordern</h3>
 <form id="helpForm">
-
 <input type="text" id="name" placeholder="Ihr vollständiger Name" required>
 <input type="tel" id="phone" placeholder="Ihre Rückrufnummer" required>
 <input type="email" id="email" placeholder="Ihre E-Mail Adresse" required>
 <textarea id="message" placeholder="Kurzbeschreibung (optional)"></textarea>
 
 <label class="checkbox-label">
-<input type="checkbox" id="consent">
-Ich akzeptiere AGB & Datenschutzerklärung.
+<input type="checkbox" id="consent" required>
+Ich stimme der <a href="datenschutz.html" target="_blank">Datenschutzerklärung</a> zu und akzeptiere die <a href="agb.html" target="_blank">AGB</a>.
 </label>
 
 <label class="checkbox-label">
-<input type="checkbox" id="widerrufConsent">
-Ich verlange vorzeitigen Beginn der Dienstleistung.
+<input type="checkbox" id="widerrufConsent" required>
+Ich verlange ausdrücklich den sofortigen Beginn der Dienstleistung und verzichte bei vollständiger Leistung auf mein Widerrufsrecht.
 </label>
 
 <div id="errorMsg"></div>
 
-<button type="button" id="payBtn" class="btn" disabled>💳 Zahlung simulieren (39,99 €)</button>
-<button type="submit" id="helpBtn" class="btn" disabled>✅ Hilfe bekommen</button>
-<button type="button" onclick="closeModal()" class="btn" style="background:#444;">Abbrechen</button>
-
+<button type="button" id="payBtn" class="btn" style="width:100%;margin-top:10px;" disabled>💳 Zahlung simulieren (39,99 €)</button>
+<button type="submit" id="helpBtn" class="btn" style="width:100%;margin-top:10px;" disabled>✅ Hilfe bekommen</button>
+<button type="button" onclick="closeModal()" style="width:100%;margin-top:10px;">Abbrechen</button>
 </form>
 </div>
 </div>
@@ -227,47 +245,53 @@ Ich verlange vorzeitigen Beginn der Dienstleistung.
 <div id="loadingOverlay">💳 Zahlung wird verarbeitet...</div>
 
 <script>
-const modal=document.getElementById("modal");
-document.getElementById("openBtn").onclick=()=>{modal.style.display="flex";}
-function closeModal(){modal.style.display="none";}
+// Navigation
+const hamburger=document.getElementById('hamburger');
+const navLinks=document.getElementById('navLinks');
+hamburger.addEventListener('click',()=>{navLinks.classList.toggle('active');});
 
-const payBtn=document.getElementById("payBtn");
-const helpBtn=document.getElementById("helpBtn");
+// Modal
+const modal=document.getElementById("modal");
+const openBtn=document.getElementById("openBtn");
+function closeModal(){modal.style.display="none";document.body.style.overflow="auto";}
+openBtn.addEventListener("click",()=>{modal.style.display="flex";document.body.style.overflow="hidden";});
+
+// Validierung
+const payBtnEl=document.getElementById("payBtn");
+const helpBtnEl=document.getElementById("helpBtn");
+const consentEl=document.getElementById("consent");
+const widerrufEl=document.getElementById("widerrufConsent");
 const nameEl=document.getElementById("name");
 const phoneEl=document.getElementById("phone");
 const emailEl=document.getElementById("email");
-const consentEl=document.getElementById("consent");
-const widerrufEl=document.getElementById("widerrufConsent");
 const overlay=document.getElementById("loadingOverlay");
 
-function updateState(){
-const valid=
-nameEl.value.trim().length>=3 &&
-/^[0-9+ ]{10,15}$/.test(phoneEl.value.trim()) &&
-/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value.trim()) &&
-consentEl.checked &&
-widerrufEl.checked;
-
-payBtn.disabled=!valid;
+function updatePayButtonState(){
+const nameValid=nameEl.value.trim().length>=3;
+const phoneValid=/^[0-9+ ]{10,15}$/.test(phoneEl.value.trim());
+const emailValid=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value.trim());
+const checkboxesValid=consentEl.checked&&widerrufEl.checked;
+payBtnEl.disabled=!(nameValid&&phoneValid&&emailValid&&checkboxesValid);
 }
 [nameEl,phoneEl,emailEl,consentEl,widerrufEl].forEach(el=>{
-el.addEventListener("input",updateState);
-el.addEventListener("change",updateState);
+el.addEventListener('input',updatePayButtonState);
+el.addEventListener('change',updatePayButtonState);
 });
+updatePayButtonState();
 
-payBtn.onclick=function(){
+payBtnEl.addEventListener("click",function(){
 overlay.style.display="flex";
 setTimeout(()=>{
 overlay.style.display="none";
 alert("💳 Zahlung erfolgreich simuliert!");
-helpBtn.disabled=false;
+helpBtnEl.disabled=false;
 },2000);
-};
+});
 
 document.getElementById("helpForm").addEventListener("submit",function(e){
 e.preventDefault();
 const name=nameEl.value.trim();
-const phone=phoneEl.value.trim();
+let phone=phoneEl.value.trim();
 const email=emailEl.value.trim();
 const message=document.getElementById("message").value.trim();
 const whatsappNumber="4915145932462";
