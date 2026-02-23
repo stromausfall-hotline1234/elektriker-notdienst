@@ -8,12 +8,10 @@
 <meta name="robots" content="index, follow">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-body{margin:0;font-family:'Montserrat',sans-serif;background:#f5f5f5;color:#222;line-height:1.6;}
+/* Grunddesign */
+body{margin:0;font-family:'Montserrat',sans-serif;background:#f5f5f5;color:#222;line-height:1.6;scroll-behavior:smooth;}
 header{background:linear-gradient(135deg,#111,#333);color:white;text-align:center;padding:50px 20px;margin-top:60px;}
 h1{color:#FFD000;margin:0;font-size:2.2em;}
-nav{position:fixed;top:0;width:100%;background:#111;z-index:1001;display:flex;justify-content:center;gap:15px;padding:15px 0;}
-nav a{color:#FFD000;text-decoration:none;font-weight:600;}
-nav a:hover{text-decoration:underline;}
 section{padding:70px 20px;max-width:900px;margin:auto;}
 h2{text-align:center;margin-bottom:30px;}
 .btn{display:inline-block;padding:18px 45px;border-radius:50px;background:#25D366;color:white;font-weight:700;cursor:pointer;border:none;font-size:1.1em;transition:0.3s;opacity:1;}
@@ -28,11 +26,26 @@ input, select, textarea{width:100%;padding:12px;margin:8px 0;border-radius:8px;b
 .checkbox-label{font-size:0.9em;margin-top:10px;display:flex;align-items:flex-start;gap:8px;flex-wrap:wrap;}
 .checkbox-label input{width:18px;height:18px;margin-top:3px;flex-shrink:0;}
 #loadingOverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:1100;justify-content:center;align-items:center;color:white;font-size:1.5em;font-weight:bold;}
+
+/* Navigation */
+nav{position:fixed;top:0;width:100%;background:#111;z-index:1001;display:flex;justify-content:space-between;align-items:center;padding:15px 20px;box-sizing:border-box;}
+nav .logo{color:#FFD000;font-weight:700;font-size:1.1em;}
+nav .nav-links{display:flex;gap:15px;}
+nav .nav-links a{color:#FFD000;text-decoration:none;font-weight:600;}
+nav .nav-links a:hover{text-decoration:underline;}
+.hamburger{display:none;flex-direction:column;cursor:pointer;gap:5px;}
+.hamburger div{width:25px;height:3px;background:#FFD000;transition:all 0.3s ease;}
+
+/* Mobile */
 @media(max-width:768px){
-h1{font-size:1.6em;}
-.modal-box{padding:20px;}
-.btn{padding:15px 30px;font-size:1em;}
-nav{flex-direction:column;gap:10px;padding:10px 0;}
+  nav .nav-links{position:fixed;top:60px;right:-100%;background:#111;height:calc(100% - 60px);width:200px;flex-direction:column;align-items:start;padding:20px;gap:20px;transition:right 0.3s ease;}
+  nav .nav-links.active{right:0;}
+  .hamburger{display:flex;}
+}
+@media(max-width:480px){
+  header{padding:40px 15px;}
+  h1{font-size:1.6em;}
+  .btn{padding:15px 30px;font-size:1em;}
 }
 </style>
 </head>
@@ -40,10 +53,18 @@ nav{flex-direction:column;gap:10px;padding:10px 0;}
 
 <!-- Top Navigation -->
 <nav>
-  <a href="#mainContent">Home</a>
-  <a href="#impressum">Impressum</a>
-  <a href="#agb">AGB</a>
-  <a href="#datenschutz">Datenschutzerklärung</a>
+  <div class="logo">⚡ Soforthilfe</div>
+  <div class="nav-links" id="navLinks">
+    <a href="#mainContent">Home</a>
+    <a href="#impressum">Impressum</a>
+    <a href="#agb">AGB</a>
+    <a href="#datenschutz">Datenschutzerklärung</a>
+  </div>
+  <div class="hamburger" id="hamburger">
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
 </nav>
 
 <header id="mainContent">
@@ -116,10 +137,9 @@ Die Weitergabe an Dritte erfolgt nicht. Sie können Ihre Zustimmung jederzeit wi
 <div id="modal">
 <div class="modal-box">
 <h3>Soforthilfe anfordern</h3>
-
 <form id="helpForm">
 <input type="text" id="name" placeholder="Ihr vollständiger Name" required>
-<input type="tel" id="phone" placeholder="Ihre Rückrufnummer (z.B. 015112345678)" inputmode="numeric" autocomplete="tel" required>
+<input type="tel" id="phone" placeholder="Ihre Rückrufnummer" inputmode="numeric" autocomplete="tel" required>
 <input type="email" id="email" placeholder="Ihre E-Mail Adresse" required>
 <textarea id="message" placeholder="Kurzbeschreibung (optional)"></textarea>
 
@@ -148,7 +168,6 @@ Ich verlange ausdrücklich, dass vor Ablauf der Widerrufsfrist mit der Dienstlei
 </div>
 </div>
 
-<!-- Lade-Overlay -->
 <div id="loadingOverlay">💳 Zahlung wird verarbeitet...</div>
 
 <script>
@@ -169,6 +188,11 @@ openBtn.addEventListener("click", () => {
 });
 function closeModal(){ closeModalBtn(); }
 
+// Hamburger-Menü
+const hamburger = document.getElementById('hamburger');
+const navLinks = document.getElementById('navLinks');
+hamburger.addEventListener('click', () => { navLinks.classList.toggle('active'); hamburger.classList.toggle('open'); });
+
 // Buttons
 const payBtn = document.getElementById("payBtn");
 const helpBtn = document.getElementById("helpBtn");
@@ -179,7 +203,6 @@ payBtn.addEventListener("click", function(){
   overlay.style.display = "flex";
   payBtn.disabled = true;
   payBtn.style.opacity = "0.6";
-
   setTimeout(() => {
     overlay.style.display = "none";
     alert("Zahlung erfolgreich simuliert! ✅\nDer 'Hilfe bekommen'-Button ist jetzt freigeschaltet.");
@@ -192,7 +215,6 @@ payBtn.addEventListener("click", function(){
 // Formular-Validierung & WhatsApp
 document.getElementById("helpForm").addEventListener("submit", function(e){
   e.preventDefault();
-
   const name = document.getElementById("name").value.trim();
   let phone = document.getElementById("phone").value.trim();
   const email = document.getElementById("email").value.trim();
@@ -201,30 +223,18 @@ document.getElementById("helpForm").addEventListener("submit", function(e){
   const widerrufConsent = document.getElementById("widerrufConsent").checked;
   const errorMsg = document.getElementById("errorMsg");
   errorMsg.textContent = "";
-
   if(name.length < 3){ errorMsg.textContent = "Bitte vollständigen Namen eingeben."; return; }
   if(!/^[0-9+ ]{10,15}$/.test(phone)){ errorMsg.textContent = "Bitte gültige Telefonnummer eingeben."; return; }
   if(phone.startsWith("+49")){ phone = "0" + phone.substring(3); }
   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ errorMsg.textContent = "Bitte gültige E-Mail Adresse eingeben."; return; }
   if(!consent){ errorMsg.textContent = "Bitte DSGVO-Zustimmung bestätigen."; return; }
   if(!widerrufConsent){ errorMsg.textContent = "Bitte Zustimmung zum vorzeitigen Beginn bestätigen."; return; }
-
   const whatsappNumber = "4915145932462";
-  const text =
-`🚨 Neue Video-Soforthilfe Anfrage 🚨
-
-Name: ${name}
-Telefon: ${phone}
-E-Mail: ${email}
-
-Problem: Video-Soforthilfe bei Stromausfall
-Beschreibung: ${message}`;
-
+  const text = `🚨 Neue Video-Soforthilfe Anfrage 🚨\n\nName: ${name}\nTelefon: ${phone}\nE-Mail: ${email}\n\nProblem: Video-Soforthilfe bei Stromausfall\nBeschreibung: ${message}`;
   const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`;
   window.open(url, "_blank");
   closeModal();
 });
 </script>
-
 </body>
 </html>
