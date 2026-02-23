@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Video-Soforthilfe bei Stromausfall – 24h Unterstützung</title>
 <meta name="description" content="Sofortige Video-Unterstützung bei Stromausfall. Schnelle technische Hilfe per WhatsApp Video. 39,99 € Festpreis.">
-<meta name="robots" content="index, follow">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 /* Grunddesign */
 body{margin:0;font-family:'Montserrat',sans-serif;background:#f5f5f5;color:#222;line-height:1.6;scroll-behavior:smooth;}
+a{text-decoration:none;}
 header{background:linear-gradient(135deg,#111,#333);color:white;text-align:center;padding:50px 20px;margin-top:60px;}
 h1{color:#FFD000;margin:0;font-size:2.2em;}
 section{padding:70px 20px;max-width:900px;margin:auto;}
@@ -31,7 +31,7 @@ input, select, textarea{width:100%;padding:12px;margin:8px 0;border-radius:8px;b
 nav{position:fixed;top:0;width:100%;background:#111;z-index:1001;display:flex;justify-content:space-between;align-items:center;padding:15px 20px;box-sizing:border-box;}
 nav .logo{color:#FFD000;font-weight:700;font-size:1.1em;}
 nav .nav-links{display:flex;gap:15px;}
-nav .nav-links a{color:#FFD000;text-decoration:none;font-weight:600;}
+nav .nav-links a{color:#FFD000;font-weight:600;}
 nav .nav-links a:hover{text-decoration:underline;}
 .hamburger{display:none;flex-direction:column;cursor:pointer;gap:5px;}
 .hamburger div{width:25px;height:3px;background:#FFD000;transition:all 0.3s ease;}
@@ -56,9 +56,9 @@ nav .nav-links a:hover{text-decoration:underline;}
   <div class="logo">⚡ Soforthilfe</div>
   <div class="nav-links" id="navLinks">
     <a href="#mainContent">Home</a>
-    <a href="#impressum">Impressum</a>
-    <a href="#agb">AGB</a>
-    <a href="#datenschutz">Datenschutzerklärung</a>
+    <a href="impressum.html">Impressum</a>
+    <a href="agb.html">AGB</a>
+    <a href="datenschutz.html">Datenschutzerklärung</a>
   </div>
   <div class="hamburger" id="hamburger">
     <div></div>
@@ -70,21 +70,12 @@ nav .nav-links a:hover{text-decoration:underline;}
 <header id="mainContent">
 <h1>⚡ Video-Soforthilfe bei Stromausfall ⚡</h1>
 <p>Schnelle technische Unterstützung per WhatsApp Video – 39,99 € Festpreis</p>
-</header>
-
-<main>
-<section>
-<h2>Video-Soforthilfe in <span id="cityName">München</span></h2>
-<p>
-Unsere Video-Soforthilfe in <strong><span id="cityName2">München</span></strong> ist rund um die Uhr erreichbar. 
-Wir helfen per Video-Call bei Stromausfall, FI-Auslösung oder Kurzschluss-Situation. 
-Bitte beachten Sie: Es erfolgt keine handwerkliche Ausführung vor Ort.
-</p>
 <div style="text-align:center; margin-top:30px;">
 <button id="openBtn" class="btn">Soforthilfe anfordern – 39,99 €</button>
 </div>
-</section>
+</header>
 
+<main>
 <section>
 <h2>Unsere Leistungen</h2>
 <ul class="features">
@@ -102,32 +93,6 @@ Bitte beachten Sie: Es erfolgt keine handwerkliche Ausführung vor Ort.
 <p><strong>Wie funktioniert die Soforthilfe?</strong><br>Nach dem Absenden öffnet sich WhatsApp. Wir führen die Video-Beratung durch und geben Handlungsempfehlungen.</p>
 <p><strong>Ist der Preis fest?</strong><br>Ja – 39,99 € für die Video-Soforthilfe.</p>
 </section>
-
-<section id="impressum">
-<h2>Impressum</h2>
-<p>
-Video-Soforthilfe Hotline <span id="cityName3">München</span><br>
-Stroblstr. 24<br>
-80689 <span id="cityName4">München</span><br>
-Telefon: +49 151 45932462<br>
-E-Mail: kontakt@beispiel.de
-</p>
-</section>
-
-<section id="agb">
-<h2>AGB</h2>
-<p>Vertragsgegenstand ist eine technische Video-Beratung bei Stromausfall. Es erfolgt keine handwerkliche Ausführung vor Ort.</p>
-<p>Preis: 39,99 € inkl. MwSt.</p>
-<p>Der Kunde ist für die sichere Durchführung der empfohlenen Schritte selbst verantwortlich.</p>
-<p>Bei erkennbarer Gefährdung wird die Beauftragung eines zugelassenen Elektrikers empfohlen.</p>
-</section>
-
-<section id="datenschutz">
-<h2>Datenschutzerklärung</h2>
-<p>Wir speichern Ihre Daten ausschließlich für die Rückruf- und Video-Beratung. 
-Die Weitergabe an Dritte erfolgt nicht. Sie können Ihre Zustimmung jederzeit widerrufen.</p>
-</section>
-</main>
 
 <footer>
 © 2026 Video-Soforthilfe
@@ -171,27 +136,17 @@ Ich verlange ausdrücklich, dass vor Ablauf der Widerrufsfrist mit der Dienstlei
 <div id="loadingOverlay">💳 Zahlung wird verarbeitet...</div>
 
 <script>
-// Stadt dynamisch
-const city = "München";
-document.getElementById("cityName").textContent = city;
-document.getElementById("cityName2").textContent = city;
-document.getElementById("cityName3").textContent = city;
-document.getElementById("cityName4").textContent = city;
+// Hamburger-Menü
+const hamburger = document.getElementById('hamburger');
+const navLinks = document.getElementById('navLinks');
+hamburger.addEventListener('click', () => { navLinks.classList.toggle('active'); hamburger.classList.toggle('open'); });
 
 // Modal öffnen/ schließen
 const modal = document.getElementById("modal");
 const openBtn = document.getElementById("openBtn");
 const closeModalBtn = () => modal.style.display = "none";
-openBtn.addEventListener("click", () => {
-  modal.style.display = "flex";
-  document.querySelector(".modal-box").scrollTop = 0;
-});
+openBtn.addEventListener("click", () => { modal.style.display = "flex"; document.querySelector(".modal-box").scrollTop = 0; });
 function closeModal(){ closeModalBtn(); }
-
-// Hamburger-Menü
-const hamburger = document.getElementById('hamburger');
-const navLinks = document.getElementById('navLinks');
-hamburger.addEventListener('click', () => { navLinks.classList.toggle('active'); hamburger.classList.toggle('open'); });
 
 // Buttons
 const payBtn = document.getElementById("payBtn");
@@ -201,40 +156,33 @@ const overlay = document.getElementById("loadingOverlay");
 // Simulierte Zahlung
 payBtn.addEventListener("click", function(){
   overlay.style.display = "flex";
-  payBtn.disabled = true;
-  payBtn.style.opacity = "0.6";
-  setTimeout(() => {
-    overlay.style.display = "none";
-    alert("Zahlung erfolgreich simuliert! ✅\nDer 'Hilfe bekommen'-Button ist jetzt freigeschaltet.");
-    helpBtn.disabled = false;
-    helpBtn.style.opacity = "1";
-    helpBtn.style.cursor = "pointer";
-  }, 2000);
+  payBtn.disabled = true; payBtn.style.opacity = "0.6";
+  setTimeout(() => { overlay.style.display = "none"; alert("Zahlung erfolgreich simuliert! ✅"); helpBtn.disabled = false; helpBtn.style.opacity="1"; helpBtn.style.cursor="pointer"; },2000);
 });
 
 // Formular-Validierung & WhatsApp
 document.getElementById("helpForm").addEventListener("submit", function(e){
   e.preventDefault();
-  const name = document.getElementById("name").value.trim();
-  let phone = document.getElementById("phone").value.trim();
-  const email = document.getElementById("email").value.trim();
-  const message = document.getElementById("message").value.trim();
-  const consent = document.getElementById("consent").checked;
-  const widerrufConsent = document.getElementById("widerrufConsent").checked;
-  const errorMsg = document.getElementById("errorMsg");
-  errorMsg.textContent = "";
-  if(name.length < 3){ errorMsg.textContent = "Bitte vollständigen Namen eingeben."; return; }
-  if(!/^[0-9+ ]{10,15}$/.test(phone)){ errorMsg.textContent = "Bitte gültige Telefonnummer eingeben."; return; }
-  if(phone.startsWith("+49")){ phone = "0" + phone.substring(3); }
-  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ errorMsg.textContent = "Bitte gültige E-Mail Adresse eingeben."; return; }
-  if(!consent){ errorMsg.textContent = "Bitte DSGVO-Zustimmung bestätigen."; return; }
-  if(!widerrufConsent){ errorMsg.textContent = "Bitte Zustimmung zum vorzeitigen Beginn bestätigen."; return; }
-  const whatsappNumber = "4915145932462";
-  const text = `🚨 Neue Video-Soforthilfe Anfrage 🚨\n\nName: ${name}\nTelefon: ${phone}\nE-Mail: ${email}\n\nProblem: Video-Soforthilfe bei Stromausfall\nBeschreibung: ${message}`;
-  const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`;
-  window.open(url, "_blank");
+  const name=document.getElementById("name").value.trim();
+  let phone=document.getElementById("phone").value.trim();
+  const email=document.getElementById("email").value.trim();
+  const message=document.getElementById("message").value.trim();
+  const consent=document.getElementById("consent").checked;
+  const widerrufConsent=document.getElementById("widerrufConsent").checked;
+  const errorMsg=document.getElementById("errorMsg");
+  errorMsg.textContent="";
+  if(name.length<3){ errorMsg.textContent="Bitte vollständigen Namen eingeben."; return; }
+  if(!/^[0-9+ ]{10,15}$/.test(phone)){ errorMsg.textContent="Bitte gültige Telefonnummer eingeben."; return; }
+  if(phone.startsWith("+49")){ phone="0"+phone.substring(3); }
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ errorMsg.textContent="Bitte gültige E-Mail Adresse eingeben."; return; }
+  if(!consent){ errorMsg.textContent="Bitte DSGVO-Zustimmung bestätigen."; return; }
+  if(!widerrufConsent){ errorMsg.textContent="Bitte Zustimmung zum vorzeitigen Beginn bestätigen."; return; }
+  const whatsappNumber="4915145932462";
+  const text=`🚨 Neue Video-Soforthilfe Anfrage 🚨\n\nName: ${name}\nTelefon: ${phone}\nE-Mail: ${email}\n\nProblem: Video-Soforthilfe bei Stromausfall\nBeschreibung: ${message}`;
+  window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`, "_blank");
   closeModal();
 });
 </script>
+
 </body>
 </html>
