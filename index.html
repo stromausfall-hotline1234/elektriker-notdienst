@@ -20,8 +20,8 @@ h2{text-align:center;margin-bottom:30px;}
 .features li::before{content:"✔ ";color:#FFD000;font-weight:bold;}
 footer{background:#111;color:white;text-align:center;padding:20px;}
 #modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:1000;justify-content:center;align-items:center;padding:20px;overflow-y:auto;}
-.modal-box{background:white;padding:30px;border-radius:15px;max-width:480px;width:100%;max-height:90vh;overflow-y:auto;}
-input, select, textarea{width:100%;padding:12px;margin:8px 0;border-radius:8px;border:1px solid #ccc;font-size:1em;}
+.modal-box{background:white;padding:30px;border-radius:15px;max-width:480px;width:100%;max-height:90vh;overflow-y:auto;box-sizing:border-box;}
+input, select, textarea{width:100%;padding:14px;margin:8px 0;border-radius:8px;border:1px solid #ccc;font-size:1em;box-sizing:border-box;}
 #errorMsg{color:red;font-size:0.9em;margin-bottom:10px;}
 .checkbox-label{font-size:0.9em;margin-top:10px;display:flex;align-items:flex-start;gap:8px;flex-wrap:wrap;}
 .checkbox-label input{width:18px;height:18px;margin-top:3px;flex-shrink:0;}
@@ -36,11 +36,23 @@ nav .nav-links a:hover{text-decoration:underline;}
 .hamburger{display:none;flex-direction:column;cursor:pointer;gap:5px;}
 .hamburger div{width:25px;height:3px;background:#FFD000;transition:all 0.3s ease;}
 
-/* Mobile */
+/* Mobile Navigation */
 @media(max-width:768px){
   nav .nav-links{position:fixed;top:60px;right:-100%;background:#111;height:calc(100% - 60px);width:200px;flex-direction:column;align-items:start;padding:20px;gap:20px;transition:right 0.3s ease;}
   nav .nav-links.active{right:0;}
   .hamburger{display:flex;}
+}
+
+/* Mobile Optimierung Modal */
+@media(max-width:768px){
+  .modal-box{
+    width: 95%;
+    padding: 20px;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  input, select, textarea{font-size:1em;padding:14px;}
+  #payBtn, #helpBtn{padding:16px;font-size:1em;}
 }
 @media(max-width:480px){
   header{padding:40px 15px;}
@@ -51,7 +63,7 @@ nav .nav-links a:hover{text-decoration:underline;}
 </head>
 <body>
 
-<!-- Top Navigation -->
+<!-- Navigation -->
 <nav>
   <div class="logo">⚡ Soforthilfe</div>
   <div class="nav-links" id="navLinks">
@@ -98,7 +110,7 @@ nav .nav-links a:hover{text-decoration:underline;}
 © 2026 Video-Soforthilfe
 </footer>
 
-<!-- Modal Formular -->
+<!-- Modal -->
 <div id="modal">
 <div class="modal-box">
 <h3>Soforthilfe anfordern</h3>
@@ -144,8 +156,12 @@ hamburger.addEventListener('click', () => { navLinks.classList.toggle('active');
 // Modal öffnen/ schließen
 const modal = document.getElementById("modal");
 const openBtn = document.getElementById("openBtn");
-const closeModalBtn = () => modal.style.display = "none";
-openBtn.addEventListener("click", () => { modal.style.display = "flex"; document.querySelector(".modal-box").scrollTop = 0; });
+const closeModalBtn = () => { modal.style.display = "none"; document.body.style.overflow = "auto"; };
+openBtn.addEventListener("click", () => {
+  modal.style.display = "flex";
+  document.body.style.overflow = "hidden";
+  document.querySelector(".modal-box").scrollTop = 0;
+});
 function closeModal(){ closeModalBtn(); }
 
 // Buttons
@@ -157,7 +173,12 @@ const overlay = document.getElementById("loadingOverlay");
 payBtn.addEventListener("click", function(){
   overlay.style.display = "flex";
   payBtn.disabled = true; payBtn.style.opacity = "0.6";
-  setTimeout(() => { overlay.style.display = "none"; alert("Zahlung erfolgreich simuliert! ✅"); helpBtn.disabled = false; helpBtn.style.opacity="1"; helpBtn.style.cursor="pointer"; },2000);
+  setTimeout(() => {
+    overlay.style.display = "none"; 
+    alert("Zahlung erfolgreich simuliert! ✅");
+    helpBtn.disabled = false; helpBtn.style.opacity="1"; 
+    helpBtn.style.cursor="pointer"; 
+  },2000);
 });
 
 // Formular-Validierung & WhatsApp
