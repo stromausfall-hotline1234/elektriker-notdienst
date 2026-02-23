@@ -3,301 +3,146 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Video-Soforthilfe bei Stromausfall – 24h Unterstützung</title>
-<meta name="description" content="Sofortige Video-Unterstützung bei Stromausfall. Schnelle technische Hilfe per WhatsApp Video. 39,99 € Festpreis.">
+<title>Hybrid KI-Notfallassistent – Stromausfallhilfe</title>
+<meta name="description" content="Unser KI-Notfallassistent spricht mit Ihnen, analysiert Fotos von Sicherungen und leitet Sie Schritt für Schritt an. Bei Bedarf übernimmt ein geprüfter Elektrofachkraft-Experte live.">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
-
 <style>
-body{
-  margin:0;
-  font-family:'Montserrat',sans-serif;
-  background:#f0f2f5;
-  color:#222;
-  line-height:1.6;
-  scroll-behavior:smooth;
-}
+body{margin:0;font-family:'Montserrat',sans-serif;background:#f0f2f5;color:#222;scroll-behavior:smooth;}
 a{text-decoration:none;}
 h1,h2,h3{margin:0 0 15px;}
 h1{font-size:2.8rem;color:#ffca28;}
 h2{text-align:center;margin-bottom:30px;}
-p{color:#555}
+p{color:#555;line-height:1.5;}
 
 /* NAVIGATION */
-nav{
-  position:fixed;
-  top:0;
-  width:100%;
-  background:#111;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:15px 40px;
-  z-index:1001;
-  box-shadow:0 4px 15px rgba(0,0,0,0.3);
-}
+nav{position:fixed;top:0;width:100%;background:#111;display:flex;justify-content:space-between;align-items:center;padding:15px 40px;z-index:1001;box-shadow:0 4px 15px rgba(0,0,0,0.3);}
 .logo{color:#ffca28;font-weight:700;font-size:1.3rem;}
 .nav-links{display:flex;gap:25px;}
-.nav-links a{
-  color:#ffca28;
-  font-weight:600;
-  position:relative;
-  padding:4px 0;
-}
-.nav-links a::after{
-  content:"";
-  position:absolute;
-  left:0;
-  bottom:-3px;
-  width:0;
-  height:2px;
-  background:#25d366;
-  transition:0.3s;
-}
+.nav-links a{color:#ffca28;font-weight:600;position:relative;padding:4px 0;}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:-3px;width:0;height:2px;background:#25d366;transition:0.3s;}
 .nav-links a:hover::after{width:100%;}
 .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;}
 .hamburger div{width:28px;height:3px;background:#ffca28;}
-
-@media(max-width:768px){
-  .nav-links{
-    position:fixed;
-    top:60px;
-    right:-100%;
-    width:220px;
-    height:calc(100% - 60px);
-    background:#111;
-    flex-direction:column;
-    padding:25px;
-    gap:20px;
-    transition:right 0.3s ease;
-  }
-  .nav-links.active{right:0;}
-  .hamburger{display:flex;}
-}
+@media(max-width:768px){.nav-links{position:fixed;top:60px;right:-100%;width:220px;height:calc(100% - 60px);background:#111;flex-direction:column;padding:25px;gap:20px;transition:right 0.3s ease;}.nav-links.active{right:0;}.hamburger{display:flex;}}
 
 /* HEADER */
-header{
-  background:linear-gradient(135deg,#1a1a1a,#333);
-  color:white;
-  text-align:center;
-  padding:120px 20px 80px;
-}
+header{background:linear-gradient(135deg,#1a1a1a,#333);color:white;text-align:center;padding:120px 20px 80px;}
 header p{font-size:1.2rem;margin-bottom:30px;color:#f0f0f0;}
-
-.btn{
-  display:inline-block;
-  padding:18px 45px;
-  border-radius:50px;
-  background:#25d366;
-  color:white;
-  font-weight:700;
-  border:none;
-  cursor:pointer;
-  transition:0.3s;
-}
+.btn{display:inline-block;padding:18px 45px;border-radius:50px;background:#25d366;color:white;font-weight:700;border:none;cursor:pointer;transition:0.3s;}
 .btn:hover{background:#1ebe57;transform:scale(1.05);}
-.btn:disabled{opacity:0.6;cursor:not-allowed;}
-
-/* CONTENT */
 section{padding:80px 20px;max-width:1000px;margin:auto;}
-.features-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-  gap:30px;
-}
-.feature-card{
-  background:white;
-  padding:25px;
-  border-radius:12px;
-  text-align:center;
-  box-shadow:0 6px 15px rgba(0,0,0,0.05);
-  transition:0.3s;
-}
-.feature-card:hover{
-  transform:translateY(-5px);
-  box-shadow:0 10px 25px rgba(0,0,0,0.1);
-}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px;}
+.feature-card{background:white;padding:25px;border-radius:12px;text-align:center;box-shadow:0 6px 15px rgba(0,0,0,0.05);transition:0.3s;}
+.feature-card:hover{transform:translateY(-5px);box-shadow:0 10px 25px rgba(0,0,0,0.1);}
 .feature-card h3{color:#ffca28;}
-
-/* MODAL */
-#modal{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.6);
-  z-index:1000;
-  justify-content:center;
-  align-items:center;
-  padding:20px;
-}
-.modal-box{
-  background:white;
-  padding:35px;
-  border-radius:15px;
-  max-width:480px;
-  width:100%;
-}
-input, textarea{
-  width:100%;
-  padding:14px;
-  margin:8px 0;
-  border-radius:8px;
-  border:1px solid #ccc;
-}
-.checkbox-label{
-  font-size:0.9em;
-  margin-top:10px;
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-}
-.checkbox-label a{color:#25d366;font-weight:600;}
-#errorMsg{color:red;font-size:0.9em;}
-#loadingOverlay{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.7);
-  z-index:1100;
-  justify-content:center;
-  align-items:center;
-  color:white;
-  font-size:1.5em;
-  font-weight:bold;
-}
-
-/* FOOTER */
-footer{
-  background:#1a1a1a;
-  color:white;
-  text-align:center;
-  padding:25px;
-}
-footer a{color:#ffca28;margin:0 8px;}
+#chatSection{background:white;padding:30px;border-radius:15px;box-shadow:0 6px 15px rgba(0,0,0,0.05);margin-top:30px;}
+#messages{height:300px;overflow-y:auto;border:1px solid #ccc;padding:15px;border-radius:8px;margin-bottom:15px;background:#f9f9f9;}
+.message{margin-bottom:12px;padding:8px 12px;border-radius:12px;max-width:80%;clear:both;}
+.user{background:#25d366;color:white;float:right;text-align:right;}
+.ai{background:#ffca28;color:#111;float:left;text-align:left;}
+#inputArea{display:flex;gap:10px;}
+#inputArea input[type="text"]{flex:1;padding:12px;border-radius:8px;border:1px solid #ccc;}
+#inputArea button{padding:12px 20px;border:none;border-radius:8px;background:#25d366;color:white;cursor:pointer;transition:0.3s;}
+#inputArea button:hover{background:#1ebe57;}
+#fileInput{margin-top:10px;}
+audio{margin-top:10px;width:100%;}
+footer{background:#1a1a1a;color:white;text-align:center;padding:25px;}
 </style>
 </head>
 <body>
 
 <nav>
-  <div class="logo">⚡ Soforthilfe</div>
+  <div class="logo">⚡ KI-Soforthilfe</div>
   <div class="nav-links" id="navLinks">
     <a href="#mainContent">Home</a>
     <a href="impressum.html">Impressum</a>
     <a href="agb.html">AGB</a>
-    <a href="datenschutz.html">Datenschutzerklärung</a>
+    <a href="datenschutz.html">Datenschutz</a>
   </div>
-  <div class="hamburger" id="hamburger">
-    <div></div><div></div><div></div>
-  </div>
+  <div class="hamburger" id="hamburger"><div></div><div></div><div></div></div>
 </nav>
 
 <header id="mainContent">
-  <h1>⚡ Video-Soforthilfe bei Stromausfall ⚡</h1>
-  <p>Schnelle technische Unterstützung per WhatsApp Video – 39,99 € Festpreis</p>
-  <button id="openBtn" class="btn">Soforthilfe anfordern – 39,99 €</button>
+  <h1>⚡ KI-Notfallassistent bei Stromausfall ⚡</h1>
+  <p>KI analysiert Ihr Problem, spricht mit Ihnen und zeigt Schritt-für-Schritt Lösungen. Bei Bedarf übernimmt ein Elektrofachkraft-Experte live.</p>
+  <button id="startBtn" class="btn">Soforthilfe starten – 39,99 €</button>
 </header>
 
 <section>
-<h2>Unsere Leistungen</h2>
+<h2>Wie es funktioniert</h2>
 <div class="features-grid">
-  <div class="feature-card"><h3>📹 Live-Video</h3><p>Direkte Unterstützung per WhatsApp.</p></div>
-  <div class="feature-card"><h3>🔒 Sicherheitsprüfung</h3><p>Überprüfung von FI & Sicherungen.</p></div>
-  <div class="feature-card"><h3>⏱ Schnell</h3><p>Rückmeldung in 5–10 Minuten.</p></div>
-  <div class="feature-card"><h3>💰 Festpreis</h3><p>39,99 € inkl. MwSt.</p></div>
+  <div class="feature-card"><h3>🖼 Foto-Analyse</h3><p>Upload von Sicherungskasten oder FI-Schalter.</p></div>
+  <div class="feature-card"><h3>🎙 Sprach-Ausgabe</h3><p>KI spricht Schritt-für-Schritt mit Ihnen.</p></div>
+  <div class="feature-card"><h3>📝 Text-Chat</h3><p>Interaktive Anleitung & Rückfragen.</p></div>
+  <div class="feature-card"><h3>👨‍🔧 Upgrade auf Experten</h3><p>Live-Video oder Chat bei komplexen Fällen.</p></div>
+</div>
+
+<div id="chatSection">
+  <h3>KI-Assistenz Chat</h3>
+  <div id="messages"></div>
+  <div id="inputArea">
+    <input type="text" id="userInput" placeholder="Beschreiben Sie Ihr Problem...">
+    <button id="sendBtn">Senden</button>
+  </div>
+  <input type="file" id="fileInput" accept="image/*">
+  <audio id="ttsAudio" controls></audio>
 </div>
 </section>
 
 <footer>
-© 2026 Video-Soforthilfe<br><br>
-<a href="impressum.html">Impressum</a> |
-<a href="agb.html">AGB</a> |
-<a href="datenschutz.html">Datenschutz</a>
+© 2026 KI-Soforthilfe | <a href="impressum.html">Impressum</a> | <a href="agb.html">AGB</a> | <a href="datenschutz.html">Datenschutz</a>
 </footer>
-
-<!-- MODAL -->
-<div id="modal">
-<div class="modal-box">
-<h3>Soforthilfe anfordern</h3>
-<form id="helpForm">
-<input type="text" id="name" placeholder="Ihr vollständiger Name" required>
-<input type="tel" id="phone" placeholder="Ihre Rückrufnummer" required>
-<input type="email" id="email" placeholder="Ihre E-Mail Adresse" required>
-<textarea id="message" placeholder="Kurzbeschreibung (optional)"></textarea>
-
-<label class="checkbox-label">
-<input type="checkbox" id="consent" required>
-Ich stimme der <a href="datenschutz.html" target="_blank">Datenschutzerklärung</a> zu und akzeptiere die <a href="agb.html" target="_blank">AGB</a>.
-</label>
-
-<label class="checkbox-label">
-<input type="checkbox" id="widerrufConsent" required>
-Ich verlange ausdrücklich den sofortigen Beginn der Dienstleistung und verzichte bei vollständiger Leistung auf mein Widerrufsrecht.
-</label>
-
-<div id="errorMsg"></div>
-
-<button type="button" id="payBtn" class="btn" style="width:100%;margin-top:10px;" disabled>💳 Zahlung simulieren (39,99 €)</button>
-<button type="submit" id="helpBtn" class="btn" style="width:100%;margin-top:10px;" disabled>✅ Hilfe bekommen</button>
-<button type="button" onclick="closeModal()" style="width:100%;margin-top:10px;">Abbrechen</button>
-</form>
-</div>
-</div>
-
-<div id="loadingOverlay">💳 Zahlung wird verarbeitet...</div>
 
 <script>
 // Navigation
-const hamburger=document.getElementById('hamburger');
-const navLinks=document.getElementById('navLinks');
-hamburger.addEventListener('click',()=>{navLinks.classList.toggle('active');});
+const hamburger = document.getElementById('hamburger');
+const navLinks = document.getElementById('navLinks');
+hamburger.addEventListener('click', ()=>{navLinks.classList.toggle('active');});
 
-// Modal
-const modal=document.getElementById("modal");
-const openBtn=document.getElementById("openBtn");
-function closeModal(){modal.style.display="none";document.body.style.overflow="auto";}
-openBtn.addEventListener("click",()=>{modal.style.display="flex";document.body.style.overflow="hidden";});
+// Chat-System
+const messagesEl = document.getElementById('messages');
+const userInputEl = document.getElementById('userInput');
+const sendBtn = document.getElementById('sendBtn');
+const fileInput = document.getElementById('fileInput');
+const ttsAudio = document.getElementById('ttsAudio');
 
-// Validierung
-const payBtnEl=document.getElementById("payBtn");
-const helpBtnEl=document.getElementById("helpBtn");
-const consentEl=document.getElementById("consent");
-const widerrufEl=document.getElementById("widerrufConsent");
-const nameEl=document.getElementById("name");
-const phoneEl=document.getElementById("phone");
-const emailEl=document.getElementById("email");
-const overlay=document.getElementById("loadingOverlay");
-
-function updatePayButtonState(){
-const nameValid=nameEl.value.trim().length>=3;
-const phoneValid=/^[0-9+ ]{10,15}$/.test(phoneEl.value.trim());
-const emailValid=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value.trim());
-const checkboxesValid=consentEl.checked&&widerrufEl.checked;
-payBtnEl.disabled=!(nameValid&&phoneValid&&emailValid&&checkboxesValid);
+function addMessage(text, sender='ai') {
+  const div = document.createElement('div');
+  div.classList.add('message', sender);
+  div.innerText = text;
+  messagesEl.appendChild(div);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
 }
-[nameEl,phoneEl,emailEl,consentEl,widerrufEl].forEach(el=>{
-el.addEventListener('input',updatePayButtonState);
-el.addEventListener('change',updatePayButtonState);
-});
-updatePayButtonState();
 
-payBtnEl.addEventListener("click",function(){
-overlay.style.display="flex";
-setTimeout(()=>{
-overlay.style.display="none";
-alert("💳 Zahlung erfolgreich simuliert!");
-helpBtnEl.disabled=false;
-},2000);
+// Platzhalter KI-Funktion
+async function callAI(text, file=null){
+  addMessage("Analysiere…", "ai");
+  // Hier würdest du deine OpenAI/Gemini API aufrufen
+  // z.B. Text + optionales Bild
+  // TTS generieren und audio.src setzen
+  setTimeout(()=>{
+    messagesEl.lastChild.innerText = `KI: Ich habe Ihr Problem verstanden. Schritt-für-Schritt Anleitung wird bereitgestellt.`;
+    // Beispiel TTS Audio
+    ttsAudio.src = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"; // Platzhalter
+  }, 1500);
+}
+
+sendBtn.addEventListener('click', ()=>{
+  const text = userInputEl.value.trim();
+  if(!text) return;
+  addMessage(text, 'user');
+  userInputEl.value='';
+  callAI(text, fileInput.files[0] || null);
 });
 
-document.getElementById("helpForm").addEventListener("submit",function(e){
-e.preventDefault();
-const name=nameEl.value.trim();
-let phone=phoneEl.value.trim();
-const email=emailEl.value.trim();
-const message=document.getElementById("message").value.trim();
-const whatsappNumber="4915145932462";
-const text=`🚨 Neue Video-Soforthilfe Anfrage 🚨\n\nName: ${name}\nTelefon: ${phone}\nE-Mail: ${email}\n\nBeschreibung: ${message}`;
-window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`,"_blank");
-closeModal();
+userInputEl.addEventListener('keypress', e=>{
+  if(e.key==='Enter') sendBtn.click();
+});
+
+// Start-Button (Platzhalter für Payment / Session)
+document.getElementById('startBtn').addEventListener('click', ()=>{
+  alert("💳 Zahlung erfolgreich simuliert! KI-Chat startet...");
+  document.getElementById('chatSection').scrollIntoView({behavior:'smooth'});
 });
 </script>
 
