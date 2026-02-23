@@ -18,6 +18,8 @@ h2{text-align:center;margin-bottom:30px;}
 .features li{list-style:none;padding:12px 0;border-bottom:1px solid #ddd;}
 .features li::before{content:"✔ ";color:#FFD000;font-weight:bold;}
 footer{background:#111;color:white;text-align:center;padding:20px;}
+footer a{color:#FFD000;text-decoration:none; margin:0 5px;}
+footer a:hover{text-decoration:underline;}
 #modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:1000;justify-content:center;align-items:center;padding:20px;overflow-y:auto;}
 .modal-box{background:white;padding:30px;border-radius:15px;max-width:480px;width:100%;max-height:90vh;overflow-y:auto;}
 input, select, textarea{width:100%;padding:12px;margin:8px 0;border-radius:8px;border:1px solid #ccc;font-size:1em;}
@@ -70,7 +72,7 @@ Bitte beachten Sie: Es erfolgt keine handwerkliche Ausführung vor Ort.
 <p><strong>Ist der Preis fest?</strong><br>Ja – 39,99 € für die Video-Soforthilfe.</p>
 </section>
 
-<section>
+<section id="impressum">
 <h2>Impressum</h2>
 <p>
 Video-Soforthilfe Hotline <span id="cityName3">München</span><br>
@@ -80,6 +82,28 @@ Telefon: +49 151 45932462<br>
 E-Mail: kontakt@beispiel.de
 </p>
 </section>
+
+<section id="agb">
+<h2>AGB</h2>
+<p>Vertragsgegenstand ist eine technische Video-Beratung bei Stromausfall. Es erfolgt keine handwerkliche Ausführung vor Ort.</p>
+<p>Preis: 39,99 € inkl. MwSt.</p>
+<p>Der Kunde ist für die sichere Durchführung der empfohlenen Schritte selbst verantwortlich.</p>
+<p>Bei erkennbarer Gefährdung wird die Beauftragung eines zugelassenen Elektrikers empfohlen.</p>
+</section>
+
+<section id="datenschutz">
+<h2>Datenschutzerklärung</h2>
+<p>Wir speichern Ihre Daten ausschließlich für die Rückruf- und Video-Beratung. 
+Die Weitergabe an Dritte erfolgt nicht. Sie können Ihre Zustimmung jederzeit widerrufen.</p>
+</section>
+</main>
+
+<footer>
+© 2026 Video-Soforthilfe |
+<a href="#impressum">Impressum</a> |
+<a href="#agb">AGB</a> |
+<a href="#datenschutz">Datenschutzerklärung</a>
+</footer>
 
 <!-- Modal Formular -->
 <div id="modal">
@@ -119,27 +143,6 @@ Ich verlange ausdrücklich, dass vor Ablauf der Widerrufsfrist mit der Dienstlei
 
 <!-- Lade-Overlay -->
 <div id="loadingOverlay">💳 Zahlung wird verarbeitet...</div>
-
-<section id="agb">
-<h2>AGB</h2>
-<p>Vertragsgegenstand ist eine technische Video-Beratung bei Stromausfall. Es erfolgt keine handwerkliche Ausführung vor Ort.</p>
-<p>Preis: 39,99 € inkl. MwSt.</p>
-<p>Der Kunde ist für die sichere Durchführung der empfohlenen Schritte selbst verantwortlich.</p>
-<p>Bei erkennbarer Gefährdung wird die Beauftragung eines zugelassenen Elektrikers empfohlen.</p>
-</section>
-
-<section id="widerruf">
-<h2>Widerrufsbelehrung</h2>
-<p>Sie haben das Recht, binnen 14 Tagen ohne Angabe von Gründen diesen Vertrag zu widerrufen.</p>
-<p>Das Widerrufsrecht erlischt, wenn die Dienstleistung vollständig erbracht wurde und Sie ausdrücklich dem vorzeitigen Beginn zugestimmt haben.</p>
-</section>
-
-<footer>
-© 2026 Video-Soforthilfe |
-<a href="#impressum">Impressum</a> |
-<a href="#agb">AGB</a> |
-<a href="#widerruf">Widerrufsrecht</a>
-</footer>
 
 <script>
 // Stadt dynamisch
