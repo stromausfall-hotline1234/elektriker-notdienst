@@ -92,6 +92,20 @@ Die KI-Soforthilfe ist eine digitale Video-Beratung. Der Kunde ist selbst verant
 </div>
 </div>
 
+<!-- Payment Modal -->
+<div class="modal" id="paymentModal">
+  <div class="modal-content">
+    <h2>Zahlung</h2>
+    <p id="paymentSummary"></p>
+    <div>
+      <button onclick="simulatePayment('Kreditkarte')">💳 Kreditkarte</button>
+      <button onclick="simulatePayment('PayPal')">🅿️ PayPal</button>
+      <button onclick="simulatePayment('ApplePay/GooglePay')">📱 Apple Pay / Google Pay</button>
+    </div>
+    <button onclick="closePaymentModal()">Abbrechen & zurück</button>
+  </div>
+</div>
+
 <!-- KI-Chat Modal -->
 <div class="modal" id="kiModal">
 <div class="modal-content">
@@ -145,8 +159,7 @@ Der Expertenservice ist ein Live-Videocall mit qualifizierten Fachkräften. Der 
 const infoTexts = {
   datenschutz: `<strong>Datenschutzerklärung</strong><br>Wir speichern Ihre Daten ausschließlich für die Rückruf- und Video-Beratung. Die Weitergabe an Dritte erfolgt nicht. Sie können Ihre Zustimmung jederzeit widerrufen. Weitere Informationen finden Sie in der AGB.`,
   wiederruf: `<strong>Widerrufsbelehrung</strong><br>Sie haben das Recht, binnen 14 Tagen ohne Angabe von Gründen diesen Vertrag zu widerrufen. Die Widerrufsfrist beträgt 14 Tage ab Vertragsschluss. Hinweis: Da es sich um eine Dienstleistung (Video-Beratung) handelt, erlischt das Widerrufsrecht nach vollständiger Erbringung der Dienstleistung mit Ihrer ausdrücklichen Zustimmung.`,
-  agb: `<strong>Allgemeine Geschäftsbedingungen (AGB)</strong><br>Vertragsgegenstand ist eine technische Video-Beratung bei Stromausfall. Es erfolgt keine handwerkliche Ausführung vor Ort.<br>Preis: 39,99 € inkl. MwSt.<br>Der Kunde ist für die sichere Durchführung der empfohlenen Schritte selbst verantwortlich. Bei erkennbarer Gefährdung wird die Beauftragung eines zugelassenen Elektrikers empfohlen.`,
-  impressum: `<strong>Impressum</strong><br>KI-Soforthilfe Stromausfall, Musterstraße 1, 12345 Musterstadt, Deutschland`
+  agb: `<strong>Allgemeine Geschäftsbedingungen (AGB)</strong><br>Vertragsgegenstand ist eine technische Video-Beratung bei Stromausfall. Es erfolgt keine handwerkliche Ausführung vor Ort.<br>Preis: 39,99 € inkl. MwSt.<br>Der Kunde ist für die sichere Durchführung der empfohlenen Schritte selbst verantwortlich. Bei erkennbarer Gefährdung wird die Beauftragung eines zugelassenen Elektrikers empfohlen.`
 };
 
 // Info-Anzeige in Modal
@@ -162,6 +175,8 @@ const kiSummaryModal = document.getElementById("kiSummaryModal");
 const kiModal = document.getElementById("kiModal");
 const escalationModal = document.getElementById("escalationModal");
 const expertSummaryModal = document.getElementById("expertSummaryModal");
+const paymentModal = document.getElementById("paymentModal");
+const paymentSummary = document.getElementById("paymentSummary");
 
 const openCustomerBtn = document.getElementById("openCustomerBtn");
 const startKiBtn = document.getElementById("startKiBtn");
@@ -193,6 +208,7 @@ const countdownEl = document.getElementById("countdown");
 
 let kiTimer, kiProgressInterval;
 let kiDuration = 120;
+let currentService = "";
 
 // Modal Funktionen
 openCustomerBtn.addEventListener("click",()=>{customerModal.style.display="flex";});
@@ -200,6 +216,7 @@ function closeCustomerModal(){customerModal.style.display="none";}
 function closeKiSummaryModal(){kiSummaryModal.style.display="none";}
 function closeEscalationModal(){escalationModal.style.display="none";}
 function closeExpertModal(){expertSummaryModal.style.display="none";}
+function closePaymentModal(){paymentModal.style.display="none";}
 
 // Aktivierung KI-Hilfe Button
 [nameEl,addressEl,phoneEl,emailEl,consentEl].forEach(el=>{
@@ -222,13 +239,37 @@ startKiBtn.addEventListener("click",()=>{
   el.addEventListener("change",()=>{kiPayBtn.disabled=!(kiWiederruf.checked && kiAgb.checked && kiConsent.checked);});
 });
 
-// KI-Payment simulieren
-kiPayBtn.addEventListener("click",()=>{
-  kiSummaryModal.style.display="none";
-  kiModal.style.display="flex";
-  addMessage("KI: Hallo! Ich leite Sie Schritt für Schritt durch Ihr Stromproblem.","ai");
-  startKiSession();
-});
+// KI-Payment öffnen
+kiPayBtn.addEventListener("click",()=>{openPaymentModal("KI");});
+// Expertenservice Payment öffnen
+expertPayBtn.addEventListener("click",()=>{openPaymentModal("Expert");});
+
+// Payment Modal Funktionen
+function openPaymentModal(service){
+  currentService = service;
+  let summaryText = "";
+  if(service==="KI"){
+    summaryText = `KI-Service\n\nName: ${nameEl.value}\nAdresse: ${addressEl.value}\nTelefon: ${phoneEl.value}\nE-Mail: ${emailEl.value}\n\nGebührenpflichtige Bestellung: 39,99 €`;
+  } else if(service==="Expert"){
+    summaryText = `Fachmann-Service\n\nName: ${nameEl.value}\nAdresse: ${addressEl.value}\nTelefon: ${phoneEl.value}\nE-Mail: ${emailEl.value}\n\nGebührenpflichtige Bestellung: 99,99 € (Beispielpreis)`;
+  }
+  paymentSummary.innerText = summaryText;
+  paymentModal.style.display="flex";
+}
+function simulatePayment(method){
+  alert(`💳 Zahlung erfolgreich via ${method}!`);
+  paymentModal.style.display="none";
+  if(currentService==="KI"){
+    kiSummaryModal.style.display="none";
+    kiModal.style.display="flex";
+    addMessage("KI: Hallo! Ich leite Sie Schritt für Schritt durch Ihr Stromproblem.","ai");
+    startKiSession();
+  } else if(currentService==="Expert"){
+    expertSummaryModal.style.display="none";
+    const whatsappNumber="4915145932462";
+    window.open(`https://wa.me/${whatsappNumber}?text=Ich möchte einen Live-Video-Call buchen`,"_blank");
+  }
+}
 
 // KI-Chat
 function addMessage(content,sender){
@@ -278,32 +319,22 @@ function startKiSession(){
   },1000);
 }
 function formatTime(sec){return `${String(Math.floor(sec/60)).padStart(2,'0')}:${String(sec%60).padStart(2,'0')}`;}
-
-// KI-Ende
 function endKiSession(){
   kiModal.style.display="none";
   escalationModal.style.display="flex";
-  clearInterval(kiProgressInterval);
 }
 
-// Eskalation → Expertenservice
+// Expertenservice aus Eskalation
 openExpertSummaryBtn.addEventListener("click",()=>{
   escalationModal.style.display="none";
   expertSummaryModal.style.display="flex";
   document.getElementById("expertSummaryBox").innerText = `Name: ${nameEl.value}\nAdresse: ${addressEl.value}\nTelefon: ${phoneEl.value}\nE-Mail: ${emailEl.value}`;
 });
-
-// Expertenservice Button aktivieren
+// Checkbox Aktivierung Expertenservice
 [expertWiederruf,expertAgb,expertConsent].forEach(el=>{
   el.addEventListener("change",()=>{expertPayBtn.disabled=!(expertWiederruf.checked && expertAgb.checked && expertConsent.checked);});
 });
-
-// Expertenservice Payment → WhatsApp
-expertPayBtn.addEventListener("click",()=>{
-  const whatsappNumber="4915145932462";
-  window.open(`https://wa.me/${whatsappNumber}?text=Ich möchte einen Live-Video-Call buchen`,"_blank");
-  expertSummaryModal.style.display="none";
-});
 </script>
+
 </body>
 </html>
