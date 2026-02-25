@@ -50,7 +50,10 @@ img.message{max-width:80%;border-radius:8px;margin-top:5px;}
 <input id="address" placeholder="Adresse" required>
 <input id="phone" placeholder="Telefonnummer" required>
 <input id="email" placeholder="E-Mail-Adresse" required>
-<label><input type="checkbox" id="consent"> Ich akzeptiere die Datenschutzerklärung</label><br><br>
+<label>
+<input type="checkbox" id="consent">
+Ich akzeptiere die <a href="datenschutz.html" target="_blank">Datenschutzerklärung</a>
+</label><br><br>
 <button id="startKiBtn" disabled>Hilfe anfordern</button>
 <button onclick="closeCustomerModal()">Zurück zur Hauptseite</button>
 </div>
@@ -61,8 +64,9 @@ img.message{max-width:80%;border-radius:8px;margin-top:5px;}
 <div class="modal-content">
 <h2>Bestellzusammenfassung KI-Service</h2>
 <div id="kiSummaryBox" class="summary"></div>
-<label><input type="checkbox" id="kiWiederruf"> Widerruf</label><br>
-<label><input type="checkbox" id="kiAgb"> AGB akzeptiert</label><br>
+<p><strong>Rechtssicherer Hinweis:</strong> Die KI-Assistenz bietet eine Schritt-für-Schritt Unterstützung bei Stromproblemen. Die Verantwortung für Arbeiten an elektrischen Anlagen liegt beim Kunden. Die Leistung ist auf 2 Minuten KI-Beratung beschränkt.</p>
+<label><input type="checkbox" id="kiWiederruf"> Widerruf (<a href="wiederruf.html" target="_blank">Info</a>)</label><br>
+<label><input type="checkbox" id="kiAgb"> AGB akzeptiert (<a href="agb.html" target="_blank">lesen</a>)</label><br>
 <label><input type="checkbox" id="kiConsent"> Gelesen & Einverstanden</label><br><br>
 <button id="kiPayBtn" disabled>Gebührenpflichtig bestellen</button>
 <button onclick="closeKiSummaryModal()">Zurück zur Hauptseite</button>
@@ -96,8 +100,9 @@ img.message{max-width:80%;border-radius:8px;margin-top:5px;}
 <div class="modal-content">
 <h2>Bestellzusammenfassung Fachmann</h2>
 <div id="expertSummaryBox" class="summary"></div>
-<label><input type="checkbox" id="expertWiederruf"> Widerruf</label><br>
-<label><input type="checkbox" id="expertAgb"> AGB akzeptiert</label><br>
+<p><strong>Rechtssicherer Hinweis:</strong> Der Expertenservice beinhaltet einen Live-Videocall mit qualifiziertem Fachpersonal. Die Verantwortung für die Umsetzung liegt beim Kunden. Leistungen erfolgen nur nach gebuchter Gebührenpflicht.</p>
+<label><input type="checkbox" id="expertWiederruf"> Widerruf (<a href="wiederruf.html" target="_blank">Info</a>)</label><br>
+<label><input type="checkbox" id="expertAgb"> AGB akzeptiert (<a href="agb.html" target="_blank">lesen</a>)</label><br>
 <label><input type="checkbox" id="expertConsent"> Gelesen & Einverstanden</label><br><br>
 <button id="expertPayBtn" disabled>Gebührenpflichtig bestellen</button>
 <button onclick="closeExpertModal()">Zurück zur Hauptseite</button>
@@ -244,6 +249,5 @@ function closeKiSummaryModal(){kiSummaryModal.style.display="none";window.locati
 function closeEscalationModal(){escalationModal.style.display="none";window.location.href='index.html';}
 function closeExpertModal(){expertSummaryModal.style.display="none";window.location.href='index.html';}
 </script>
-
 </body>
 </html>
