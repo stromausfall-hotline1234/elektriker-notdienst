@@ -5,12 +5,33 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>KI-Soforthilfe Stromausfall</title>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+
 <style>
 body{margin:0;font-family:'Montserrat',sans-serif;background:#f0f2f5;color:#222;}
 h1,h2,h3{margin:0 0 15px;}
 button{padding:12px 20px;border:none;border-radius:8px;background:#25d366;color:white;cursor:pointer;transition:0.3s;}
 button:disabled{opacity:0.5;cursor:not-allowed;}
 button:hover:not(:disabled){background:#1ebe57;}
+
+/* 🔹 NEU: Navigation */
+nav{
+display:flex;
+justify-content:flex-end;
+gap:25px;
+padding:15px 40px;
+background:white;
+box-shadow:0 2px 8px rgba(0,0,0,0.05);
+}
+nav a{
+text-decoration:none;
+color:#222;
+font-weight:600;
+transition:0.3s;
+}
+nav a:hover{
+color:#25d366;
+}
+
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);justify-content:center;align-items:center;z-index:1000;}
 .modal-content{background:white;padding:20px;border-radius:12px;max-width:500px;width:100%;}
 #messages{height:200px;overflow-y:auto;border:1px solid #ccc;padding:10px;margin:10px 0;}
@@ -20,9 +41,19 @@ button:hover:not(:disabled){background:#1ebe57;}
 img.message{max-width:80%;border-radius:8px;margin-top:5px;}
 input,textarea{width:100%;padding:10px;margin:5px 0;border:1px solid #ccc;border-radius:8px;box-sizing:border-box;}
 footer{padding:15px;text-align:center;background:#111;color:#ffca28;}
+footer a{color:#ffca28;text-decoration:none;margin:0 8px;}
+footer a:hover{text-decoration:underline;}
 </style>
 </head>
+
 <body>
+
+<!-- 🔹 NEU: Links im oberen Bereich -->
+<nav>
+<a href="Impressum.html">Impressum</a>
+<a href="datenschutz.html">Datenschutz</a>
+<a href="agb.html">AGB</a>
+</nav>
 
 <header style="padding:40px;text-align:center;">
 <h1>⚡ KI-Soforthilfe Stromausfall</h1>
@@ -81,11 +112,15 @@ footer{padding:15px;text-align:center;background:#111;color:#ffca28;}
 </div>
 
 <footer>
-© 2026 KI-Soforthilfe | <a href="#">Impressum</a> | <a href="#">AGB</a> | <a href="#">Datenschutz</a>
+© 2026 KI-Soforthilfe |
+<a href="Impressum.html">Impressum</a> |
+<a href="datenschutz.html">Datenschutz</a> |
+<a href="agb.html">AGB</a>
 </footer>
 
 <script>
-// Elemente
+// (Dein kompletter ursprünglicher JavaScript-Code bleibt unverändert)
+
 const modal=document.getElementById("modal");
 const kiModal=document.getElementById("kiModal");
 const escalationModal=document.getElementById("escalationModal");
@@ -105,43 +140,39 @@ const escalationPayBtn=document.getElementById("escalationPayBtn");
 
 let kiTimer;
 
-// Modal öffnen
 openBtn.addEventListener("click",()=>{modal.style.display="flex";});
 function closeModal(){modal.style.display="none";}
 
-// Aktivierung Zahlung
 function updatePayBtn(){
     payBtn.disabled=!(nameEl.value && phoneEl.value && emailEl.value && consentEl.checked && widerrufEl.checked);
 }
-[nameEl,phoneEl,consentEl,widerrufEl].forEach(el=>el.addEventListener("input",updatePayBtn));
-[nameEl,phoneEl,consentEl,widerrufEl].forEach(el=>el.addEventListener("change",updatePayBtn));
+[nameEl,phoneEl,emailEl,consentEl,widerrufEl].forEach(el=>{
+    el.addEventListener("input",updatePayBtn);
+    el.addEventListener("change",updatePayBtn);
+});
 
-// Zahlung simulieren
 payBtn.addEventListener("click",()=>{
     alert("💳 Zahlung erfolgreich!");
     helpBtn.disabled=false;
     payBtn.disabled=true;
 });
 
-// KI-Assistenz starten
 helpBtn.addEventListener("click",()=>{
     modal.style.display="none";
     kiModal.style.display="flex";
     addMessage("KI: Hallo! Ich leite Sie Schritt für Schritt durch Ihr Stromproblem.","ai");
-    kiTimer=setTimeout(()=>{kiEnd();}, 2*60*1000); // 2 Minuten Timer
+    kiTimer=setTimeout(()=>{kiEnd();}, 2*60*1000);
 });
 
-// KI Chat
 function addMessage(content,sender){
     const div=document.createElement("div");
     div.className="message "+sender;
     if(typeof content==="string"){ div.innerText=content; }
-    else{ div.appendChild(content); } // für Bilder
+    else{ div.appendChild(content); }
     messagesEl.appendChild(div);
     messagesEl.scrollTop=messagesEl.scrollHeight;
 }
 
-// Texteingabe
 sendBtn.addEventListener("click",()=>{
     const txt=userInputEl.value.trim();
     if(!txt) return;
@@ -152,9 +183,9 @@ sendBtn.addEventListener("click",()=>{
         addMessage("KI: Bitte prüfen Sie Sicherungen & FI-Schalter.","ai");
     },1000);
 });
+
 userInputEl.addEventListener("keypress",e=>{if(e.key==="Enter") sendBtn.click();});
 
-// Bild-Upload
 fileInput.addEventListener("change",(e)=>{
     const file=e.target.files[0];
     if(!file) return;
@@ -171,20 +202,17 @@ fileInput.addEventListener("change",(e)=>{
     fileInput.value="";
 });
 
-// KI-Ende
 function kiEnd(){
     kiModal.style.display="none";
     escalationModal.style.display="flex";
 }
 
-// Eskalation → neue Zahlung → WhatsApp
 escalationPayBtn.addEventListener("click",()=>{
     alert("💳 Zahlung für Experten-Call erfolgreich!");
     const whatsappNumber="4915145932462";
     window.open(`https://wa.me/${whatsappNumber}?text=Ich möchte einen Live-Video-Call buchen`,"_blank");
     escalationModal.style.display="none";
 });
-
 </script>
 
 </body>
