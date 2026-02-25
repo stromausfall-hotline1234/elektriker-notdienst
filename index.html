@@ -30,10 +30,10 @@ footer a{color:#ffca28;text-decoration:none;margin:0 8px;}
 footer a:hover{text-decoration:underline;}
 img.message{max-width:80%;border-radius:8px;margin-top:5px;}
 @media(max-width:600px){
-.modal-content{padding:15px;}
-button{width:100%;margin-top:8px;}
-nav{flex-direction:column;align-items:flex-start;}
-header{padding:20px 10px;}
+  .modal-content{padding:15px;}
+  button{width:100%;margin-top:8px;}
+  nav{flex-direction:column;align-items:flex-start;}
+  header{padding:20px 10px;}
 }
 </style>
 </head>
@@ -51,38 +51,47 @@ header{padding:20px 10px;}
 <button id="openCustomerBtn">Soforthilfe anfordern – 39,99 €</button>
 </header>
 
-<!-- Modal Kundeneingabe -->
+<!-- Kundeneingabe Modal -->
 <div class="modal" id="customerModal">
 <div class="modal-content">
 <h2>Kundendaten eingeben</h2>
-<input id="name" placeholder="Vor- und Nachname" required>
-<input id="address" placeholder="Adresse" required>
-<input id="phone" placeholder="Telefonnummer" required>
-<input id="email" placeholder="E-Mail-Adresse" required>
+<input id="name" placeholder="Vor- und Nachname">
+<input id="address" placeholder="Adresse">
+<input id="phone" placeholder="Telefonnummer">
+<input id="email" placeholder="E-Mail-Adresse">
 <label>
 <input type="checkbox" id="consent">
-Ich akzeptiere die <a href="#" onclick="event.preventDefault(); alert('Datenschutz bleibt im Modal sichtbar');">Datenschutzerklärung</a>
-</label>
-<br><br>
+Ich akzeptiere die 
+<a href="#" onclick="showInfo('datenschutz');return false;">Datenschutzerklärung</a>
+</label><br><br>
+
 <button id="startKiBtn" disabled>Hilfe anfordern</button>
 <button onclick="closeCustomerModal()">Zurück zur Hauptseite</button>
+
+<div id="infoBoxModal" class="info-box" style="display:none;"></div>
 </div>
 </div>
 
-<!-- Modal Bestellzusammenfassung KI-Service -->
+<!-- KI-Service Bestellübersicht Modal -->
 <div class="modal" id="kiSummaryModal">
 <div class="modal-content">
 <h2>Bestellzusammenfassung KI-Service</h2>
 <div id="kiSummaryBox" class="summary"></div>
+
 <div class="info-box">
-<strong>Rechtssicherer Hinweis:</strong><br>
-Die KI-Assistenz bietet Schritt-für-Schritt Unterstützung bei Stromproblemen. Verantwortung für Arbeiten an elektrischen Anlagen liegt beim Kunden. Leistung: 2 Minuten KI-Beratung.
+<strong>Rechtssicherer Hinweis zur Leistung:</strong><br>
+Die KI-Soforthilfe ist eine digitale Video-Beratung. Der Kunde ist selbst verantwortlich für die sichere Durchführung der empfohlenen Schritte. Leistung: 2 Minuten KI-Beratung. Bei erkennbarer Gefährdung wird ein zugelassener Elektriker empfohlen.
 </div>
-<label><input type="checkbox" id="kiWiederruf"> Widerruf (<a href="#" onclick="event.preventDefault(); alert('Widerruf bleibt im Modal sichtbar');">Info</a>)</label><br>
-<label><input type="checkbox" id="kiAgb"> AGB akzeptiert (<a href="#" onclick="event.preventDefault(); alert('AGB bleibt im Modal sichtbar');">lesen</a>)</label><br>
+
+<label><input type="checkbox" id="kiWiederruf"> Widerruf 
+(<a href="#" onclick="showInfo('wiederruf');return false;">lesen</a>)</label><br>
+<label><input type="checkbox" id="kiAgb"> AGB akzeptiert 
+(<a href="#" onclick="showInfo('agb');return false;">lesen</a>)</label><br>
 <label><input type="checkbox" id="kiConsent"> Gelesen & Einverstanden</label><br><br>
+
 <button id="kiPayBtn" disabled>Gebührenpflichtig bestellen</button>
 <button onclick="closeKiSummaryModal()">Zurück zur Hauptseite</button>
+<div id="infoBoxModal" class="info-box" style="display:none;"></div>
 </div>
 </div>
 
@@ -90,7 +99,7 @@ Die KI-Assistenz bietet Schritt-für-Schritt Unterstützung bei Stromproblemen. 
 <div class="modal" id="kiModal">
 <div class="modal-content">
 <h2>KI-Assistenz</h2>
-<div class="info-box">⚠ Sicherheitshinweis: Arbeiten an elektrischen Anlagen können gefährlich sein.</div>
+<div class="info-box">⚠ Arbeiten an elektrischen Anlagen können gefährlich sein.</div>
 <div id="messages"></div>
 <input type="text" id="userInput" placeholder="Beschreiben Sie Ihr Problem...">
 <button id="sendBtn">Senden</button>
@@ -98,30 +107,36 @@ Die KI-Assistenz bietet Schritt-für-Schritt Unterstützung bei Stromproblemen. 
 </div>
 </div>
 
-<!-- Eskalationsfenster -->
+<!-- Eskalationsmodal -->
 <div class="modal" id="escalationModal">
 <div class="modal-content">
 <h2>KI-Sitzung beendet</h2>
-<p>Sie können nun einen Fachmann im Videocall anfordern:</p>
+<p>Sie können nun einen Fachmann im Videocall buchen:</p>
 <button id="openExpertSummaryBtn">Fachmann anfordern</button>
 <button onclick="closeEscalationModal()">Zurück zur Hauptseite</button>
 </div>
 </div>
 
-<!-- Modal Bestellzusammenfassung Fachmann -->
+<!-- Expertenservice Bestellübersicht Modal -->
 <div class="modal" id="expertSummaryModal">
 <div class="modal-content">
 <h2>Bestellzusammenfassung Fachmann</h2>
 <div id="expertSummaryBox" class="summary"></div>
+
 <div class="info-box">
-<strong>Rechtssicherer Hinweis:</strong><br>
-Der Expertenservice beinhaltet einen Live-Videocall mit qualifiziertem Fachpersonal. Verantwortung liegt beim Kunden. Leistungen erfolgen nur nach gebuchter Gebührenpflicht.
+<strong>Rechtssicherer Hinweis zur Leistung:</strong><br>
+Der Expertenservice ist ein Live-Videocall mit qualifizierten Fachkräften. Der Kunde ist selbst für die sichere Umsetzung verantwortlich.
 </div>
-<label><input type="checkbox" id="expertWiederruf"> Widerruf (<a href="#" onclick="event.preventDefault(); alert('Widerruf bleibt im Modal sichtbar');">Info</a>)</label><br>
-<label><input type="checkbox" id="expertAgb"> AGB akzeptiert (<a href="#" onclick="event.preventDefault(); alert('AGB bleibt im Modal sichtbar');">lesen</a>)</label><br>
+
+<label><input type="checkbox" id="expertWiederruf"> Widerruf 
+(<a href="#" onclick="showInfo('wiederruf');return false;">lesen</a>)</label><br>
+<label><input type="checkbox" id="expertAgb"> AGB akzeptiert 
+(<a href="#" onclick="showInfo('agb');return false;">lesen</a>)</label><br>
 <label><input type="checkbox" id="expertConsent"> Gelesen & Einverstanden</label><br><br>
+
 <button id="expertPayBtn" disabled>Gebührenpflichtig bestellen</button>
 <button onclick="closeExpertModal()">Zurück zur Hauptseite</button>
+<div id="infoBoxModal" class="info-box" style="display:none;"></div>
 </div>
 </div>
 
@@ -130,128 +145,174 @@ Der Expertenservice beinhaltet einen Live-Videocall mit qualifiziertem Fachperso
 </footer>
 
 <script>
+// Rechtstexte
+const infoTexts = {
+  datenschutz: `
+    <strong>Datenschutzerklärung</strong><br>
+    Wir speichern Ihre Daten ausschließlich für die Rückruf- und Video-Beratung. Die Weitergabe an Dritte erfolgt nicht. 
+    Sie können Ihre Zustimmung jederzeit widerrufen. Weitere Informationen finden Sie in der AGB.
+  `,
+  wiederruf: `
+    <strong>Widerrufsbelehrung</strong><br>
+    Sie haben das Recht, binnen 14 Tagen ohne Angabe von Gründen diesen Vertrag zu widerrufen. Die Widerrufsfrist beträgt 14 Tage ab Vertragsschluss. 
+    Um Ihr Widerrufsrecht auszuüben, informieren Sie uns mittels einer eindeutigen Erklärung (E-Mail/Brief). 
+    Hinweis: Da es sich um eine Dienstleistung (Video-Beratung) handelt, erlischt das Widerrufsrecht nach vollständiger Erbringung der Dienstleistung mit Ihrer ausdrücklichen Zustimmung.
+  `,
+  agb: `
+    <strong>Allgemeine Geschäftsbedingungen (AGB)</strong><br>
+    Vertragsgegenstand ist eine technische Video-Beratung bei Stromausfall. Es erfolgt keine handwerkliche Ausführung vor Ort.<br>
+    Preis: 39,99 € inkl. MwSt.<br>
+    Der Kunde ist für die sichere Durchführung der empfohlenen Schritte selbst verantwortlich. Bei erkennbarer Gefährdung wird die Beauftragung eines zugelassenen Elektrikers empfohlen.
+  `
+};
+
+// Info anzeigen
+function showInfo(type){
+  const modals = document.querySelectorAll('.modal-content');
+  let visibleModal = null;
+  modals.forEach(modal => { if(modal.parentElement.style.display==='flex') visibleModal=modal; });
+  if(!visibleModal) return;
+  let infoBox = visibleModal.querySelector('#infoBoxModal');
+  if(!infoBox){
+    infoBox = document.createElement('div');
+    infoBox.id = 'infoBoxModal';
+    infoBox.className = 'info-box';
+    visibleModal.appendChild(infoBox);
+  }
+  infoBox.innerHTML = infoTexts[type] + '<br><button onclick="this.parentElement.style.display=\'none\'">Schließen</button>';
+  infoBox.style.display = 'block';
+}
+
 // Elemente
-const openCustomerBtn = document.getElementById("openCustomerBtn");
 const customerModal = document.getElementById("customerModal");
-const startKiBtn = document.getElementById("startKiBtn");
-const consent = document.getElementById("consent");
-
 const kiSummaryModal = document.getElementById("kiSummaryModal");
-const kiSummaryBox = document.getElementById("kiSummaryBox");
-const kiWiederruf = document.getElementById("kiWiederruf");
-const kiAgb = document.getElementById("kiAgb");
-const kiConsent = document.getElementById("kiConsent");
-const kiPayBtn = document.getElementById("kiPayBtn");
-
 const kiModal = document.getElementById("kiModal");
-const messagesEl = document.getElementById("messages");
-const userInputEl = document.getElementById("userInput");
-const sendBtn = document.getElementById("sendBtn");
-const fileInput = document.getElementById("fileInput");
-
 const escalationModal = document.getElementById("escalationModal");
-const openExpertSummaryBtn = document.getElementById("openExpertSummaryBtn");
-
 const expertSummaryModal = document.getElementById("expertSummaryModal");
-const expertSummaryBox = document.getElementById("expertSummaryBox");
-const expertWiederruf = document.getElementById("expertWiederruf");
-const expertAgb = document.getElementById("expertAgb");
-const expertConsent = document.getElementById("expertConsent");
+
+const openCustomerBtn = document.getElementById("openCustomerBtn");
+const startKiBtn = document.getElementById("startKiBtn");
+const kiPayBtn = document.getElementById("kiPayBtn");
 const expertPayBtn = document.getElementById("expertPayBtn");
 
 const nameEl = document.getElementById("name");
 const addressEl = document.getElementById("address");
 const phoneEl = document.getElementById("phone");
 const emailEl = document.getElementById("email");
+const consentEl = document.getElementById("consent");
+
+const kiWiederruf = document.getElementById("kiWiederruf");
+const kiAgb = document.getElementById("kiAgb");
+const kiConsent = document.getElementById("kiConsent");
+
+const expertWiederruf = document.getElementById("expertWiederruf");
+const expertAgb = document.getElementById("expertAgb");
+const expertConsent = document.getElementById("expertConsent");
+
+const messagesEl = document.getElementById("messages");
+const userInputEl = document.getElementById("userInput");
+const sendBtn = document.getElementById("sendBtn");
+const fileInput = document.getElementById("fileInput");
+
+const openExpertSummaryBtn = document.getElementById("openExpertSummaryBtn");
 
 let kiTimer;
 
-// Kundeneingabe
+// Modal Funktionen
 openCustomerBtn.addEventListener("click",()=>{customerModal.style.display="flex";});
 function closeCustomerModal(){customerModal.style.display="none";}
-consent.addEventListener("change",()=>{startKiBtn.disabled = !consent.checked;});
-
-// Start KI-Service → Bestellzusammenfassung
-startKiBtn.addEventListener("click",()=>{
-    kiSummaryBox.innerHTML=`<strong>Kunde:</strong> ${nameEl.value}<br>
-<strong>Adresse:</strong> ${addressEl.value}<br>
-<strong>Telefon:</strong> ${phoneEl.value}<br>
-<strong>E-Mail:</strong> ${emailEl.value}<br>
-<strong>Leistung:</strong> KI-Soforthilfe (2 Minuten)`;
-    customerModal.style.display="none";
-    kiSummaryModal.style.display="flex";
-});
-
-// Checkboxen KI-Service
-[kiWiederruf, kiAgb, kiConsent].forEach(el=>{el.addEventListener("change",()=>{kiPayBtn.disabled=!(kiWiederruf.checked && kiAgb.checked && kiConsent.checked);});});
-
-// KI-Service buchen → KI-Chat starten
-kiPayBtn.addEventListener("click",()=>{
-    alert("💳 KI-Service gebucht!");
-    kiSummaryModal.style.display="none";
-    kiModal.style.display="flex";
-    messagesEl.innerHTML="";
-    addMessage("KI: Hallo! Ich leite Sie Schritt für Schritt durch Ihr Stromproblem.","ai");
-    kiTimer=setTimeout(()=>{endKiChat();},2*60*1000);
-});
-
-// Chat
-function addMessage(content,sender){
-    const div=document.createElement("div");
-    div.className="message "+sender;
-    if(typeof content==="string"){ div.innerText=content; } else{ div.appendChild(content); }
-    messagesEl.appendChild(div);
-    messagesEl.scrollTop=messagesEl.scrollHeight;
-}
-sendBtn.addEventListener("click",()=>{
-    const txt=userInputEl.value.trim(); if(!txt) return;
-    addMessage(txt,"user"); userInputEl.value="";
-    addMessage("KI: Ich analysiere Ihre Eingabe...","ai");
-    setTimeout(()=>{addMessage("KI: Bitte prüfen Sie Sicherungen & FI-Schalter.","ai");},1000);
-});
-userInputEl.addEventListener("keypress",e=>{if(e.key==="Enter") sendBtn.click();});
-
-// Bild Upload
-fileInput.addEventListener("change",(e)=>{
-    const file=e.target.files[0]; if(!file) return;
-    const reader=new FileReader();
-    reader.onload=function(ev){
-        const img=document.createElement("img"); img.src=ev.target.result;
-        addMessage(img,"user");
-        setTimeout(()=>{addMessage("KI: Bild erhalten und analysiert. Prüfen Sie Sicherungen & FI-Schalter.","ai");},1000);
-    };
-    reader.readAsDataURL(file); fileInput.value="";
-});
-
-// Ende KI → Eskalation
-function endKiChat(){kiModal.style.display="none"; escalationModal.style.display="flex";}
-
-// Fachmann
-openExpertSummaryBtn.addEventListener("click",()=>{
-    expertSummaryBox.innerHTML=`<strong>Kunde:</strong> ${nameEl.value}<br>
-<strong>Adresse:</strong> ${addressEl.value}<br>
-<strong>Telefon:</strong> ${phoneEl.value}<br>
-<strong>E-Mail:</strong> ${emailEl.value}<br>
-<strong>Leistung:</strong> Expertenservice Videocall`;
-    escalationModal.style.display="none";
-    expertSummaryModal.style.display="flex";
-});
-
-// Checkboxen Expertenservice
-[expertWiederruf, expertAgb, expertConsent].forEach(el=>{el.addEventListener("change",()=>{expertPayBtn.disabled=!(expertWiederruf.checked && expertAgb.checked && expertConsent.checked);});});
-
-// Expertenservice → WhatsApp
-expertPayBtn.addEventListener("click",()=>{
-    alert("💳 Expertenservice gebucht!");
-    const whatsappNumber="4915145932462";
-    window.open(`https://wa.me/${whatsappNumber}?text=Ich möchte einen Live-Video-Call buchen`,"_blank");
-    expertSummaryModal.style.display="none";
-});
-
-// Schließen Modals
 function closeKiSummaryModal(){kiSummaryModal.style.display="none";}
 function closeEscalationModal(){escalationModal.style.display="none";}
 function closeExpertModal(){expertSummaryModal.style.display="none";}
+
+// Aktivierung KI-Hilfe Button
+[nameEl,addressEl,phoneEl,emailEl,consentEl].forEach(el=>{
+  el.addEventListener("input",updateStartKiBtn);
+  el.addEventListener("change",updateStartKiBtn);
+});
+function updateStartKiBtn(){
+  startKiBtn.disabled = !(nameEl.value && addressEl.value && phoneEl.value && emailEl.value && consentEl.checked);
+}
+
+// Start KI-Service
+startKiBtn.addEventListener("click",()=>{
+  customerModal.style.display="none";
+  kiSummaryModal.style.display="flex";
+  document.getElementById("kiSummaryBox").innerText = `Name: ${nameEl.value}\nAdresse: ${addressEl.value}\nTelefon: ${phoneEl.value}\nE-Mail: ${emailEl.value}`;
+});
+
+// KI-Bestellübersicht Button aktivieren
+[kiWiederruf,kiAgb,kiConsent].forEach(el=>{
+  el.addEventListener("change",()=>{kiPayBtn.disabled=!(kiWiederruf.checked && kiAgb.checked && kiConsent.checked);});
+});
+
+// KI-Payment simulieren
+kiPayBtn.addEventListener("click",()=>{
+  kiSummaryModal.style.display="none";
+  kiModal.style.display="flex";
+  addMessage("KI: Hallo! Ich leite Sie Schritt für Schritt durch Ihr Stromproblem.","ai");
+  kiTimer = setTimeout(()=>{endKiSession();},2*60*1000);
+});
+
+// KI-Chat
+function addMessage(content,sender){
+  const div = document.createElement("div");
+  div.className = "message "+sender;
+  if(typeof content==="string"){ div.innerText = content; }
+  else{ div.appendChild(content); }
+  messagesEl.appendChild(div);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+}
+sendBtn.addEventListener("click",()=>{
+  const txt=userInputEl.value.trim();
+  if(!txt) return;
+  addMessage(txt,"user");
+  userInputEl.value="";
+  addMessage("KI: Ich analysiere Ihre Eingabe...","ai");
+  setTimeout(()=>{addMessage("KI: Bitte prüfen Sie Sicherungen & FI-Schalter.","ai");},1000);
+});
+userInputEl.addEventListener("keypress",e=>{if(e.key==="Enter") sendBtn.click();});
+
+// Bild-Upload
+fileInput.addEventListener("change",(e)=>{
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload=function(ev){
+    const img=document.createElement("img");
+    img.src=ev.target.result;
+    addMessage(img,"user");
+    setTimeout(()=>{addMessage("KI: Bild erhalten und analysiert. Prüfen Sie Sicherungen & FI-Schalter.","ai");},1000);
+  };
+  reader.readAsDataURL(file);
+  fileInput.value="";
+});
+
+// KI-Ende
+function endKiSession(){
+  kiModal.style.display="none";
+  escalationModal.style.display="flex";
+}
+
+// Eskalation → Expertenservice
+openExpertSummaryBtn.addEventListener("click",()=>{
+  escalationModal.style.display="none";
+  expertSummaryModal.style.display="flex";
+  document.getElementById("expertSummaryBox").innerText = `Name: ${nameEl.value}\nAdresse: ${addressEl.value}\nTelefon: ${phoneEl.value}\nE-Mail: ${emailEl.value}`;
+});
+
+// Expertenservice Button aktivieren
+[expertWiederruf,expertAgb,expertConsent].forEach(el=>{
+  el.addEventListener("change",()=>{expertPayBtn.disabled=!(expertWiederruf.checked && expertAgb.checked && expertConsent.checked);});
+});
+
+// Expertenservice Payment → WhatsApp
+expertPayBtn.addEventListener("click",()=>{
+  const whatsappNumber="4915145932462";
+  window.open(`https://wa.me/${whatsappNumber}?text=Ich möchte einen Live-Video-Call buchen`,"_blank");
+  expertSummaryModal.style.display="none";
+});
 </script>
+
 </body>
 </html>
