@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>KI-Soforthilfe Stromausfall</title>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
-
 <style>
 body{margin:0;font-family:'Montserrat',sans-serif;background:#f0f2f5;color:#222;}
 h1,h2,h3{margin:0 0 15px;}
@@ -13,44 +12,29 @@ button{padding:12px 20px;border:none;border-radius:8px;background:#25d366;color:
 button:disabled{opacity:0.5;cursor:not-allowed;}
 button:hover:not(:disabled){background:#1ebe57;}
 
-/* 🔹 NEU: Navigation */
-nav{
-display:flex;
-justify-content:flex-end;
-gap:25px;
-padding:15px 40px;
-background:white;
-box-shadow:0 2px 8px rgba(0,0,0,0.05);
-}
-nav a{
-text-decoration:none;
-color:#222;
-font-weight:600;
-transition:0.3s;
-}
-nav a:hover{
-color:#25d366;
-}
+nav{display:flex;justify-content:flex-end;gap:25px;padding:15px 40px;background:white;box-shadow:0 2px 8px rgba(0,0,0,0.05);}
+nav a{color:#222;text-decoration:none;font-weight:600;}
+nav a:hover{color:#25d366;}
 
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);justify-content:center;align-items:center;z-index:1000;}
-.modal-content{background:white;padding:20px;border-radius:12px;max-width:500px;width:100%;}
-#messages{height:200px;overflow-y:auto;border:1px solid #ccc;padding:10px;margin:10px 0;}
+.modal-content{background:white;padding:20px;border-radius:12px;max-width:550px;width:100%;max-height:90vh;overflow:auto;}
+#messages{height:200px;overflow-y:auto;border:1px solid #ccc;padding:10px;margin:10px 0;border-radius:8px;}
 .message{padding:6px 10px;border-radius:10px;margin-bottom:5px;word-break:break-word;}
 .message.user{background:#25d366;color:white;text-align:right;}
 .message.ai{background:#ffca28;color:#111;text-align:left;}
 img.message{max-width:80%;border-radius:8px;margin-top:5px;}
-input,textarea{width:100%;padding:10px;margin:5px 0;border:1px solid #ccc;border-radius:8px;box-sizing:border-box;}
+input{width:100%;padding:10px;margin:6px 0;border:1px solid #ccc;border-radius:8px;box-sizing:border-box;}
+.summary{background:#f7f7f7;padding:12px;border-radius:8px;font-size:14px;margin-bottom:10px;}
 footer{padding:15px;text-align:center;background:#111;color:#ffca28;}
 footer a{color:#ffca28;text-decoration:none;margin:0 8px;}
 footer a:hover{text-decoration:underline;}
 </style>
 </head>
-
 <body>
 
-<!-- 🔹 NEU: Links im oberen Bereich -->
+<!-- Navigation -->
 <nav>
-<a href="impressum.html">Impressum</a>
+<a href="Impressum.html">Impressum</a>
 <a href="datenschutz.html">Datenschutz</a>
 <a href="agb.html">AGB</a>
 </nav>
@@ -75,63 +59,80 @@ footer a:hover{text-decoration:underline;}
 </div>
 </section>
 
-<!-- Modal Kundendaten + Zahlung -->
+<!-- Zahlungsmodal -->
 <div class="modal" id="modal">
-  <div class="modal-content">
-    <h2>Soforthilfe anfordern</h2>
-    <input id="name" placeholder="Name" required>
-    <input id="phone" placeholder="Telefon" required>
-    <input id="email" placeholder="E-Mail" required>
-    <label><input type="checkbox" id="consent"> Datenschutz</label><br>
-    <label><input type="checkbox" id="widerruf"> Widerruf</label><br><br>
-    <button id="payBtn" disabled>Zahlung simulieren 39,99 €</button>
-    <button id="helpBtn" disabled>KI-Assistenz starten</button>
-    <button onclick="closeModal()">Abbrechen</button>
-  </div>
+<div class="modal-content">
+<h2>Soforthilfe buchen</h2>
+<input id="name" placeholder="Vor- und Nachname" required>
+<input id="address" placeholder="Adresse (Straße, Hausnummer, PLZ, Ort)" required>
+<input id="phone" placeholder="Telefonnummer" required>
+<input id="email" placeholder="E-Mail-Adresse" required>
+
+<h3>Bestellzusammenfassung</h3>
+<div id="summaryBox" class="summary">Bitte geben Sie Ihre Daten vollständig ein.</div>
+
+<label><input type="checkbox" id="consent"> Ich akzeptiere die <a href="datenschutz.html" target="_blank">Datenschutzerklärung</a>.</label>
+<br>
+<label><input type="checkbox" id="orderConfirm"> Ich bestätige verbindlich:<br>
+Ich, <span id="sumName"></span>, wohnhaft in <span id="sumAddress"></span>, Telefon: <span id="sumPhone"></span>, beauftrage die kostenpflichtige KI-Soforthilfe (2 Minuten Sitzung) zum Preis von 39,99 €.<br>
+Ich verlange ausdrücklich den sofortigen Beginn der Dienstleistung. Mein Widerrufsrecht erlischt mit vollständiger Vertragserfüllung.<br>
+Optionaler Expertenservice (Live-Video-Call) wird gesondert berechnet.</label>
+<br><br>
+
+<button id="payBtn" disabled>Zahlung simulieren 39,99 €</button>
+<button onclick="closeModal()">Abbrechen</button>
+</div>
 </div>
 
 <!-- KI-Assistenz Modal -->
 <div class="modal" id="kiModal">
-  <div class="modal-content">
-    <h2>KI-Assistenz</h2>
-    <div id="messages"></div>
-    <input type="text" id="userInput" placeholder="Beschreiben Sie Ihr Problem...">
-    <button id="sendBtn">Senden</button>
-    <input type="file" id="fileInput" accept="image/*"><br>
-  </div>
+<div class="modal-content">
+<h2>KI-Assistenz</h2>
+<div style="background:#fff3cd;padding:10px;border-radius:8px;font-size:14px;">⚠ Sicherheitshinweis: Arbeiten an elektrischen Anlagen können gefährlich sein. Im Zweifel bitte einen Elektriker kontaktieren.</div>
+<div id="messages"></div>
+<input type="text" id="userInput" placeholder="Beschreiben Sie Ihr Problem...">
+<button id="sendBtn">Senden</button>
+<input type="file" id="fileInput" accept="image/*"><br>
+</div>
 </div>
 
 <!-- Eskalationsmodal -->
 <div class="modal" id="escalationModal">
-  <div class="modal-content">
-    <h2>KI-Sitzung beendet</h2>
-    <p>Ihre 2 Minuten Sitzung sind vorbei. Bitte buchen Sie einen Live-Video-Call.</p>
-    <button id="escalationPayBtn">Zahlung für Experten-Call simulieren</button>
-    <button onclick="window.location.href='index.html'">Abbrechen & zurück zur Startseite</button>
-  </div>
+<div class="modal-content">
+<h2>KI-Sitzung beendet</h2>
+<p>Ihre 2 Minuten Sitzung sind vorbei. Bitte buchen Sie einen Live-Video-Call.</p>
+<button id="escalationPayBtn">Zahlung für Experten-Call simulieren</button>
+<button onclick="window.location.href='index.html'">Abbrechen & zurück zur Startseite</button>
+</div>
 </div>
 
 <footer>
 © 2026 KI-Soforthilfe |
-<a href="impressum.html">Impressum</a> |
+<a href="Impressum.html">Impressum</a> |
 <a href="datenschutz.html">Datenschutz</a> |
 <a href="agb.html">AGB</a>
 </footer>
 
 <script>
-// (Dein kompletter ursprünglicher JavaScript-Code bleibt unverändert)
-
 const modal=document.getElementById("modal");
 const kiModal=document.getElementById("kiModal");
 const escalationModal=document.getElementById("escalationModal");
 const openBtn=document.getElementById("openBtn");
 const payBtn=document.getElementById("payBtn");
-const helpBtn=document.getElementById("helpBtn");
+
 const nameEl=document.getElementById("name");
+const addressEl=document.getElementById("address");
 const phoneEl=document.getElementById("phone");
 const emailEl=document.getElementById("email");
+
 const consentEl=document.getElementById("consent");
-const widerrufEl=document.getElementById("widerruf");
+const orderConfirmEl=document.getElementById("orderConfirm");
+
+const sumName=document.getElementById("sumName");
+const sumAddress=document.getElementById("sumAddress");
+const sumPhone=document.getElementById("sumPhone");
+const summaryBox=document.getElementById("summaryBox");
+
 const messagesEl=document.getElementById("messages");
 const userInputEl=document.getElementById("userInput");
 const sendBtn=document.getElementById("sendBtn");
@@ -144,31 +145,36 @@ openBtn.addEventListener("click",()=>{modal.style.display="flex";});
 function closeModal(){modal.style.display="none";}
 
 function updatePayBtn(){
-    payBtn.disabled=!(nameEl.value && phoneEl.value && emailEl.value && consentEl.checked && widerrufEl.checked);
+    sumName.innerText=nameEl.value;
+    sumAddress.innerText=addressEl.value;
+    sumPhone.innerText=phoneEl.value;
+    summaryBox.innerHTML=`<strong>Kunde:</strong> ${nameEl.value}<br>
+<strong>Adresse:</strong> ${addressEl.value}<br>
+<strong>Telefon:</strong> ${phoneEl.value}<br>
+<strong>E-Mail:</strong> ${emailEl.value}<br><br>
+<strong>Leistung:</strong> KI-Soforthilfe (2 Minuten)<br>
+<strong>Preis:</strong> 39,99 € (Einmalzahlung)`;
+    payBtn.disabled=!(nameEl.value && addressEl.value && phoneEl.value && emailEl.value && consentEl.checked && orderConfirmEl.checked);
 }
-[nameEl,phoneEl,emailEl,consentEl,widerrufEl].forEach(el=>{
+
+[nameEl,addressEl,phoneEl,emailEl,consentEl,orderConfirmEl].forEach(el=>{
     el.addEventListener("input",updatePayBtn);
     el.addEventListener("change",updatePayBtn);
 });
 
 payBtn.addEventListener("click",()=>{
     alert("💳 Zahlung erfolgreich!");
-    helpBtn.disabled=false;
-    payBtn.disabled=true;
-});
-
-helpBtn.addEventListener("click",()=>{
     modal.style.display="none";
     kiModal.style.display="flex";
     addMessage("KI: Hallo! Ich leite Sie Schritt für Schritt durch Ihr Stromproblem.","ai");
-    kiTimer=setTimeout(()=>{kiEnd();}, 2*60*1000);
+    // 2 Minuten Timer starten
+    kiTimer=setTimeout(()=>{kiEnd();},2*60*1000);
 });
 
-function addMessage(content,sender){
+function addMessage(content,type){
     const div=document.createElement("div");
-    div.className="message "+sender;
-    if(typeof content==="string"){ div.innerText=content; }
-    else{ div.appendChild(content); }
+    div.className="message "+type;
+    if(typeof content==="string"){div.innerText=content;}else{div.appendChild(content);}
     messagesEl.appendChild(div);
     messagesEl.scrollTop=messagesEl.scrollHeight;
 }
@@ -179,11 +185,8 @@ sendBtn.addEventListener("click",()=>{
     addMessage(txt,"user");
     userInputEl.value="";
     addMessage("KI: Ich analysiere Ihre Eingabe...","ai");
-    setTimeout(()=>{
-        addMessage("KI: Bitte prüfen Sie Sicherungen & FI-Schalter.","ai");
-    },1000);
+    setTimeout(()=>{addMessage("KI: Bitte prüfen Sie Sicherungen & FI-Schalter.","ai");},1000);
 });
-
 userInputEl.addEventListener("keypress",e=>{if(e.key==="Enter") sendBtn.click();});
 
 fileInput.addEventListener("change",(e)=>{
@@ -194,19 +197,19 @@ fileInput.addEventListener("change",(e)=>{
         const img=document.createElement("img");
         img.src=ev.target.result;
         addMessage(img,"user");
-        setTimeout(()=>{
-            addMessage("KI: Bild erhalten und analysiert. Prüfen Sie Sicherungen & FI-Schalter.","ai");
-        },1000);
+        setTimeout(()=>{addMessage("KI: Bild erhalten und analysiert. Prüfen Sie Sicherungen & FI-Schalter.","ai");},1000);
     };
     reader.readAsDataURL(file);
     fileInput.value="";
 });
 
+// KI-Ende + Eskalation
 function kiEnd(){
     kiModal.style.display="none";
     escalationModal.style.display="flex";
 }
 
+// WhatsApp Expertenservice
 escalationPayBtn.addEventListener("click",()=>{
     alert("💳 Zahlung für Experten-Call erfolgreich!");
     const whatsappNumber="4915145932462";
