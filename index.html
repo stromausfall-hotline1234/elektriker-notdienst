@@ -42,10 +42,11 @@ img.message{max-width:80%;border-radius:8px;margin-top:5px;}
 </head>
 <body>
 
+<!-- Obere Navigation -->
 <nav>
-<a onclick="showInfo('impressum','nav')">Impressum</a>
-<a onclick="showInfo('datenschutz','nav')">Datenschutz</a>
-<a onclick="showInfo('agb','nav')">AGB</a>
+  <a href="impressum.html" target="_blank">Impressum</a>
+  <a href="datenschutz.html" target="_blank">Datenschutz</a>
+  <a href="agb.html" target="_blank">AGB</a>
 </nav>
 
 <header>
@@ -140,7 +141,7 @@ Der Expertenservice ist ein Live-Videocall mit qualifizierten Fachkräften. Der 
 </footer>
 
 <script>
-// Rechtstexte
+// Rechtstexte für Modals
 const infoTexts = {
   datenschutz: `<strong>Datenschutzerklärung</strong><br>Wir speichern Ihre Daten ausschließlich für die Rückruf- und Video-Beratung. Die Weitergabe an Dritte erfolgt nicht. Sie können Ihre Zustimmung jederzeit widerrufen. Weitere Informationen finden Sie in der AGB.`,
   wiederruf: `<strong>Widerrufsbelehrung</strong><br>Sie haben das Recht, binnen 14 Tagen ohne Angabe von Gründen diesen Vertrag zu widerrufen. Die Widerrufsfrist beträgt 14 Tage ab Vertragsschluss. Hinweis: Da es sich um eine Dienstleistung (Video-Beratung) handelt, erlischt das Widerrufsrecht nach vollständiger Erbringung der Dienstleistung mit Ihrer ausdrücklichen Zustimmung.`,
@@ -148,12 +149,8 @@ const infoTexts = {
   impressum: `<strong>Impressum</strong><br>KI-Soforthilfe Stromausfall, Musterstraße 1, 12345 Musterstadt, Deutschland`
 };
 
-// Info-Anzeige im Modal oder nav
+// Info-Anzeige in Modal
 function showInfo(type, containerId){
-  if(containerId==='nav'){
-    alert(infoTexts[type]); // Navigation öffnet Pop-up
-    return;
-  }
   const infoBox = document.getElementById(containerId);
   infoBox.innerHTML = infoTexts[type] + '<br><button onclick="this.parentElement.style.display=\'none\'">Schließen</button>';
   infoBox.style.display='block';
@@ -195,7 +192,7 @@ const progressBar = document.getElementById("progressBar");
 const countdownEl = document.getElementById("countdown");
 
 let kiTimer, kiProgressInterval;
-let kiDuration = 120; // Sekunden
+let kiDuration = 120;
 
 // Modal Funktionen
 openCustomerBtn.addEventListener("click",()=>{customerModal.style.display="flex";});
@@ -280,7 +277,6 @@ function startKiSession(){
     if(timeLeft<=0) clearInterval(kiProgressInterval);
   },1000);
 }
-
 function formatTime(sec){return `${String(Math.floor(sec/60)).padStart(2,'0')}:${String(sec%60).padStart(2,'0')}`;}
 
 // KI-Ende
