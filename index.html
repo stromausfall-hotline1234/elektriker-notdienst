@@ -12,13 +12,13 @@ button{padding:12px 20px;border:none;border-radius:8px;background:#25d366;color:
 button:disabled{opacity:0.5;cursor:not-allowed;}
 button:hover:not(:disabled){background:#1ebe57;}
 nav{display:flex;justify-content:flex-end;gap:25px;padding:15px 20px;background:white;box-shadow:0 2px 8px rgba(0,0,0,0.05);}
-nav a{color:#222;text-decoration:none;font-weight:600;}
+nav a{color:#222;text-decoration:none;font-weight:600;cursor:pointer;}
 nav a:hover{color:#25d366;}
 header{padding:30px 20px;text-align:center;}
 header button{font-size:1.1em;}
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);justify-content:center;align-items:center;z-index:1000;padding:10px;}
 .modal-content{background:white;padding:20px;border-radius:12px;max-width:600px;width:100%;max-height:90vh;overflow:auto;box-shadow:0 6px 15px rgba(0,0,0,0.1);}
-.summary{background:#f7f7f7;padding:12px;border-radius:8px;font-size:14px;margin-bottom:10px;}
+.summary{background:#f7f7f7;padding:12px;border-radius:8px;font-size:14px;margin-bottom:10px;white-space:pre-wrap;}
 .info-box{background:#fff3cd;padding:12px;border-radius:8px;border:1px solid #ffeeba;margin-bottom:12px;font-size:14px;}
 #messages{height:200px;overflow-y:auto;border:1px solid #ccc;padding:10px;margin:10px 0;border-radius:8px;background:white;}
 .message{padding:6px 10px;border-radius:10px;margin-bottom:5px;word-break:break-word;}
@@ -29,6 +29,9 @@ footer{padding:15px;text-align:center;background:#111;color:#ffca28;font-size:14
 footer a{color:#ffca28;text-decoration:none;margin:0 8px;}
 footer a:hover{text-decoration:underline;}
 img.message{max-width:80%;border-radius:8px;margin-top:5px;}
+#progressContainer{width:100%;background:#ddd;border-radius:8px;overflow:hidden;margin:10px 0;}
+#progressBar{width:0%;height:15px;background:#25d366;}
+#countdown{font-weight:bold;margin-bottom:10px;}
 @media(max-width:600px){
   .modal-content{padding:15px;}
   button{width:100%;margin-top:8px;}
@@ -40,9 +43,9 @@ img.message{max-width:80%;border-radius:8px;margin-top:5px;}
 <body>
 
 <nav>
-<a href="#">impressum</a>
-<a href="#">Datenschutz</a>
-<a href="#">AGB</a>
+<a onclick="showInfo('impressum')">Impressum</a>
+<a onclick="showInfo('datenschutz')">Datenschutz</a>
+<a onclick="showInfo('agb')">AGB</a>
 </nav>
 
 <header>
@@ -64,10 +67,8 @@ img.message{max-width:80%;border-radius:8px;margin-top:5px;}
 Ich akzeptiere die 
 <a href="#" onclick="showInfo('datenschutz');return false;">Datenschutzerklärung</a>
 </label><br><br>
-
 <button id="startKiBtn" disabled>Hilfe anfordern</button>
 <button onclick="closeCustomerModal()">Zurück zur Hauptseite</button>
-
 <div id="infoBoxModal" class="info-box" style="display:none;"></div>
 </div>
 </div>
@@ -77,21 +78,15 @@ Ich akzeptiere die
 <div class="modal-content">
 <h2>Bestellzusammenfassung KI-Service</h2>
 <div id="kiSummaryBox" class="summary"></div>
-
 <div class="info-box">
 <strong>Rechtssicherer Hinweis zur Leistung:</strong><br>
 Die KI-Soforthilfe ist eine digitale Video-Beratung. Der Kunde ist selbst verantwortlich für die sichere Durchführung der empfohlenen Schritte. Leistung: 2 Minuten KI-Beratung. Bei erkennbarer Gefährdung wird ein zugelassener Elektriker empfohlen.
 </div>
-
-<label><input type="checkbox" id="kiWiederruf"> Widerruf 
-(<a href="#" onclick="showInfo('wiederruf');return false;">lesen</a>)</label><br>
-<label><input type="checkbox" id="kiAgb"> AGB akzeptiert 
-(<a href="#" onclick="showInfo('agb');return false;">lesen</a>)</label><br>
+<label><input type="checkbox" id="kiWiederruf"> Widerruf (<a href="#" onclick="showInfo('wiederruf');return false;">lesen</a>)</label><br>
+<label><input type="checkbox" id="kiAgb"> AGB akzeptiert (<a href="#" onclick="showInfo('agb');return false;">lesen</a>)</label><br>
 <label><input type="checkbox" id="kiConsent"> Gelesen & Einverstanden</label><br><br>
-
 <button id="kiPayBtn" disabled>Gebührenpflichtig bestellen</button>
 <button onclick="closeKiSummaryModal()">Zurück zur Hauptseite</button>
-<div id="infoBoxModal" class="info-box" style="display:none;"></div>
 </div>
 </div>
 
@@ -100,6 +95,10 @@ Die KI-Soforthilfe ist eine digitale Video-Beratung. Der Kunde ist selbst verant
 <div class="modal-content">
 <h2>KI-Assistenz</h2>
 <div class="info-box">⚠ Arbeiten an elektrischen Anlagen können gefährlich sein.</div>
+<div id="progressContainer">
+<div id="progressBar"></div>
+</div>
+<div id="countdown">02:00</div>
 <div id="messages"></div>
 <input type="text" id="userInput" placeholder="Beschreiben Sie Ihr Problem...">
 <button id="sendBtn">Senden</button>
@@ -122,21 +121,15 @@ Die KI-Soforthilfe ist eine digitale Video-Beratung. Der Kunde ist selbst verant
 <div class="modal-content">
 <h2>Bestellzusammenfassung Fachmann</h2>
 <div id="expertSummaryBox" class="summary"></div>
-
 <div class="info-box">
 <strong>Rechtssicherer Hinweis zur Leistung:</strong><br>
 Der Expertenservice ist ein Live-Videocall mit qualifizierten Fachkräften. Der Kunde ist selbst für die sichere Umsetzung verantwortlich.
 </div>
-
-<label><input type="checkbox" id="expertWiederruf"> Widerruf 
-(<a href="#" onclick="showInfo('wiederruf');return false;">lesen</a>)</label><br>
-<label><input type="checkbox" id="expertAgb"> AGB akzeptiert 
-(<a href="#" onclick="showInfo('agb');return false;">lesen</a>)</label><br>
+<label><input type="checkbox" id="expertWiederruf"> Widerruf (<a href="#" onclick="showInfo('wiederruf');return false;">lesen</a>)</label><br>
+<label><input type="checkbox" id="expertAgb"> AGB akzeptiert (<a href="#" onclick="showInfo('agb');return false;">lesen</a>)</label><br>
 <label><input type="checkbox" id="expertConsent"> Gelesen & Einverstanden</label><br><br>
-
 <button id="expertPayBtn" disabled>Gebührenpflichtig bestellen</button>
 <button onclick="closeExpertModal()">Zurück zur Hauptseite</button>
-<div id="infoBoxModal" class="info-box" style="display:none;"></div>
 </div>
 </div>
 
@@ -147,40 +140,17 @@ Der Expertenservice ist ein Live-Videocall mit qualifizierten Fachkräften. Der 
 <script>
 // Rechtstexte
 const infoTexts = {
-  datenschutz: `
-    <strong>Datenschutzerklärung</strong><br>
-    Wir speichern Ihre Daten ausschließlich für die Rückruf- und Video-Beratung. Die Weitergabe an Dritte erfolgt nicht. 
-    Sie können Ihre Zustimmung jederzeit widerrufen. Weitere Informationen finden Sie in der AGB.
-  `,
-  wiederruf: `
-    <strong>Widerrufsbelehrung</strong><br>
-    Sie haben das Recht, binnen 14 Tagen ohne Angabe von Gründen diesen Vertrag zu widerrufen. Die Widerrufsfrist beträgt 14 Tage ab Vertragsschluss. 
-    Um Ihr Widerrufsrecht auszuüben, informieren Sie uns mittels einer eindeutigen Erklärung (E-Mail/Brief). 
-    Hinweis: Da es sich um eine Dienstleistung (Video-Beratung) handelt, erlischt das Widerrufsrecht nach vollständiger Erbringung der Dienstleistung mit Ihrer ausdrücklichen Zustimmung.
-  `,
-  agb: `
-    <strong>Allgemeine Geschäftsbedingungen (AGB)</strong><br>
-    Vertragsgegenstand ist eine technische Video-Beratung bei Stromausfall. Es erfolgt keine handwerkliche Ausführung vor Ort.<br>
-    Preis: 39,99 € inkl. MwSt.<br>
-    Der Kunde ist für die sichere Durchführung der empfohlenen Schritte selbst verantwortlich. Bei erkennbarer Gefährdung wird die Beauftragung eines zugelassenen Elektrikers empfohlen.
-  `
+  datenschutz: `<strong>Datenschutzerklärung</strong><br>Wir speichern Ihre Daten ausschließlich für die Rückruf- und Video-Beratung. Die Weitergabe an Dritte erfolgt nicht. Sie können Ihre Zustimmung jederzeit widerrufen. Weitere Informationen finden Sie in der AGB.`,
+  wiederruf: `<strong>Widerrufsbelehrung</strong><br>Sie haben das Recht, binnen 14 Tagen ohne Angabe von Gründen diesen Vertrag zu widerrufen. Die Widerrufsfrist beträgt 14 Tage ab Vertragsschluss. Hinweis: Da es sich um eine Dienstleistung (Video-Beratung) handelt, erlischt das Widerrufsrecht nach vollständiger Erbringung der Dienstleistung mit Ihrer ausdrücklichen Zustimmung.`,
+  agb: `<strong>Allgemeine Geschäftsbedingungen (AGB)</strong><br>Vertragsgegenstand ist eine technische Video-Beratung bei Stromausfall. Es erfolgt keine handwerkliche Ausführung vor Ort.<br>Preis: 39,99 € inkl. MwSt.<br>Der Kunde ist für die sichere Durchführung der empfohlenen Schritte selbst verantwortlich. Bei erkennbarer Gefährdung wird die Beauftragung eines zugelassenen Elektrikers empfohlen.`,
+  impressum: `<strong>Impressum</strong><br>KI-Soforthilfe Stromausfall, Musterstraße 1, 12345 Musterstadt, Deutschland`
 };
 
-// Info anzeigen
 function showInfo(type){
-  const modals = document.querySelectorAll('.modal-content');
-  let visibleModal = null;
-  modals.forEach(modal => { if(modal.parentElement.style.display==='flex') visibleModal=modal; });
-  if(!visibleModal) return;
-  let infoBox = visibleModal.querySelector('#infoBoxModal');
-  if(!infoBox){
-    infoBox = document.createElement('div');
-    infoBox.id = 'infoBoxModal';
-    infoBox.className = 'info-box';
-    visibleModal.appendChild(infoBox);
-  }
-  infoBox.innerHTML = infoTexts[type] + '<br><button onclick="this.parentElement.style.display=\'none\'">Schließen</button>';
-  infoBox.style.display = 'block';
+  const infoBox = document.createElement('div');
+  infoBox.className='info-box';
+  infoBox.innerHTML = infoTexts[type] + '<br><button onclick="this.parentElement.remove()">Schließen</button>';
+  document.body.appendChild(infoBox);
 }
 
 // Elemente
@@ -213,10 +183,13 @@ const messagesEl = document.getElementById("messages");
 const userInputEl = document.getElementById("userInput");
 const sendBtn = document.getElementById("sendBtn");
 const fileInput = document.getElementById("fileInput");
-
 const openExpertSummaryBtn = document.getElementById("openExpertSummaryBtn");
 
-let kiTimer;
+const progressBar = document.getElementById("progressBar");
+const countdownEl = document.getElementById("countdown");
+
+let kiTimer, kiProgressInterval;
+let kiDuration = 120; // Sekunden
 
 // Modal Funktionen
 openCustomerBtn.addEventListener("click",()=>{customerModal.style.display="flex";});
@@ -251,7 +224,7 @@ kiPayBtn.addEventListener("click",()=>{
   kiSummaryModal.style.display="none";
   kiModal.style.display="flex";
   addMessage("KI: Hallo! Ich leite Sie Schritt für Schritt durch Ihr Stromproblem.","ai");
-  kiTimer = setTimeout(()=>{endKiSession();},2*60*1000);
+  startKiSession();
 });
 
 // KI-Chat
@@ -288,10 +261,27 @@ fileInput.addEventListener("change",(e)=>{
   fileInput.value="";
 });
 
+// KI-Session starten mit Fortschritt & Countdown
+function startKiSession(){
+  let timeLeft = kiDuration;
+  progressBar.style.width = '0%';
+  countdownEl.innerText = formatTime(timeLeft);
+  kiTimer = setTimeout(endKiSession, kiDuration*1000);
+  kiProgressInterval = setInterval(()=>{
+    timeLeft--;
+    progressBar.style.width = ((kiDuration-timeLeft)/kiDuration*100) + '%';
+    countdownEl.innerText = formatTime(timeLeft);
+    if(timeLeft<=0) clearInterval(kiProgressInterval);
+  },1000);
+}
+
+function formatTime(sec){return `${String(Math.floor(sec/60)).padStart(2,'0')}:${String(sec%60).padStart(2,'0')}`;}
+
 // KI-Ende
 function endKiSession(){
   kiModal.style.display="none";
   escalationModal.style.display="flex";
+  clearInterval(kiProgressInterval);
 }
 
 // Eskalation → Expertenservice
@@ -313,6 +303,5 @@ expertPayBtn.addEventListener("click",()=>{
   expertSummaryModal.style.display="none";
 });
 </script>
-
 </body>
 </html>
