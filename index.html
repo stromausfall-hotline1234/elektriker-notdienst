@@ -8,35 +8,44 @@
 <style>
 body{margin:0;font-family:'Montserrat',sans-serif;background:#f0f2f5;color:#222;}
 h1,h2,h3{margin:0 0 15px;}
-button{padding:12px 20px;border:none;border-radius:8px;background:#25d366;color:white;cursor:pointer;transition:0.3s;}
+button{padding:12px 20px;border:none;border-radius:8px;background:#25d366;color:white;cursor:pointer;transition:0.3s;font-weight:600;}
 button:disabled{opacity:0.5;cursor:not-allowed;}
 button:hover:not(:disabled){background:#1ebe57;}
-nav{display:flex;justify-content:flex-end;gap:25px;padding:15px 40px;background:white;box-shadow:0 2px 8px rgba(0,0,0,0.05);}
+nav{display:flex;justify-content:flex-end;gap:25px;padding:15px 20px;background:white;box-shadow:0 2px 8px rgba(0,0,0,0.05);}
 nav a{color:#222;text-decoration:none;font-weight:600;}
 nav a:hover{color:#25d366;}
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);justify-content:center;align-items:center;z-index:1000;}
-.modal-content{background:white;padding:20px;border-radius:12px;max-width:600px;width:100%;max-height:90vh;overflow:auto;}
+header{padding:30px 20px;text-align:center;}
+header button{font-size:1.1em;}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);justify-content:center;align-items:center;z-index:1000;padding:10px;}
+.modal-content{background:white;padding:20px;border-radius:12px;max-width:600px;width:100%;max-height:90vh;overflow:auto;box-shadow:0 6px 15px rgba(0,0,0,0.1);}
 .summary{background:#f7f7f7;padding:12px;border-radius:8px;font-size:14px;margin-bottom:10px;}
-#messages{height:200px;overflow-y:auto;border:1px solid #ccc;padding:10px;margin:10px 0;border-radius:8px;}
+.info-box{background:#fff3cd;padding:12px;border-radius:8px;border:1px solid #ffeeba;margin-bottom:12px;font-size:14px;}
+#messages{height:200px;overflow-y:auto;border:1px solid #ccc;padding:10px;margin:10px 0;border-radius:8px;background:white;}
 .message{padding:6px 10px;border-radius:10px;margin-bottom:5px;word-break:break-word;}
 .message.user{background:#25d366;color:white;text-align:right;}
 .message.ai{background:#ffca28;color:#111;text-align:left;}
 input,textarea{width:100%;padding:10px;margin:6px 0;border:1px solid #ccc;border-radius:8px;box-sizing:border-box;}
-footer{padding:15px;text-align:center;background:#111;color:#ffca28;}
+footer{padding:15px;text-align:center;background:#111;color:#ffca28;font-size:14px;}
 footer a{color:#ffca28;text-decoration:none;margin:0 8px;}
 footer a:hover{text-decoration:underline;}
 img.message{max-width:80%;border-radius:8px;margin-top:5px;}
+@media(max-width:600px){
+.modal-content{padding:15px;}
+button{width:100%;margin-top:8px;}
+nav{flex-direction:column;align-items:flex-start;}
+header{padding:20px 10px;}
+}
 </style>
 </head>
 <body>
 
 <nav>
-<a href="impressum.html">Impressum</a>
-<a href="datenschutz.html">Datenschutz</a>
-<a href="agb.html">AGB</a>
+<a href="#">impressum</a>
+<a href="#">Datenschutz</a>
+<a href="#">AGB</a>
 </nav>
 
-<header style="padding:40px;text-align:center;">
+<header>
 <h1>⚡ KI-Soforthilfe Stromausfall</h1>
 <p>Starten Sie die Soforthilfe mit Ihrem persönlichen Zugang.</p>
 <button id="openCustomerBtn">Soforthilfe anfordern – 39,99 €</button>
@@ -52,8 +61,9 @@ img.message{max-width:80%;border-radius:8px;margin-top:5px;}
 <input id="email" placeholder="E-Mail-Adresse" required>
 <label>
 <input type="checkbox" id="consent">
-Ich akzeptiere die <a href="datenschutz.html" target="_blank">Datenschutzerklärung</a>
-</label><br><br>
+Ich akzeptiere die <a href="#" onclick="event.preventDefault(); alert('Datenschutz bleibt im Modal sichtbar');">Datenschutzerklärung</a>
+</label>
+<br><br>
 <button id="startKiBtn" disabled>Hilfe anfordern</button>
 <button onclick="closeCustomerModal()">Zurück zur Hauptseite</button>
 </div>
@@ -64,9 +74,12 @@ Ich akzeptiere die <a href="datenschutz.html" target="_blank">Datenschutzerklär
 <div class="modal-content">
 <h2>Bestellzusammenfassung KI-Service</h2>
 <div id="kiSummaryBox" class="summary"></div>
-<p><strong>Rechtssicherer Hinweis:</strong> Die KI-Assistenz bietet eine Schritt-für-Schritt Unterstützung bei Stromproblemen. Die Verantwortung für Arbeiten an elektrischen Anlagen liegt beim Kunden. Die Leistung ist auf 2 Minuten KI-Beratung beschränkt.</p>
-<label><input type="checkbox" id="kiWiederruf"> Widerruf (<a href="wiederruf.html" target="_blank">Info</a>)</label><br>
-<label><input type="checkbox" id="kiAgb"> AGB akzeptiert (<a href="agb.html" target="_blank">lesen</a>)</label><br>
+<div class="info-box">
+<strong>Rechtssicherer Hinweis:</strong><br>
+Die KI-Assistenz bietet Schritt-für-Schritt Unterstützung bei Stromproblemen. Verantwortung für Arbeiten an elektrischen Anlagen liegt beim Kunden. Leistung: 2 Minuten KI-Beratung.
+</div>
+<label><input type="checkbox" id="kiWiederruf"> Widerruf (<a href="#" onclick="event.preventDefault(); alert('Widerruf bleibt im Modal sichtbar');">Info</a>)</label><br>
+<label><input type="checkbox" id="kiAgb"> AGB akzeptiert (<a href="#" onclick="event.preventDefault(); alert('AGB bleibt im Modal sichtbar');">lesen</a>)</label><br>
 <label><input type="checkbox" id="kiConsent"> Gelesen & Einverstanden</label><br><br>
 <button id="kiPayBtn" disabled>Gebührenpflichtig bestellen</button>
 <button onclick="closeKiSummaryModal()">Zurück zur Hauptseite</button>
@@ -77,7 +90,7 @@ Ich akzeptiere die <a href="datenschutz.html" target="_blank">Datenschutzerklär
 <div class="modal" id="kiModal">
 <div class="modal-content">
 <h2>KI-Assistenz</h2>
-<div style="background:#fff3cd;padding:10px;border-radius:8px;font-size:14px;">⚠ Sicherheitshinweis: Arbeiten an elektrischen Anlagen können gefährlich sein.</div>
+<div class="info-box">⚠ Sicherheitshinweis: Arbeiten an elektrischen Anlagen können gefährlich sein.</div>
 <div id="messages"></div>
 <input type="text" id="userInput" placeholder="Beschreiben Sie Ihr Problem...">
 <button id="sendBtn">Senden</button>
@@ -100,9 +113,12 @@ Ich akzeptiere die <a href="datenschutz.html" target="_blank">Datenschutzerklär
 <div class="modal-content">
 <h2>Bestellzusammenfassung Fachmann</h2>
 <div id="expertSummaryBox" class="summary"></div>
-<p><strong>Rechtssicherer Hinweis:</strong> Der Expertenservice beinhaltet einen Live-Videocall mit qualifiziertem Fachpersonal. Die Verantwortung für die Umsetzung liegt beim Kunden. Leistungen erfolgen nur nach gebuchter Gebührenpflicht.</p>
-<label><input type="checkbox" id="expertWiederruf"> Widerruf (<a href="wiederruf.html" target="_blank">Info</a>)</label><br>
-<label><input type="checkbox" id="expertAgb"> AGB akzeptiert (<a href="agb.html" target="_blank">lesen</a>)</label><br>
+<div class="info-box">
+<strong>Rechtssicherer Hinweis:</strong><br>
+Der Expertenservice beinhaltet einen Live-Videocall mit qualifiziertem Fachpersonal. Verantwortung liegt beim Kunden. Leistungen erfolgen nur nach gebuchter Gebührenpflicht.
+</div>
+<label><input type="checkbox" id="expertWiederruf"> Widerruf (<a href="#" onclick="event.preventDefault(); alert('Widerruf bleibt im Modal sichtbar');">Info</a>)</label><br>
+<label><input type="checkbox" id="expertAgb"> AGB akzeptiert (<a href="#" onclick="event.preventDefault(); alert('AGB bleibt im Modal sichtbar');">lesen</a>)</label><br>
 <label><input type="checkbox" id="expertConsent"> Gelesen & Einverstanden</label><br><br>
 <button id="expertPayBtn" disabled>Gebührenpflichtig bestellen</button>
 <button onclick="closeExpertModal()">Zurück zur Hauptseite</button>
@@ -110,7 +126,7 @@ Ich akzeptiere die <a href="datenschutz.html" target="_blank">Datenschutzerklär
 </div>
 
 <footer>
-© 2026 KI-Soforthilfe | <a href="impressum.html">Impressum</a> | <a href="datenschutz.html">Datenschutz</a> | <a href="agb.html">AGB</a>
+© 2026 KI-Soforthilfe
 </footer>
 
 <script>
@@ -150,7 +166,7 @@ const emailEl = document.getElementById("email");
 
 let kiTimer;
 
-// Modal Kundeneingabe
+// Kundeneingabe
 openCustomerBtn.addEventListener("click",()=>{customerModal.style.display="flex";});
 function closeCustomerModal(){customerModal.style.display="none";}
 consent.addEventListener("change",()=>{startKiBtn.disabled = !consent.checked;});
@@ -167,11 +183,9 @@ startKiBtn.addEventListener("click",()=>{
 });
 
 // Checkboxen KI-Service
-[kiWiederruf, kiAgb, kiConsent].forEach(el=>{
-    el.addEventListener("change",()=>{kiPayBtn.disabled = !(kiWiederruf.checked && kiAgb.checked && kiConsent.checked);});
-});
+[kiWiederruf, kiAgb, kiConsent].forEach(el=>{el.addEventListener("change",()=>{kiPayBtn.disabled=!(kiWiederruf.checked && kiAgb.checked && kiConsent.checked);});});
 
-// KI-Service bezahlen → KI-Chat starten
+// KI-Service buchen → KI-Chat starten
 kiPayBtn.addEventListener("click",()=>{
     alert("💳 KI-Service gebucht!");
     kiSummaryModal.style.display="none";
@@ -181,46 +195,38 @@ kiPayBtn.addEventListener("click",()=>{
     kiTimer=setTimeout(()=>{endKiChat();},2*60*1000);
 });
 
-// KI Chat-Funktionen
+// Chat
 function addMessage(content,sender){
     const div=document.createElement("div");
     div.className="message "+sender;
-    if(typeof content==="string"){ div.innerText=content; }
-    else{ div.appendChild(content); }
+    if(typeof content==="string"){ div.innerText=content; } else{ div.appendChild(content); }
     messagesEl.appendChild(div);
     messagesEl.scrollTop=messagesEl.scrollHeight;
 }
-
 sendBtn.addEventListener("click",()=>{
-    const txt=userInputEl.value.trim();
-    if(!txt) return;
-    addMessage(txt,"user");
-    userInputEl.value="";
+    const txt=userInputEl.value.trim(); if(!txt) return;
+    addMessage(txt,"user"); userInputEl.value="";
     addMessage("KI: Ich analysiere Ihre Eingabe...","ai");
     setTimeout(()=>{addMessage("KI: Bitte prüfen Sie Sicherungen & FI-Schalter.","ai");},1000);
 });
 userInputEl.addEventListener("keypress",e=>{if(e.key==="Enter") sendBtn.click();});
 
+// Bild Upload
 fileInput.addEventListener("change",(e)=>{
     const file=e.target.files[0]; if(!file) return;
     const reader=new FileReader();
     reader.onload=function(ev){
-        const img=document.createElement("img");
-        img.src=ev.target.result;
+        const img=document.createElement("img"); img.src=ev.target.result;
         addMessage(img,"user");
         setTimeout(()=>{addMessage("KI: Bild erhalten und analysiert. Prüfen Sie Sicherungen & FI-Schalter.","ai");},1000);
     };
-    reader.readAsDataURL(file);
-    fileInput.value="";
+    reader.readAsDataURL(file); fileInput.value="";
 });
 
 // Ende KI → Eskalation
-function endKiChat(){
-    kiModal.style.display="none";
-    escalationModal.style.display="flex";
-}
+function endKiChat(){kiModal.style.display="none"; escalationModal.style.display="flex";}
 
-// Eskalation Fachmann anfordern
+// Fachmann
 openExpertSummaryBtn.addEventListener("click",()=>{
     expertSummaryBox.innerHTML=`<strong>Kunde:</strong> ${nameEl.value}<br>
 <strong>Adresse:</strong> ${addressEl.value}<br>
@@ -232,11 +238,9 @@ openExpertSummaryBtn.addEventListener("click",()=>{
 });
 
 // Checkboxen Expertenservice
-[expertWiederruf, expertAgb, expertConsent].forEach(el=>{
-    el.addEventListener("change",()=>{expertPayBtn.disabled = !(expertWiederruf.checked && expertAgb.checked && expertConsent.checked);});
-});
+[expertWiederruf, expertAgb, expertConsent].forEach(el=>{el.addEventListener("change",()=>{expertPayBtn.disabled=!(expertWiederruf.checked && expertAgb.checked && expertConsent.checked);});});
 
-// Expertenservice buchen → WhatsApp
+// Expertenservice → WhatsApp
 expertPayBtn.addEventListener("click",()=>{
     alert("💳 Expertenservice gebucht!");
     const whatsappNumber="4915145932462";
@@ -245,9 +249,9 @@ expertPayBtn.addEventListener("click",()=>{
 });
 
 // Schließen Modals
-function closeKiSummaryModal(){kiSummaryModal.style.display="none";window.location.href='index.html';}
-function closeEscalationModal(){escalationModal.style.display="none";window.location.href='index.html';}
-function closeExpertModal(){expertSummaryModal.style.display="none";window.location.href='index.html';}
+function closeKiSummaryModal(){kiSummaryModal.style.display="none";}
+function closeEscalationModal(){escalationModal.style.display="none";}
+function closeExpertModal(){expertSummaryModal.style.display="none";}
 </script>
 </body>
 </html>
