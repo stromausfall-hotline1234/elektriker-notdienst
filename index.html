@@ -48,15 +48,13 @@ img.message{max-width:80%;border-radius:8px;margin-top:5px;}
 </head>
 <body>
 
-<!-- Breadcrumbs für SEO -->
+<!-- Breadcrumbs -->
 <nav class="breadcrumb" aria-label="Breadcrumb">
   <ol>
     <li><a href="/">Startseite</a></li>
     <li>KI-Soforthilfe Stromausfall</li>
   </ol>
 </nav>
-
-<main>
 
 <!-- Obere Navigation -->
 <nav>
@@ -71,8 +69,7 @@ img.message{max-width:80%;border-radius:8px;margin-top:5px;}
 <button id="openCustomerBtn">Soforthilfe anfordern – 39,99 €</button>
 </header>
 
-<section id="customerSection">
-<!-- Kundeneingabe Modal -->
+<!-- Kundendaten Modal -->
 <div class="modal" id="customerModal" role="dialog" aria-labelledby="customerModalTitle" aria-hidden="true">
 <div class="modal-content">
 <h2 id="customerModalTitle">Kundendaten eingeben</h2>
@@ -90,10 +87,8 @@ Ich akzeptiere die
 <button onclick="closeCustomerModal()">Zurück zur Hauptseite</button>
 </div>
 </div>
-</section>
 
-<section id="kiService">
-<!-- KI-Service Bestellübersicht Modal -->
+<!-- KI-Bestellübersicht Modal -->
 <div class="modal" id="kiSummaryModal" role="dialog" aria-labelledby="kiSummaryModalTitle" aria-hidden="true">
 <div class="modal-content">
 <h2 id="kiSummaryModalTitle">Bestellzusammenfassung KI-Service</h2>
@@ -113,16 +108,16 @@ Die KI-Soforthilfe ist eine digitale Video-Beratung. Der Kunde ist selbst verant
 
 <!-- Payment Modal -->
 <div class="modal" id="paymentModal" role="dialog" aria-labelledby="paymentModalTitle" aria-hidden="true">
-  <div class="modal-content">
-    <h2 id="paymentModalTitle">Zahlung</h2>
-    <p id="paymentSummary"></p>
-    <div>
-      <button onclick="simulatePayment('Kreditkarte')">💳 Kreditkarte</button>
-      <button onclick="simulatePayment('PayPal')">🅿️ PayPal</button>
-      <button onclick="simulatePayment('ApplePay/GooglePay')">📱 Apple Pay / Google Pay</button>
-    </div>
-    <button onclick="closePaymentModal()">Abbrechen & zurück</button>
-  </div>
+<div class="modal-content">
+<h2 id="paymentModalTitle">Zahlung</h2>
+<p id="paymentSummary"></p>
+<div>
+<button onclick="simulatePayment('Kreditkarte')">💳 Kreditkarte</button>
+<button onclick="simulatePayment('PayPal')">🅿️ PayPal</button>
+<button onclick="simulatePayment('ApplePay/GooglePay')">📱 Apple Pay / Google Pay</button>
+</div>
+<button onclick="closePaymentModal()">Abbrechen & zurück</button>
+</div>
 </div>
 
 <!-- KI-Chat Modal -->
@@ -130,9 +125,7 @@ Die KI-Soforthilfe ist eine digitale Video-Beratung. Der Kunde ist selbst verant
 <div class="modal-content">
 <h2 id="kiModalTitle">KI-Assistenz</h2>
 <div class="info-box" style="display:block;">⚠ Arbeiten an elektrischen Anlagen können gefährlich sein.</div>
-<div id="progressContainer">
-<div id="progressBar"></div>
-</div>
+<div id="progressContainer"><div id="progressBar"></div></div>
 <div id="countdown">02:00</div>
 <div id="messages"></div>
 <input type="text" id="userInput" placeholder="Beschreiben Sie Ihr Problem...">
@@ -169,21 +162,18 @@ Der Expertenservice ist ein Live-Videocall mit qualifizierten Fachkräften. Der 
 </div>
 </div>
 
-<footer>
-© 2026 KI-Soforthilfe
-</footer>
-
-</main>
+<footer>© 2026 KI-Soforthilfe</footer>
 
 <script>
-// Rechtstexte für Modals
+// --- JS für alle Funktionen ---
+
+// Rechtstexte
 const infoTexts = {
-  datenschutz: `<strong>Datenschutzerklärung</strong><br>Wir speichern Ihre Daten ausschließlich für die Rückruf- und Video-Beratung. Die Weitergabe an Dritte erfolgt nicht. Sie können Ihre Zustimmung jederzeit widerrufen. Weitere Informationen finden Sie in der AGB.`,
-  wiederruf: `<strong>Widerrufsbelehrung</strong><br>Sie haben das Recht, binnen 14 Tagen ohne Angabe von Gründen diesen Vertrag zu widerrufen. Die Widerrufsfrist beträgt 14 Tage ab Vertragsschluss. Hinweis: Da es sich um eine Dienstleistung (Video-Beratung) handelt, erlischt das Widerrufsrecht nach vollständiger Erbringung der Dienstleistung mit Ihrer ausdrücklichen Zustimmung.`,
-  agb: `<strong>Allgemeine Geschäftsbedingungen (AGB)</strong><br>Vertragsgegenstand ist eine technische Video-Beratung bei Stromausfall. Es erfolgt keine handwerkliche Ausführung vor Ort.<br>Preis: 39,99 € inkl. MwSt.<br>Der Kunde ist für die sichere Durchführung der empfohlenen Schritte selbst verantwortlich. Bei erkennbarer Gefährdung wird die Beauftragung eines zugelassenen Elektrikers empfohlen.`
+  datenschutz: `<strong>Datenschutzerklärung</strong><br>Wir speichern Ihre Daten ausschließlich für die Rückruf- und Video-Beratung. Weitergabe an Dritte erfolgt nicht.`,
+  wiederruf: `<strong>Widerrufsbelehrung</strong><br>14 Tage Widerrufsrecht. Dienstleistung erlischt bei vollständiger Erbringung.`,
+  agb: `<strong>AGB</strong><br>Vertrag ist digitale Video-Beratung. Preis KI: 39,99 €. Kunde verantwortlich für sichere Durchführung.`
 };
 
-// Info-Anzeige in Modal
 function showInfo(type, containerId){
   const infoBox = document.getElementById(containerId);
   infoBox.innerHTML = infoTexts[type] + '<br><button onclick="this.parentElement.style.display=\'none\'">Schließen</button>';
@@ -260,23 +250,22 @@ startKiBtn.addEventListener("click",()=>{
   el.addEventListener("change",()=>{kiPayBtn.disabled=!(kiWiederruf.checked && kiAgb.checked && kiConsent.checked);});
 });
 
-// KI-Payment öffnen
+// Payment Modal öffnen
 kiPayBtn.addEventListener("click",()=>{openPaymentModal("KI");});
-// Expertenservice Payment öffnen
 expertPayBtn.addEventListener("click",()=>{openPaymentModal("Expert");});
 
-// Payment Modal Funktionen
 function openPaymentModal(service){
   currentService = service;
   let summaryText = "";
   if(service==="KI"){
     summaryText = `KI-Service\n\nName: ${nameEl.value}\nAdresse: ${addressEl.value}\nTelefon: ${phoneEl.value}\nE-Mail: ${emailEl.value}\n\nGebührenpflichtige Bestellung: 39,99 €`;
   } else if(service==="Expert"){
-    summaryText = `Fachmann-Service\n\nName: ${nameEl.value}\nAdresse: ${addressEl.value}\nTelefon: ${phoneEl.value}\nE-Mail: ${emailEl.value}\n\nGebührenpflichtige Bestellung: 99,99 € (Beispielpreis)`;
+    summaryText = `Fachmann-Service\n\nName: ${nameEl.value}\nAdresse: ${addressEl.value}\nTelefon: ${phoneEl.value}\nE-Mail: ${emailEl.value}\n\nGebührenpflichtige Bestellung: 99,99 €`;
   }
   paymentSummary.innerText = summaryText;
   paymentModal.style.display="flex";
 }
+
 function simulatePayment(method){
   alert(`💳 Zahlung erfolgreich via ${method}!`);
   paymentModal.style.display="none";
@@ -292,7 +281,7 @@ function simulatePayment(method){
   }
 }
 
-// KI-Chat
+// Chat & Upload
 function addMessage(content,sender){
   const div = document.createElement("div");
   div.className = "message "+sender;
@@ -311,7 +300,6 @@ sendBtn.addEventListener("click",()=>{
 });
 userInputEl.addEventListener("keypress",e=>{if(e.key==="Enter") sendBtn.click();});
 
-// Bild-Upload mit Alt-Tag für SEO
 fileInput.addEventListener("change",(e)=>{
   const file = e.target.files[0];
   if(!file) return;
@@ -319,46 +307,40 @@ fileInput.addEventListener("change",(e)=>{
   reader.onload=function(ev){
     const img=document.createElement("img");
     img.src=ev.target.result;
-    img.alt="Hochgeladenes Bild vom Stromproblem";
     addMessage(img,"user");
     setTimeout(()=>{addMessage("KI: Bild erhalten und analysiert. Prüfen Sie Sicherungen & FI-Schalter.","ai");},1000);
   };
   reader.readAsDataURL(file);
-  fileInput.value="";
 });
 
-// KI-Session starten mit Fortschritt & Countdown
+// KI Session Timer
 function startKiSession(){
-  let timeLeft = kiDuration;
-  progressBar.style.width = '0%';
-  countdownEl.innerText = formatTime(timeLeft);
-  kiTimer = setTimeout(endKiSession, kiDuration*1000);
-  kiProgressInterval = setInterval(()=>{
+  let timeLeft=kiDuration;
+  countdownEl.innerText=formatTime(timeLeft);
+  progressBar.style.width="0%";
+  kiTimer=setInterval(()=>{
     timeLeft--;
-    progressBar.style.width = ((kiDuration-timeLeft)/kiDuration*100) + '%';
-    countdownEl.innerText = formatTime(timeLeft);
-    if(timeLeft<=0) clearInterval(kiProgressInterval);
+    countdownEl.innerText=formatTime(timeLeft);
+    progressBar.style.width = (100*(kiDuration-timeLeft)/kiDuration)+"%";
+    if(timeLeft<=0){clearInterval(kiTimer);clearInterval(kiProgressInterval);kiModal.style.display="none";escalationModal.style.display="flex";}
   },1000);
 }
-function formatTime(sec){return `${String(Math.floor(sec/60)).padStart(2,'0')}:${String(sec%60).padStart(2,'0')}`;}
-function endKiSession(){
-  kiModal.style.display="none";
-  escalationModal.style.display="flex";
-}
+function formatTime(sec){const m=Math.floor(sec/60);const s=sec%60;return `${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;}
 
-// Expertenservice aus Eskalation
+// Experte Button
 openExpertSummaryBtn.addEventListener("click",()=>{
   escalationModal.style.display="none";
   expertSummaryModal.style.display="flex";
   document.getElementById("expertSummaryBox").innerText = `Name: ${nameEl.value}\nAdresse: ${addressEl.value}\nTelefon: ${phoneEl.value}\nE-Mail: ${emailEl.value}`;
 });
-// Checkbox Aktivierung Expertenservice
+// Experten-Modal Buttons aktivieren
 [expertWiederruf,expertAgb,expertConsent].forEach(el=>{
   el.addEventListener("change",()=>{expertPayBtn.disabled=!(expertWiederruf.checked && expertAgb.checked && expertConsent.checked);});
 });
+
 </script>
 
-<!-- JSON-LD Structured Data -->
+<!-- JSON-LD Structured Data für SEO -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
