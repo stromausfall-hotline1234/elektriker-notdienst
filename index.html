@@ -21,6 +21,10 @@ header button{font-size:1.1em;}
 .summary{background:#f7f7f7;padding:12px;border-radius:8px;font-size:14px;margin-bottom:10px;white-space:pre-wrap;}
 .info-box{background:#fff3cd;padding:12px;border-radius:8px;border:1px solid #ffeeba;margin-bottom:12px;font-size:14px;display:none;}
 input,textarea,select{width:100%;padding:10px;margin:6px 0;border:1px solid #ccc;border-radius:8px;box-sizing:border-box;}
+#messages{height:200px;overflow-y:auto;border:1px solid #ccc;padding:10px;margin:10px 0;border-radius:8px;background:white;}
+.message{padding:6px 10px;border-radius:10px;margin-bottom:5px;word-break:break-word;}
+.message.user{background:#25d366;color:white;text-align:right;}
+.message.ai{background:#ffca28;color:#111;text-align:left;}
 footer{padding:15px;text-align:center;background:#111;color:#ffca28;font-size:14px;}
 footer a{color:#ffca28;text-decoration:none;margin:0 8px;}
 footer a:hover{text-decoration:underline;}
@@ -34,7 +38,7 @@ footer a:hover{text-decoration:underline;}
 </head>
 <body>
 
-<!-- Obere Navigation -->
+<!-- Navigation -->
 <nav>
   <a href="impressum.html" target="_blank">Impressum</a>
   <a href="datenschutz.html" target="_blank">Datenschutz</a>
@@ -47,48 +51,68 @@ footer a:hover{text-decoration:underline;}
 <button id="openCustomerBtn">Soforthilfe anfordern – 39,99 €</button>
 </header>
 
-<!-- Kundendaten & Notdienst Anfrage Modal -->
+<!-- Kundendaten Modal -->
 <div class="modal" id="customerModal">
-  <div class="modal-content">
-    <h2>Notdienst Anfrage</h2>
+<div class="modal-content">
+<h2>Notdienst Anfrage</h2>
 
-    <!-- Kundendaten -->
-    <input id="name" placeholder="Vor- und Nachname">
-    <input id="address" placeholder="Adresse">
-    <input id="phone" placeholder="Telefonnummer">
-    <input id="email" placeholder="E-Mail-Adresse">
+<input id="name" placeholder="Vor- und Nachname">
+<input id="address" placeholder="Adresse">
+<input id="phone" placeholder="Telefonnummer">
+<input id="email" placeholder="E-Mail-Adresse">
+<label><input type="checkbox" id="consent"> Ich akzeptiere die <a href="#" onclick="showInfo('datenschutz','modalInfoBoxCustomer');return false;">Datenschutzerklärung</a></label>
+<div id="modalInfoBoxCustomer" class="info-box"></div>
 
-    <label>
-      <input type="checkbox" id="consent"> Ich akzeptiere die
-      <a href="#" onclick="showInfo('datenschutz','modalInfoBoxCustomer');return false;">Datenschutzerklärung</a>
-    </label>
+<hr>
+<label for="serviceType">Service-Typ auswählen:</label>
+<select id="serviceType">
+  <option value="">-- Bitte wählen --</option>
+  <option value="electricity">Elektrik</option>
+  <option value="water">Wasser</option>
+  <option value="heating">Heizung</option>
+</select>
+<div id="symptomsContainer"></div>
 
-    <div id="modalInfoBoxCustomer" class="info-box"></div>
+<label for="fileInput">Fotos hochladen (optional):</label>
+<input type="file" id="fileInput" accept="image/*" multiple>
+<textarea id="additionalInfo" placeholder="Weitere Informationen (optional)"></textarea>
 
-    <hr>
+<button id="startKiBtn" disabled>KI-Triage starten</button>
+<button onclick="closeCustomerModal()">Zurück</button>
+</div>
+</div>
 
-    <!-- Service Typ -->
-    <label for="serviceType">Service-Typ auswählen:</label>
-    <select id="serviceType">
-      <option value="">-- Bitte wählen --</option>
-      <option value="electricity">Elektrik</option>
-      <option value="water">Wasser</option>
-      <option value="heating">Heizung</option>
-    </select>
+<!-- KI-Chat Modal -->
+<div class="modal" id="kiModal">
+<div class="modal-content">
+<h2>KI-Assistenz</h2>
+<div class="info-box" style="display:block;">⚠ Die KI sammelt Informationen für den Fachmann. Arbeiten können gefährlich sein.</div>
+<div id="messages"></div>
+<input type="text" id="userInput" placeholder="Beschreiben Sie Ihr Problem...">
+<button id="sendBtn">Senden</button>
+<input type="file" id="fileInputKI" accept="image/*" multiple><br>
+<div id="countdown" style="font-weight:bold; margin-top:10px;">02:00</div>
+<div id="progressContainer" style="width:100%;background:#ddd;border-radius:8px;overflow:hidden;margin-top:5px;">
+  <div id="progressBar" style="width:0%;height:15px;background:#25d366;"></div>
+</div>
+</div>
+</div>
 
-    <!-- Dynamische Symptome -->
-    <div id="symptomsContainer"></div>
-
-    <!-- Bild Upload -->
-    <label for="fileInput">Fotos hochladen (optional):</label>
-    <input type="file" id="fileInput" accept="image/*" multiple>
-
-    <!-- Feedback & Zusatzinfos -->
-    <textarea id="additionalInfo" placeholder="Weitere Informationen (optional)"></textarea>
-
-    <button id="startKiBtn" disabled>KI-Triage starten</button>
-    <button onclick="closeCustomerModal()">Zurück</button>
-  </div>
+<!-- Fachmann Modal -->
+<div class="modal" id="expertModal">
+<div class="modal-content">
+<h2>Fachmann-Bestätigung</h2>
+<p>Die KI hat ein größeres Problem erkannt. Ein Fachmann wird Sie nun anrufen.</p>
+<label>Schwierigkeitsgrad Bewertung:</label>
+<select id="difficultyLevel">
+  <option value="1">1 – Leicht</option>
+  <option value="2">2 – Mittel</option>
+  <option value="3">3 – Komplex</option>
+  <option value="4">4 – Kritisch</option>
+</select>
+<button id="confirmExpertBtn">Bestätigen & Videocall starten</button>
+<button onclick="closeExpertModal()">Zurück</button>
+</div>
 </div>
 
 <footer>
@@ -97,90 +121,113 @@ footer a:hover{text-decoration:underline;}
 
 <script>
 // Rechtstexte
-const infoTexts = {
-  datenschutz: `<strong>Datenschutzerklärung</strong><br>Wir speichern Ihre Daten ausschließlich für die Rückruf- und Video-Beratung. Die Weitergabe an Dritte erfolgt nicht. Sie können Ihre Zustimmung jederzeit widerrufen. Weitere Informationen finden Sie in der AGB.`
-};
-function showInfo(type, containerId){
-  const infoBox = document.getElementById(containerId);
-  infoBox.innerHTML = infoTexts[type] + '<br><button onclick="this.parentElement.style.display=\'none\'">Schließen</button>';
-  infoBox.style.display='block';
-}
+const infoTexts = {datenschutz:`<strong>Datenschutzerklärung</strong><br>Wir speichern Ihre Daten ausschließlich für Rückruf und Video-Beratung. Weitergabe an Dritte erfolgt nicht.`};
+function showInfo(type,id){document.getElementById(id).innerHTML=infoTexts[type]+`<br><button onclick="this.parentElement.style.display='none'">Schließen</button>`; document.getElementById(id).style.display='block';}
 
-// Modal Steuerung
+// Kundendaten Modal
 const customerModal = document.getElementById("customerModal");
 const openCustomerBtn = document.getElementById("openCustomerBtn");
-openCustomerBtn.addEventListener("click",()=>{customerModal.style.display="flex";});
+openCustomerBtn.addEventListener("click",()=>customerModal.style.display="flex");
 function closeCustomerModal(){customerModal.style.display="none";}
 
 // Elemente
-const nameEl = document.getElementById("name");
-const addressEl = document.getElementById("address");
-const phoneEl = document.getElementById("phone");
-const emailEl = document.getElementById("email");
-const consentEl = document.getElementById("consent");
-const serviceTypeEl = document.getElementById("serviceType");
-const symptomsContainer = document.getElementById("symptomsContainer");
-const startKiBtn = document.getElementById("startKiBtn");
-const fileInput = document.getElementById("fileInput");
+const nameEl=document.getElementById("name");
+const addressEl=document.getElementById("address");
+const phoneEl=document.getElementById("phone");
+const emailEl=document.getElementById("email");
+const consentEl=document.getElementById("consent");
+const serviceTypeEl=document.getElementById("serviceType");
+const symptomsContainer=document.getElementById("symptomsContainer");
+const startKiBtn=document.getElementById("startKiBtn");
+const fileInput=document.getElementById("fileInput");
 
-// Symptome pro Service-Typ
-const serviceSymptoms = {
-  electricity: ["FI-Schalter ausgelöst","Sicherung durchgebrannt","Komplettausfall","Geräusche / Funken"],
-  water: ["Rohrbruch / Leck","Kein Wasser","Wasser tropft","Pumpe defekt"],
-  heating: ["Heizung kalt","Thermostat defekt","Boiler / Warmwasser aus","Heizung ungleichmäßig"]
+// Symptome
+const serviceSymptoms={
+  electricity:["FI-Schalter ausgelöst","Sicherung durchgebrannt","Komplettausfall","Geräusche / Funken"],
+  water:["Rohrbruch / Leck","Kein Wasser","Wasser tropft","Pumpe defekt"],
+  heating:["Heizung kalt","Thermostat defekt","Boiler / Warmwasser aus","Heizung ungleichmäßig"]
 };
-
-// Dynamische Symptom Checkboxen
-serviceTypeEl.addEventListener("change", () => {
-  const type = serviceTypeEl.value;
-  symptomsContainer.innerHTML = "";
-  if (!type) return;
-  serviceSymptoms[type].forEach(symptom => {
-    const div = document.createElement("div");
-    div.innerHTML = `<label><input type="checkbox" class="symptomCheckbox" value="${symptom}"> ${symptom}</label>`;
+serviceTypeEl.addEventListener("change",()=>{
+  const type=serviceTypeEl.value; symptomsContainer.innerHTML="";
+  if(!type)return;
+  serviceSymptoms[type].forEach(symptom=>{
+    const div=document.createElement("div");
+    div.innerHTML=`<label><input type="checkbox" class="symptomCheckbox" value="${symptom}"> ${symptom}</label>`;
     symptomsContainer.appendChild(div);
   });
   updateStartKiBtn();
 });
 
 // KI-Triage Button aktivieren
-[nameEl,addressEl,phoneEl,emailEl,consentEl,serviceTypeEl].forEach(el=>{
-  el.addEventListener("input",updateStartKiBtn);
-  el.addEventListener("change",updateStartKiBtn);
-});
-function updateStartKiBtn(){
-  const hasSymptoms = document.querySelectorAll('.symptomCheckbox:checked').length > 0;
-  startKiBtn.disabled = !(nameEl.value && addressEl.value && phoneEl.value && emailEl.value && consentEl.checked && serviceTypeEl.value && hasSymptoms);
+[nameEl,addressEl,phoneEl,emailEl,consentEl,serviceTypeEl].forEach(el=>{el.addEventListener("input",updateStartKiBtn); el.addEventListener("change",updateStartKiBtn);});
+function updateStartKiBtn(){const hasSymptoms=document.querySelectorAll('.symptomCheckbox:checked').length>0; startKiBtn.disabled=!(nameEl.value&&addressEl.value&&phoneEl.value&&emailEl.value&&consentEl.checked&&serviceTypeEl.value&&hasSymptoms);}
+
+// KI Session starten
+const kiModal=document.getElementById("kiModal");
+const messagesEl=document.getElementById("messages");
+const userInputEl=document.getElementById("userInput");
+const sendBtn=document.getElementById("sendBtn");
+const fileInputKI=document.getElementById("fileInputKI");
+const progressBar=document.getElementById("progressBar");
+const countdownEl=document.getElementById("countdown");
+const expertModal=document.getElementById("expertModal");
+const confirmExpertBtn=document.getElementById("confirmExpertBtn");
+
+let kiTimer, kiProgressInterval, kiDuration=120;
+
+function startKiSession(){
+  kiModal.style.display="flex";
+  messagesEl.innerHTML="";
+  addMessage("KI: Hallo! Ich werde Ihr Problem analysieren und alle wichtigen Informationen sammeln.","ai");
+  let timeLeft=kiDuration; progressBar.style.width='0%'; countdownEl.innerText=formatTime(timeLeft);
+  kiTimer=setTimeout(endKiSession, kiDuration*1000);
+  kiProgressInterval=setInterval(()=>{
+    timeLeft--; progressBar.style.width=((kiDuration-timeLeft)/kiDuration*100)+'%';
+    countdownEl.innerText=formatTime(timeLeft); if(timeLeft<=0)clearInterval(kiProgressInterval);
+  },1000);
 }
 
-// Start KI-Triage (Simulation)
-startKiBtn.addEventListener("click", ()=>{
-  const selectedSymptoms = Array.from(document.querySelectorAll('.symptomCheckbox:checked')).map(cb => cb.value);
-  const data = {
-    name: nameEl.value,
-    address: addressEl.value,
-    phone: phoneEl.value,
-    email: emailEl.value,
-    serviceType: serviceTypeEl.value,
-    symptoms: selectedSymptoms,
-    additionalInfo: document.getElementById("additionalInfo").value
-  };
-  console.log("KI-Triage Daten:", data);
-  alert("Daten an KI gesendet! (Simulation)");
-  closeCustomerModal();
-});
+function addMessage(content,sender){const div=document.createElement("div"); div.className="message "+sender; div.innerText=content; messagesEl.appendChild(div); messagesEl.scrollTop=messagesEl.scrollHeight;}
+function formatTime(sec){return `${String(Math.floor(sec/60)).padStart(2,'0')}:${String(sec%60).padStart(2,'0')}`;}
 
-// Bild Upload
-fileInput.addEventListener("change", (e)=>{
-  const files = Array.from(e.target.files);
-  files.forEach(file => {
-    const reader = new FileReader();
-    reader.onload = function(ev){
-      console.log("Bild für KI:", file.name, ev.target.result);
-    };
+sendBtn.addEventListener("click",()=>{
+  const txt=userInputEl.value.trim(); if(!txt)return; addMessage(txt,"user"); userInputEl.value=""; addMessage("KI: Ich analysiere Ihre Eingabe...","ai");
+  setTimeout(()=>{addMessage("KI: Bitte prüfen Sicherungen/Leitungen/Ventile.","ai"); addMessage("KI: Haben Sie weitere Bilder oder Informationen?","ai");},1000);
+});
+userInputEl.addEventListener("keypress",e=>{if(e.key==="Enter")sendBtn.click();});
+
+fileInputKI.addEventListener("change",e=>{
+  Array.from(e.target.files).forEach(file=>{
+    const reader=new FileReader();
+    reader.onload=function(ev){addMessage("Bild hochgeladen: "+file.name,"user"); setTimeout(()=>{addMessage("KI: Bild erhalten und analysiert.","ai");},500);}
     reader.readAsDataURL(file);
   });
 });
+
+function endKiSession(){kiModal.style.display="none"; clearInterval(kiProgressInterval); expertModal.style.display="flex";}
+function closeExpertModal(){expertModal.style.display="none";}
+
+// Fachmann WhatsApp Videocall Integration
+confirmExpertBtn.addEventListener("click",()=>{
+  const level=document.getElementById("difficultyLevel").value;
+  alert(`Fachmann-Auftrag bestätigt! Schwierigkeitsgrad: ${level}. WhatsApp-Videocall wird gestartet.`);
+  
+  const whatsappNumber="4915145932462";
+  const message=`Ich möchte einen Live-Video-Call für den Notdienst buchen. Service: ${serviceTypeEl.value}, Schwierigkeitsgrad: ${level}`;
+  const url=`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+  window.open(url,"_blank");
+  expertModal.style.display="none";
+});
+
+// Payment simuliert → KI startet
+startKiBtn.addEventListener("click",()=>{
+  const selectedSymptoms=Array.from(document.querySelectorAll('.symptomCheckbox:checked')).map(cb=>cb.value);
+  const data={name:nameEl.value,address:addressEl.value,phone:phoneEl.value,email:emailEl.value,serviceType:serviceTypeEl.value,symptoms:selectedSymptoms,additionalInfo:document.getElementById("additionalInfo").value};
+  console.log("Daten an KI:",data);
+  closeCustomerModal();
+  startKiSession();
+});
 </script>
+
 </body>
 </html>
