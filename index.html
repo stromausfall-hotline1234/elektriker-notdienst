@@ -3,10 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KI-Soforthilfe bei Stromausfall – Schnell & Digital</title>
-<meta name="description" content="KI-Soforthilfe bei Stromausfall – digitale Video-Beratung für schnelle Problemlösung. Einfach Kundendaten eingeben und Expertenhilfe buchen.">
-<meta name="keywords" content="Stromausfall, KI-Beratung, elektrische Probleme, digitale Hilfe, Expertenservice">
-<meta name="robots" content="index, follow">
+<title>KI-Notdienst – Strom, Wasser & Heizung</title>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 body{margin:0;font-family:'Montserrat',sans-serif;background:#f0f2f5;color:#222;}
@@ -23,21 +20,10 @@ header button{font-size:1.1em;}
 .modal-content{background:white;padding:20px;border-radius:12px;max-width:600px;width:100%;max-height:90vh;overflow:auto;box-shadow:0 6px 15px rgba(0,0,0,0.1);}
 .summary{background:#f7f7f7;padding:12px;border-radius:8px;font-size:14px;margin-bottom:10px;white-space:pre-wrap;}
 .info-box{background:#fff3cd;padding:12px;border-radius:8px;border:1px solid #ffeeba;margin-bottom:12px;font-size:14px;display:none;}
-#messages{height:200px;overflow-y:auto;border:1px solid #ccc;padding:10px;margin:10px 0;border-radius:8px;background:white;}
-.message{padding:6px 10px;border-radius:10px;margin-bottom:5px;word-break:break-word;}
-.message.user{background:#25d366;color:white;text-align:right;}
-.message.ai{background:#ffca28;color:#111;text-align:left;}
-input,textarea{width:100%;padding:10px;margin:6px 0;border:1px solid #ccc;border-radius:8px;box-sizing:border-box;}
+input,textarea,select{width:100%;padding:10px;margin:6px 0;border:1px solid #ccc;border-radius:8px;box-sizing:border-box;}
 footer{padding:15px;text-align:center;background:#111;color:#ffca28;font-size:14px;}
 footer a{color:#ffca28;text-decoration:none;margin:0 8px;}
 footer a:hover{text-decoration:underline;}
-img.message{max-width:80%;border-radius:8px;margin-top:5px;}
-#progressContainer{width:100%;background:#ddd;border-radius:8px;overflow:hidden;margin:10px 0;}
-#progressBar{width:0%;height:15px;background:#25d366;transition: width 1s linear;}
-#countdown{font-weight:bold;margin-bottom:10px;}
-.breadcrumb ol{list-style:none;display:flex;gap:5px;padding:0;margin:0;}
-.breadcrumb ol li::after{content:'>';margin-left:5px;}
-.breadcrumb ol li:last-child::after{content:'';}
 @media(max-width:600px){
   .modal-content{padding:15px;}
   button{width:100%;margin-top:8px;}
@@ -48,14 +34,6 @@ img.message{max-width:80%;border-radius:8px;margin-top:5px;}
 </head>
 <body>
 
-<!-- Breadcrumbs -->
-<nav class="breadcrumb" aria-label="Breadcrumb">
-  <ol>
-    <li><a href="/">Startseite</a></li>
-    <li>KI-Soforthilfe Stromausfall</li>
-  </ol>
-</nav>
-
 <!-- Obere Navigation -->
 <nav>
   <a href="impressum.html" target="_blank">Impressum</a>
@@ -64,296 +42,145 @@ img.message{max-width:80%;border-radius:8px;margin-top:5px;}
 </nav>
 
 <header>
-<h1>⚡ KI-Soforthilfe Stromausfall</h1>
+<h1>⚡ KI-Notdienst – Strom, Wasser & Heizung</h1>
 <p>Starten Sie die Soforthilfe mit Ihrem persönlichen Zugang.</p>
 <button id="openCustomerBtn">Soforthilfe anfordern – 39,99 €</button>
 </header>
 
-<!-- Kundendaten Modal -->
-<div class="modal" id="customerModal" role="dialog" aria-labelledby="customerModalTitle" aria-hidden="true">
-<div class="modal-content">
-<h2 id="customerModalTitle">Kundendaten eingeben</h2>
-<input id="name" placeholder="Vor- und Nachname">
-<input id="address" placeholder="Adresse">
-<input id="phone" placeholder="Telefonnummer">
-<input id="email" type="email" placeholder="E-Mail-Adresse">
-<label>
-<input type="checkbox" id="consent">
-Ich akzeptiere die 
-<a href="#" onclick="showInfo('datenschutz','modalInfoBoxCustomer');return false;">Datenschutzerklärung</a>
-</label><br><br>
-<div id="modalInfoBoxCustomer" class="info-box"></div>
-<button id="startKiBtn" disabled>Hilfe anfordern</button>
-<button onclick="closeCustomerModal()">Zurück zur Hauptseite</button>
-</div>
+<!-- Kundendaten & Notdienst Anfrage Modal -->
+<div class="modal" id="customerModal">
+  <div class="modal-content">
+    <h2>Notdienst Anfrage</h2>
+
+    <!-- Kundendaten -->
+    <input id="name" placeholder="Vor- und Nachname">
+    <input id="address" placeholder="Adresse">
+    <input id="phone" placeholder="Telefonnummer">
+    <input id="email" placeholder="E-Mail-Adresse">
+
+    <label>
+      <input type="checkbox" id="consent"> Ich akzeptiere die
+      <a href="#" onclick="showInfo('datenschutz','modalInfoBoxCustomer');return false;">Datenschutzerklärung</a>
+    </label>
+
+    <div id="modalInfoBoxCustomer" class="info-box"></div>
+
+    <hr>
+
+    <!-- Service Typ -->
+    <label for="serviceType">Service-Typ auswählen:</label>
+    <select id="serviceType">
+      <option value="">-- Bitte wählen --</option>
+      <option value="electricity">Elektrik</option>
+      <option value="water">Wasser</option>
+      <option value="heating">Heizung</option>
+    </select>
+
+    <!-- Dynamische Symptome -->
+    <div id="symptomsContainer"></div>
+
+    <!-- Bild Upload -->
+    <label for="fileInput">Fotos hochladen (optional):</label>
+    <input type="file" id="fileInput" accept="image/*" multiple>
+
+    <!-- Feedback & Zusatzinfos -->
+    <textarea id="additionalInfo" placeholder="Weitere Informationen (optional)"></textarea>
+
+    <button id="startKiBtn" disabled>KI-Triage starten</button>
+    <button onclick="closeCustomerModal()">Zurück</button>
+  </div>
 </div>
 
-<!-- KI-Bestellübersicht Modal -->
-<div class="modal" id="kiSummaryModal" role="dialog" aria-labelledby="kiSummaryModalTitle" aria-hidden="true">
-<div class="modal-content">
-<h2 id="kiSummaryModalTitle">Bestellzusammenfassung KI-Service</h2>
-<div id="kiSummaryBox" class="summary"></div>
-<div class="info-box" style="display:block;">
-<strong>Rechtssicherer Hinweis zur Leistung:</strong><br>
-Die KI-Soforthilfe ist eine digitale Video-Beratung. Der Kunde ist selbst verantwortlich für die sichere Durchführung der empfohlenen Schritte. Leistung: 2 Minuten KI-Beratung. Bei erkennbarer Gefährdung wird ein zugelassener Elektriker empfohlen.
-</div>
-<label><input type="checkbox" id="kiWiederruf"> Widerruf (<a href="#" onclick="showInfo('wiederruf','modalInfoBoxKi');return false;">lesen</a>)</label><br>
-<label><input type="checkbox" id="kiAgb"> AGB akzeptiert (<a href="#" onclick="showInfo('agb','modalInfoBoxKi');return false;">lesen</a>)</label><br>
-<label><input type="checkbox" id="kiConsent"> Gelesen & Einverstanden</label><br><br>
-<div id="modalInfoBoxKi" class="info-box"></div>
-<button id="kiPayBtn" disabled>Gebührenpflichtig bestellen</button>
-<button onclick="closeKiSummaryModal()">Zurück zur Hauptseite</button>
-</div>
-</div>
-
-<!-- Payment Modal -->
-<div class="modal" id="paymentModal" role="dialog" aria-labelledby="paymentModalTitle" aria-hidden="true">
-<div class="modal-content">
-<h2 id="paymentModalTitle">Zahlung</h2>
-<p id="paymentSummary"></p>
-<div>
-<button onclick="simulatePayment('Kreditkarte')">💳 Kreditkarte</button>
-<button onclick="simulatePayment('PayPal')">🅿️ PayPal</button>
-<button onclick="simulatePayment('ApplePay/GooglePay')">📱 Apple Pay / Google Pay</button>
-</div>
-<button onclick="closePaymentModal()">Abbrechen & zurück</button>
-</div>
-</div>
-
-<!-- KI-Chat Modal -->
-<div class="modal" id="kiModal" role="dialog" aria-labelledby="kiModalTitle" aria-hidden="true">
-<div class="modal-content">
-<h2 id="kiModalTitle">KI-Assistenz</h2>
-<div class="info-box" style="display:block;">⚠ Arbeiten an elektrischen Anlagen können gefährlich sein.</div>
-<div id="progressContainer"><div id="progressBar"></div></div>
-<div id="countdown">02:00</div>
-<div id="messages"></div>
-<input type="text" id="userInput" placeholder="Beschreiben Sie Ihr Problem...">
-<button id="sendBtn">Senden</button>
-<input type="file" id="fileInput" accept="image/*"><br>
-</div>
-</div>
-
-<!-- Eskalationsmodal -->
-<div class="modal" id="escalationModal" role="dialog" aria-labelledby="escalationModalTitle" aria-hidden="true">
-<div class="modal-content">
-<h2 id="escalationModalTitle">KI-Sitzung beendet</h2>
-<p>Sie können nun einen Fachmann im Videocall buchen:</p>
-<button id="openExpertSummaryBtn">Fachmann anfordern</button>
-<button onclick="closeEscalationModal()">Zurück zur Hauptseite</button>
-</div>
-</div>
-
-<!-- Expertenservice Bestellübersicht Modal -->
-<div class="modal" id="expertSummaryModal" role="dialog" aria-labelledby="expertModalTitle" aria-hidden="true">
-<div class="modal-content">
-<h2 id="expertModalTitle">Bestellzusammenfassung Fachmann</h2>
-<div id="expertSummaryBox" class="summary"></div>
-<div class="info-box" style="display:block;">
-<strong>Rechtssicherer Hinweis zur Leistung:</strong><br>
-Der Expertenservice ist ein Live-Videocall mit qualifizierten Fachkräften. Der Kunde ist selbst für die sichere Umsetzung verantwortlich.
-</div>
-<label><input type="checkbox" id="expertWiederruf"> Widerruf (<a href="#" onclick="showInfo('wiederruf','modalInfoBoxExpert');return false;">lesen</a>)</label><br>
-<label><input type="checkbox" id="expertAgb"> AGB akzeptiert (<a href="#" onclick="showInfo('agb','modalInfoBoxExpert');return false;">lesen</a>)</label><br>
-<label><input type="checkbox" id="expertConsent"> Gelesen & Einverstanden</label><br><br>
-<div id="modalInfoBoxExpert" class="info-box"></div>
-<button id="expertPayBtn" disabled>Gebührenpflichtig bestellen</button>
-<button onclick="closeExpertModal()">Zurück zur Hauptseite</button>
-</div>
-</div>
-
-<footer>© 2026 KI-Soforthilfe</footer>
+<footer>
+© 2026 KI-Notdienst
+</footer>
 
 <script>
-// --- JS für alle Funktionen ---
-
 // Rechtstexte
 const infoTexts = {
-  datenschutz: `<strong>Datenschutzerklärung</strong><br>Wir speichern Ihre Daten ausschließlich für die Rückruf- und Video-Beratung. Weitergabe an Dritte erfolgt nicht.`,
-  wiederruf: `<strong>Widerrufsbelehrung</strong><br>14 Tage Widerrufsrecht. Dienstleistung erlischt bei vollständiger Erbringung.`,
-  agb: `<strong>AGB</strong><br>Vertrag ist digitale Video-Beratung. Preis KI: 39,99 €. Kunde verantwortlich für sichere Durchführung.`
+  datenschutz: `<strong>Datenschutzerklärung</strong><br>Wir speichern Ihre Daten ausschließlich für die Rückruf- und Video-Beratung. Die Weitergabe an Dritte erfolgt nicht. Sie können Ihre Zustimmung jederzeit widerrufen. Weitere Informationen finden Sie in der AGB.`
 };
-
 function showInfo(type, containerId){
   const infoBox = document.getElementById(containerId);
   infoBox.innerHTML = infoTexts[type] + '<br><button onclick="this.parentElement.style.display=\'none\'">Schließen</button>';
   infoBox.style.display='block';
 }
 
-// Elemente
+// Modal Steuerung
 const customerModal = document.getElementById("customerModal");
-const kiSummaryModal = document.getElementById("kiSummaryModal");
-const kiModal = document.getElementById("kiModal");
-const escalationModal = document.getElementById("escalationModal");
-const expertSummaryModal = document.getElementById("expertSummaryModal");
-const paymentModal = document.getElementById("paymentModal");
-const paymentSummary = document.getElementById("paymentSummary");
-
 const openCustomerBtn = document.getElementById("openCustomerBtn");
-const startKiBtn = document.getElementById("startKiBtn");
-const kiPayBtn = document.getElementById("kiPayBtn");
-const expertPayBtn = document.getElementById("expertPayBtn");
+openCustomerBtn.addEventListener("click",()=>{customerModal.style.display="flex";});
+function closeCustomerModal(){customerModal.style.display="none";}
 
+// Elemente
 const nameEl = document.getElementById("name");
 const addressEl = document.getElementById("address");
 const phoneEl = document.getElementById("phone");
 const emailEl = document.getElementById("email");
 const consentEl = document.getElementById("consent");
-
-const kiWiederruf = document.getElementById("kiWiederruf");
-const kiAgb = document.getElementById("kiAgb");
-const kiConsent = document.getElementById("kiConsent");
-
-const expertWiederruf = document.getElementById("expertWiederruf");
-const expertAgb = document.getElementById("expertAgb");
-const expertConsent = document.getElementById("expertConsent");
-
-const messagesEl = document.getElementById("messages");
-const userInputEl = document.getElementById("userInput");
-const sendBtn = document.getElementById("sendBtn");
+const serviceTypeEl = document.getElementById("serviceType");
+const symptomsContainer = document.getElementById("symptomsContainer");
+const startKiBtn = document.getElementById("startKiBtn");
 const fileInput = document.getElementById("fileInput");
-const openExpertSummaryBtn = document.getElementById("openExpertSummaryBtn");
 
-const progressBar = document.getElementById("progressBar");
-const countdownEl = document.getElementById("countdown");
+// Symptome pro Service-Typ
+const serviceSymptoms = {
+  electricity: ["FI-Schalter ausgelöst","Sicherung durchgebrannt","Komplettausfall","Geräusche / Funken"],
+  water: ["Rohrbruch / Leck","Kein Wasser","Wasser tropft","Pumpe defekt"],
+  heating: ["Heizung kalt","Thermostat defekt","Boiler / Warmwasser aus","Heizung ungleichmäßig"]
+};
 
-let kiTimer, kiProgressInterval;
-let kiDuration = 120;
-let currentService = "";
+// Dynamische Symptom Checkboxen
+serviceTypeEl.addEventListener("change", () => {
+  const type = serviceTypeEl.value;
+  symptomsContainer.innerHTML = "";
+  if (!type) return;
+  serviceSymptoms[type].forEach(symptom => {
+    const div = document.createElement("div");
+    div.innerHTML = `<label><input type="checkbox" class="symptomCheckbox" value="${symptom}"> ${symptom}</label>`;
+    symptomsContainer.appendChild(div);
+  });
+  updateStartKiBtn();
+});
 
-// Modal Funktionen
-openCustomerBtn.addEventListener("click",()=>{customerModal.style.display="flex";});
-function closeCustomerModal(){customerModal.style.display="none";}
-function closeKiSummaryModal(){kiSummaryModal.style.display="none";}
-function closeEscalationModal(){escalationModal.style.display="none";}
-function closeExpertModal(){expertSummaryModal.style.display="none";}
-function closePaymentModal(){paymentModal.style.display="none";}
-
-// Aktivierung KI-Hilfe Button
-[nameEl,addressEl,phoneEl,emailEl,consentEl].forEach(el=>{
+// KI-Triage Button aktivieren
+[nameEl,addressEl,phoneEl,emailEl,consentEl,serviceTypeEl].forEach(el=>{
   el.addEventListener("input",updateStartKiBtn);
   el.addEventListener("change",updateStartKiBtn);
 });
 function updateStartKiBtn(){
-  startKiBtn.disabled = !(nameEl.value && addressEl.value && phoneEl.value && emailEl.value && consentEl.checked);
+  const hasSymptoms = document.querySelectorAll('.symptomCheckbox:checked').length > 0;
+  startKiBtn.disabled = !(nameEl.value && addressEl.value && phoneEl.value && emailEl.value && consentEl.checked && serviceTypeEl.value && hasSymptoms);
 }
 
-// Start KI-Service
-startKiBtn.addEventListener("click",()=>{
-  customerModal.style.display="none";
-  kiSummaryModal.style.display="flex";
-  document.getElementById("kiSummaryBox").innerText = `Name: ${nameEl.value}\nAdresse: ${addressEl.value}\nTelefon: ${phoneEl.value}\nE-Mail: ${emailEl.value}`;
-});
-
-// KI-Bestellübersicht Button aktivieren
-[kiWiederruf,kiAgb,kiConsent].forEach(el=>{
-  el.addEventListener("change",()=>{kiPayBtn.disabled=!(kiWiederruf.checked && kiAgb.checked && kiConsent.checked);});
-});
-
-// Payment Modal öffnen
-kiPayBtn.addEventListener("click",()=>{openPaymentModal("KI");});
-expertPayBtn.addEventListener("click",()=>{openPaymentModal("Expert");});
-
-function openPaymentModal(service){
-  currentService = service;
-  let summaryText = "";
-  if(service==="KI"){
-    summaryText = `KI-Service\n\nName: ${nameEl.value}\nAdresse: ${addressEl.value}\nTelefon: ${phoneEl.value}\nE-Mail: ${emailEl.value}\n\nGebührenpflichtige Bestellung: 39,99 €`;
-  } else if(service==="Expert"){
-    summaryText = `Fachmann-Service\n\nName: ${nameEl.value}\nAdresse: ${addressEl.value}\nTelefon: ${phoneEl.value}\nE-Mail: ${emailEl.value}\n\nGebührenpflichtige Bestellung: 99,99 €`;
-  }
-  paymentSummary.innerText = summaryText;
-  paymentModal.style.display="flex";
-}
-
-function simulatePayment(method){
-  alert(`💳 Zahlung erfolgreich via ${method}!`);
-  paymentModal.style.display="none";
-  if(currentService==="KI"){
-    kiSummaryModal.style.display="none";
-    kiModal.style.display="flex";
-    addMessage("KI: Hallo! Ich leite Sie Schritt für Schritt durch Ihr Stromproblem.","ai");
-    startKiSession();
-  } else if(currentService==="Expert"){
-    expertSummaryModal.style.display="none";
-    const whatsappNumber="4915145932462";
-    window.open(`https://wa.me/${whatsappNumber}?text=Ich möchte einen Live-Video-Call buchen`,"_blank");
-  }
-}
-
-// Chat & Upload
-function addMessage(content,sender){
-  const div = document.createElement("div");
-  div.className = "message "+sender;
-  if(typeof content==="string"){ div.innerText = content; }
-  else{ div.appendChild(content); }
-  messagesEl.appendChild(div);
-  messagesEl.scrollTop = messagesEl.scrollHeight;
-}
-sendBtn.addEventListener("click",()=>{
-  const txt=userInputEl.value.trim();
-  if(!txt) return;
-  addMessage(txt,"user");
-  userInputEl.value="";
-  addMessage("KI: Ich analysiere Ihre Eingabe...","ai");
-  setTimeout(()=>{addMessage("KI: Bitte prüfen Sie Sicherungen & FI-Schalter.","ai");},1000);
-});
-userInputEl.addEventListener("keypress",e=>{if(e.key==="Enter") sendBtn.click();});
-
-fileInput.addEventListener("change",(e)=>{
-  const file = e.target.files[0];
-  if(!file) return;
-  const reader = new FileReader();
-  reader.onload=function(ev){
-    const img=document.createElement("img");
-    img.src=ev.target.result;
-    addMessage(img,"user");
-    setTimeout(()=>{addMessage("KI: Bild erhalten und analysiert. Prüfen Sie Sicherungen & FI-Schalter.","ai");},1000);
+// Start KI-Triage (Simulation)
+startKiBtn.addEventListener("click", ()=>{
+  const selectedSymptoms = Array.from(document.querySelectorAll('.symptomCheckbox:checked')).map(cb => cb.value);
+  const data = {
+    name: nameEl.value,
+    address: addressEl.value,
+    phone: phoneEl.value,
+    email: emailEl.value,
+    serviceType: serviceTypeEl.value,
+    symptoms: selectedSymptoms,
+    additionalInfo: document.getElementById("additionalInfo").value
   };
-  reader.readAsDataURL(file);
+  console.log("KI-Triage Daten:", data);
+  alert("Daten an KI gesendet! (Simulation)");
+  closeCustomerModal();
 });
 
-// KI Session Timer
-function startKiSession(){
-  let timeLeft=kiDuration;
-  countdownEl.innerText=formatTime(timeLeft);
-  progressBar.style.width="0%";
-  kiTimer=setInterval(()=>{
-    timeLeft--;
-    countdownEl.innerText=formatTime(timeLeft);
-    progressBar.style.width = (100*(kiDuration-timeLeft)/kiDuration)+"%";
-    if(timeLeft<=0){clearInterval(kiTimer);clearInterval(kiProgressInterval);kiModal.style.display="none";escalationModal.style.display="flex";}
-  },1000);
-}
-function formatTime(sec){const m=Math.floor(sec/60);const s=sec%60;return `${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;}
-
-// Experte Button
-openExpertSummaryBtn.addEventListener("click",()=>{
-  escalationModal.style.display="none";
-  expertSummaryModal.style.display="flex";
-  document.getElementById("expertSummaryBox").innerText = `Name: ${nameEl.value}\nAdresse: ${addressEl.value}\nTelefon: ${phoneEl.value}\nE-Mail: ${emailEl.value}`;
+// Bild Upload
+fileInput.addEventListener("change", (e)=>{
+  const files = Array.from(e.target.files);
+  files.forEach(file => {
+    const reader = new FileReader();
+    reader.onload = function(ev){
+      console.log("Bild für KI:", file.name, ev.target.result);
+    };
+    reader.readAsDataURL(file);
+  });
 });
-// Experten-Modal Buttons aktivieren
-[expertWiederruf,expertAgb,expertConsent].forEach(el=>{
-  el.addEventListener("change",()=>{expertPayBtn.disabled=!(expertWiederruf.checked && expertAgb.checked && expertConsent.checked);});
-});
-
 </script>
-
-<!-- JSON-LD Structured Data für SEO -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Service",
-  "name": "KI-Soforthilfe bei Stromausfall",
-  "description": "Digitale Video-Beratung zur schnellen Behebung von Stromausfällen.",
-  "provider": {
-    "@type": "Organization",
-    "name": "KI-Soforthilfe",
-    "url": "https://deine-webseite.de"
-  }
-}
-</script>
-
 </body>
 </html>
