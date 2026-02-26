@@ -151,7 +151,7 @@ function closeExpertModal(){expertModal.style.display="none";}
 
 // Aktivierung Start KI Button
 [nameEl,addressEl,phoneEl,emailEl,consentEl,serviceTypeEl].forEach(el=>{el.addEventListener("input",updateStartKiBtn); el.addEventListener("change",updateStartKiBtn);});
-function updateStartKiBtn(){startKiBtn.disabled=!(nameEl.value && addressEl.value && phoneEl.value && emailEl.value && consentEl.checked && serviceTypeEl.value);}
+function updateStartKiBtn(){startKiBtn.disabled=!(nameEl.value && addressEl.value && phoneEl.value && consentEl.checked && serviceTypeEl.value);}
 
 // KI Fragen
 const questions={
@@ -214,24 +214,30 @@ confirmExpertBtn.addEventListener("click",()=>{
 // Payment simuliert
 startKiBtn.addEventListener("click",()=>{closeCustomerModal(); startKiSession();});
 
-// Push-to-Talk Sprachinteraktion
-let recognition;
-if('webkitSpeechRecognition' in window || 'SpeechRecognition' in window){
-  const SpeechRecognition=window.SpeechRecognition || window.webkitSpeechRecognition;
-  recognition=new SpeechRecognition();
-  recognition.lang='de-DE';
-  recognition.interimResults=false;
-  recognition.maxAlternatives=1;
-  recognition.onresult=function(event){
-    const transcript=event.results[0][0].transcript;
-    addMessage(transcript,"user"); sendBtn.click();
-  }
-  recognition.onerror=function(event){console.error("SpeechRecognition error:",event.error);}
-}
+// Push-to-Talk Sprachinteraktion (Desktop + Mobile)
+const startSpeechBtn = document.getElementById("startSpeechBtn");
+if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const recognition = new SpeechRecognition();
+  recognition.lang = 'de-DE';
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 1;
 
-const startSpeechBtn=document.getElementById("startSpeechBtn");
-startSpeechBtn.addEventListener("mousedown",()=>{if(!recognition)return alert("Spracherkennung nicht unterstützt."); recognition.start();});
-startSpeechBtn.addEventListener("mouseup",()=>{if(!recognition)return; recognition.stop();});
+  recognition.onresult = function(event){
+    const transcript = event.results[0][0].transcript;
+    addMessage(transcript, "user");
+    sendBtn.click();
+  }
+  recognition.onerror = function(event){console.error("SpeechRecognition error:", event.error);}
+
+  // Desktop
+  startSpeechBtn.addEventListener("mousedown", ()=> recognition.start());
+  startSpeechBtn.addEventListener("mouseup", ()=> recognition.stop());
+
+  // Mobile
+  startSpeechBtn.addEventListener("touchstart", (e)=>{ e.preventDefault(); recognition.start(); });
+  startSpeechBtn.addEventListener("touchend", (e)=>{ e.preventDefault(); recognition.stop(); });
+}
 
 // Text-to-Speech
 function speak(text){if('speechSynthesis' in window){const utter=new SpeechSynthesisUtterance(text);utter.lang='de-DE';window.speechSynthesis.speak(utter);}}
