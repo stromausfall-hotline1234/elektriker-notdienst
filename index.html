@@ -31,6 +31,7 @@ input,textarea,select{width:100%;padding:10px;margin:6px 0;border:1px solid #ccc
 footer{padding:15px;text-align:center;background:#111;color:#ffca28;font-size:14px;}
 footer a{color:#ffca28;text-decoration:none;margin:0 8px;}
 footer a:hover{text-decoration:underline;}
+#startSpeechBtn{width:50px;padding:10px;text-align:center;font-size:18px;}
 @media(max-width:600px){
   .modal-content{padding:15px;}
   button{width:100%;margin-top:8px;}
@@ -41,7 +42,6 @@ footer a:hover{text-decoration:underline;}
 </head>
 <body>
 
-<!-- Navigation -->
 <nav>
   <a href="impressum.html" target="_blank">Impressum</a>
   <a href="datenschutz.html" target="_blank">Datenschutz</a>
@@ -85,7 +85,7 @@ footer a:hover{text-decoration:underline;}
 <h2>KI-Assistenz</h2>
 <div class="info-box" style="display:block;">⚠ Die KI sammelt Informationen für den Fachmann. Arbeiten können gefährlich sein.</div>
 <div id="messages"></div>
-<button id="startSpeechBtn">🎤 Spracheingabe starten</button>
+<button id="startSpeechBtn">🎤</button>
 <input type="text" id="userInput" placeholder="Beschreiben Sie Ihr Problem...">
 <button id="sendBtn">Senden</button>
 <input type="file" id="fileInputKI" accept="image/*" multiple><br>
@@ -119,16 +119,12 @@ footer a:hover{text-decoration:underline;}
 
 <script>
 // Rechtstexte
-const infoTexts = {datenschutz:`<strong>Datenschutzerklärung</strong><br>Wir speichern Ihre Daten ausschließlich für Rückruf und Video-Beratung. Weitergabe an Dritte erfolgt nicht.`};
+const infoTexts={datenschutz:`<strong>Datenschutzerklärung</strong><br>Wir speichern Ihre Daten ausschließlich für Rückruf und Video-Beratung. Weitergabe an Dritte erfolgt nicht.`};
 function showInfo(type,id){document.getElementById(id).innerHTML=infoTexts[type]+`<br><button onclick="this.parentElement.style.display='none'">Schließen</button>`; document.getElementById(id).style.display='block';}
 
-// Modal Steuerung
+// Elemente
 const customerModal=document.getElementById("customerModal");
 const openCustomerBtn=document.getElementById("openCustomerBtn");
-openCustomerBtn.addEventListener("click",()=>customerModal.style.display="flex");
-function closeCustomerModal(){customerModal.style.display="none";}
-
-// Kundendaten Elemente
 const nameEl=document.getElementById("name");
 const addressEl=document.getElementById("address");
 const phoneEl=document.getElementById("phone");
@@ -137,7 +133,6 @@ const consentEl=document.getElementById("consent");
 const serviceTypeEl=document.getElementById("serviceType");
 const startKiBtn=document.getElementById("startKiBtn");
 
-// KI Chat Elemente
 const kiModal=document.getElementById("kiModal");
 const messagesEl=document.getElementById("messages");
 const userInputEl=document.getElementById("userInput");
@@ -145,19 +140,27 @@ const sendBtn=document.getElementById("sendBtn");
 const fileInputKI=document.getElementById("fileInputKI");
 const progressBar=document.getElementById("progressBar");
 const countdownEl=document.getElementById("countdown");
+
 const expertModal=document.getElementById("expertModal");
 const confirmExpertBtn=document.getElementById("confirmExpertBtn");
 
-// KI Timer
-let kiTimer,kiProgressInterval,kiDuration=120;
+// Modal Funktionen
+openCustomerBtn.addEventListener("click",()=>customerModal.style.display="flex");
+function closeCustomerModal(){customerModal.style.display="none";}
+function closeExpertModal(){expertModal.style.display="none";}
 
-// Automatische KI Fragen
+// Aktivierung Start KI Button
+[nameEl,addressEl,phoneEl,emailEl,consentEl,serviceTypeEl].forEach(el=>{el.addEventListener("input",updateStartKiBtn); el.addEventListener("change",updateStartKiBtn);});
+function updateStartKiBtn(){startKiBtn.disabled=!(nameEl.value && addressEl.value && phoneEl.value && emailEl.value && consentEl.checked && serviceTypeEl.value);}
+
+// KI Fragen
 const questions={
   electricity:["Ist der FI-Schalter ausgelöst?","Ist eine Sicherung durchgebrannt?","Komplettausfall vorhanden?","Hören Sie ungewöhnliche Geräusche oder Funken?"],
   water:["Gibt es einen Rohrbruch oder ein Leck?","Kein Wasser vorhanden?","Tropft irgendwo Wasser?","Pumpe defekt?"],
   heating:["Heizung kalt?","Thermostat defekt?","Warmwasser funktioniert nicht?","Heizung ungleichmäßig?"]
 };
 let currentQuestionIndex=0;
+let kiTimer, kiProgressInterval, kiDuration=120;
 
 // Start KI Session
 function startKiSession(){
@@ -168,24 +171,23 @@ function startKiSession(){
   askNextQuestion();
   let timeLeft=kiDuration; progressBar.style.width='0%'; countdownEl.innerText=formatTime(timeLeft);
   kiTimer=setTimeout(endKiSession, kiDuration*1000);
-  kiProgressInterval=setInterval(()=>{timeLeft--; progressBar.style.width=((kiDuration-timeLeft)/kiDuration*100)+'%'; countdownEl.innerText=formatTime(timeLeft); if(timeLeft<=0)clearInterval(kiProgressInterval);},1000);
+  kiProgressInterval=setInterval(()=>{timeLeft--; progressBar.style.width=((kiDuration-timeLeft)/kiDuration*100)+'%'; countdownEl.innerText=formatTime(timeLeft); if(timeLeft<=0) clearInterval(kiProgressInterval);},1000);
 }
 
-// Frage die nächste Frage
 function askNextQuestion(){
   const service=serviceTypeEl.value;
-  if(!service || currentQuestionIndex>=questions[service].length){addMessage("KI: Vielen Dank. Ich habe alle wichtigen Informationen erfasst.","ai");return;}
+  if(!service || currentQuestionIndex>=questions[service].length){addMessage("KI: Vielen Dank. Ich habe alle wichtigen Informationen erfasst.","ai"); return;}
   addMessage("KI: "+questions[service][currentQuestionIndex],"ai");
 }
 
-// KI Antwort & weiter zur nächsten Frage
+// KI Antwort
 sendBtn.addEventListener("click",()=>{
-  const txt=userInputEl.value.trim(); if(!txt)return; addMessage(txt,"user"); userInputEl.value="";
+  const txt=userInputEl.value.trim(); if(!txt) return;
+  addMessage(txt,"user"); userInputEl.value="";
   addMessage("KI: Danke, nächste Frage...","ai");
-  currentQuestionIndex++;
-  askNextQuestion();
+  currentQuestionIndex++; askNextQuestion();
 });
-userInputEl.addEventListener("keypress",e=>{if(e.key==="Enter")sendBtn.click();});
+userInputEl.addEventListener("keypress",e=>{if(e.key==="Enter") sendBtn.click();});
 
 // Bilder KI
 fileInputKI.addEventListener("change",e=>{
@@ -198,69 +200,42 @@ fileInputKI.addEventListener("change",e=>{
 
 // KI beenden
 function endKiSession(){kiModal.style.display="none"; clearInterval(kiProgressInterval); expertModal.style.display="flex";}
-function closeExpertModal(){expertModal.style.display="none";}
+function formatTime(sec){return `${String(Math.floor(sec/60)).padStart(2,'0')}:${String(sec%60).padStart(2,'0')}`;}
 
-// Fachmann WhatsApp Videocall
+// Fachmann WhatsApp
 confirmExpertBtn.addEventListener("click",()=>{
   const level=document.getElementById("difficultyLevel").value;
-  alert(`Fachmann-Auftrag bestätigt! Schwierigkeitsgrad: ${level}. WhatsApp-Videocall wird gestartet.`);
   const whatsappNumber="4915145932462";
   const message=`Ich möchte einen Live-Video-Call für den Notdienst buchen. Service: ${serviceTypeEl.value}, Schwierigkeitsgrad: ${level}`;
-  const url=`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
-  window.open(url,"_blank");
+  window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`,"_blank");
   expertModal.style.display="none";
 });
 
-// Payment simuliert → KI startet
-startKiBtn.addEventListener("click",()=>{
-  closeCustomerModal();
-  startKiSession();
-});
+// Payment simuliert
+startKiBtn.addEventListener("click",()=>{closeCustomerModal(); startKiSession();});
 
-// Sprachinteraktion
-let recognition, recognizing=false;
+// Push-to-Talk Sprachinteraktion
+let recognition;
 if('webkitSpeechRecognition' in window || 'SpeechRecognition' in window){
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  recognition = new SpeechRecognition();
-  recognition.lang = 'de-DE';
-  recognition.interimResults = false;
-  recognition.maxAlternatives = 1;
-  recognition.onresult = function(event){
-    const transcript = event.results[0][0].transcript;
-    addMessage(transcript,"user");
-    sendBtn.click();
+  const SpeechRecognition=window.SpeechRecognition || window.webkitSpeechRecognition;
+  recognition=new SpeechRecognition();
+  recognition.lang='de-DE';
+  recognition.interimResults=false;
+  recognition.maxAlternatives=1;
+  recognition.onresult=function(event){
+    const transcript=event.results[0][0].transcript;
+    addMessage(transcript,"user"); sendBtn.click();
   }
-  recognition.onend = function(){ recognizing=false; startSpeechBtn.innerText="🎤 Spracheingabe starten"; }
-}
-const startSpeechBtn = document.getElementById("startSpeechBtn");
-startSpeechBtn.addEventListener("click",()=>{
-  if(!recognition) return alert("Spracherkennung wird in diesem Browser nicht unterstützt.");
-  if(recognizing){ recognition.stop(); recognizing=false; startSpeechBtn.innerText="🎤 Spracheingabe starten"; }
-  else{ recognition.start(); recognizing=true; startSpeechBtn.innerText="⏹ Stoppen"; }
-});
-
-// KI spricht
-function speak(text){
-  if('speechSynthesis' in window){
-    const utter = new SpeechSynthesisUtterance(text);
-    utter.lang='de-DE';
-    window.speechSynthesis.speak(utter);
-  }
+  recognition.onerror=function(event){console.error("SpeechRecognition error:",event.error);}
 }
 
-// Add message
-function addMessage(content,sender){
-  const div=document.createElement("div");
-  div.className="message "+sender;
-  div.innerText=content;
-  messagesEl.appendChild(div);
-  messagesEl.scrollTop=messagesEl.scrollHeight;
-  if(sender==="ai") speak(content);
-}
+const startSpeechBtn=document.getElementById("startSpeechBtn");
+startSpeechBtn.addEventListener("mousedown",()=>{if(!recognition)return alert("Spracherkennung nicht unterstützt."); recognition.start();});
+startSpeechBtn.addEventListener("mouseup",()=>{if(!recognition)return; recognition.stop();});
 
-// Aktivierung Button
-[nameEl,addressEl,phoneEl,emailEl,consentEl,serviceTypeEl].forEach(el=>{el.addEventListener("input",updateStartKiBtn); el.addEventListener("change",updateStartKiBtn);});
-function updateStartKiBtn(){startKiBtn.disabled=!(nameEl.value&&addressEl.value&&phoneEl.value&&emailEl.value&&consentEl.checked&&serviceTypeEl.value);}
+// Text-to-Speech
+function speak(text){if('speechSynthesis' in window){const utter=new SpeechSynthesisUtterance(text);utter.lang='de-DE';window.speechSynthesis.speak(utter);}}
+function addMessage(content,sender){const div=document.createElement("div");div.className="message "+sender;div.innerText=content;messagesEl.appendChild(div);messagesEl.scrollTop=messagesEl.scrollHeight; if(sender==="ai") speak(content);}
 </script>
 </body>
 </html>
