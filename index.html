@@ -21,10 +21,13 @@ header button{font-size:1.1em;}
 .summary{background:#f7f7f7;padding:12px;border-radius:8px;font-size:14px;margin-bottom:10px;white-space:pre-wrap;}
 .info-box{background:#fff3cd;padding:12px;border-radius:8px;border:1px solid #ffeeba;margin-bottom:12px;font-size:14px;display:none;}
 input,textarea,select{width:100%;padding:10px;margin:6px 0;border:1px solid #ccc;border-radius:8px;box-sizing:border-box;}
-#messages{height:200px;overflow-y:auto;border:1px solid #ccc;padding:10px;margin:10px 0;border-radius:8px;background:white;}
+#messages{height:250px;overflow-y:auto;border:1px solid #ccc;padding:10px;margin:10px 0;border-radius:8px;background:white;}
 .message{padding:6px 10px;border-radius:10px;margin-bottom:5px;word-break:break-word;}
 .message.user{background:#25d366;color:white;text-align:right;}
 .message.ai{background:#ffca28;color:#111;text-align:left;}
+#progressContainer{width:100%;background:#ddd;border-radius:8px;overflow:hidden;margin:10px 0;}
+#progressBar{width:0%;height:15px;background:#25d366;}
+#countdown{font-weight:bold;margin-bottom:10px;}
 footer{padding:15px;text-align:center;background:#111;color:#ffca28;font-size:14px;}
 footer a{color:#ffca28;text-decoration:none;margin:0 8px;}
 footer a:hover{text-decoration:underline;}
@@ -55,7 +58,6 @@ footer a:hover{text-decoration:underline;}
 <div class="modal" id="customerModal">
 <div class="modal-content">
 <h2>Notdienst Anfrage</h2>
-
 <input id="name" placeholder="Vor- und Nachname">
 <input id="address" placeholder="Adresse">
 <input id="phone" placeholder="Telefonnummer">
@@ -71,29 +73,25 @@ footer a:hover{text-decoration:underline;}
   <option value="water">Wasser</option>
   <option value="heating">Heizung</option>
 </select>
-<div id="symptomsContainer"></div>
-
-<label for="fileInput">Fotos hochladen (optional):</label>
-<input type="file" id="fileInput" accept="image/*" multiple>
-<textarea id="additionalInfo" placeholder="Weitere Informationen (optional)"></textarea>
 
 <button id="startKiBtn" disabled>KI-Triage starten</button>
 <button onclick="closeCustomerModal()">Zurück</button>
 </div>
 </div>
 
-<!-- KI-Chat Modal -->
+<!-- KI Chat Modal -->
 <div class="modal" id="kiModal">
 <div class="modal-content">
 <h2>KI-Assistenz</h2>
 <div class="info-box" style="display:block;">⚠ Die KI sammelt Informationen für den Fachmann. Arbeiten können gefährlich sein.</div>
 <div id="messages"></div>
+<button id="startSpeechBtn">🎤 Spracheingabe starten</button>
 <input type="text" id="userInput" placeholder="Beschreiben Sie Ihr Problem...">
 <button id="sendBtn">Senden</button>
 <input type="file" id="fileInputKI" accept="image/*" multiple><br>
-<div id="countdown" style="font-weight:bold; margin-top:10px;">02:00</div>
-<div id="progressContainer" style="width:100%;background:#ddd;border-radius:8px;overflow:hidden;margin-top:5px;">
-  <div id="progressBar" style="width:0%;height:15px;background:#25d366;"></div>
+<div id="countdown">02:00</div>
+<div id="progressContainer">
+<div id="progressBar"></div>
 </div>
 </div>
 </div>
@@ -124,45 +122,22 @@ footer a:hover{text-decoration:underline;}
 const infoTexts = {datenschutz:`<strong>Datenschutzerklärung</strong><br>Wir speichern Ihre Daten ausschließlich für Rückruf und Video-Beratung. Weitergabe an Dritte erfolgt nicht.`};
 function showInfo(type,id){document.getElementById(id).innerHTML=infoTexts[type]+`<br><button onclick="this.parentElement.style.display='none'">Schließen</button>`; document.getElementById(id).style.display='block';}
 
-// Kundendaten Modal
-const customerModal = document.getElementById("customerModal");
-const openCustomerBtn = document.getElementById("openCustomerBtn");
+// Modal Steuerung
+const customerModal=document.getElementById("customerModal");
+const openCustomerBtn=document.getElementById("openCustomerBtn");
 openCustomerBtn.addEventListener("click",()=>customerModal.style.display="flex");
 function closeCustomerModal(){customerModal.style.display="none";}
 
-// Elemente
+// Kundendaten Elemente
 const nameEl=document.getElementById("name");
 const addressEl=document.getElementById("address");
 const phoneEl=document.getElementById("phone");
 const emailEl=document.getElementById("email");
 const consentEl=document.getElementById("consent");
 const serviceTypeEl=document.getElementById("serviceType");
-const symptomsContainer=document.getElementById("symptomsContainer");
 const startKiBtn=document.getElementById("startKiBtn");
-const fileInput=document.getElementById("fileInput");
 
-// Symptome
-const serviceSymptoms={
-  electricity:["FI-Schalter ausgelöst","Sicherung durchgebrannt","Komplettausfall","Geräusche / Funken"],
-  water:["Rohrbruch / Leck","Kein Wasser","Wasser tropft","Pumpe defekt"],
-  heating:["Heizung kalt","Thermostat defekt","Boiler / Warmwasser aus","Heizung ungleichmäßig"]
-};
-serviceTypeEl.addEventListener("change",()=>{
-  const type=serviceTypeEl.value; symptomsContainer.innerHTML="";
-  if(!type)return;
-  serviceSymptoms[type].forEach(symptom=>{
-    const div=document.createElement("div");
-    div.innerHTML=`<label><input type="checkbox" class="symptomCheckbox" value="${symptom}"> ${symptom}</label>`;
-    symptomsContainer.appendChild(div);
-  });
-  updateStartKiBtn();
-});
-
-// KI-Triage Button aktivieren
-[nameEl,addressEl,phoneEl,emailEl,consentEl,serviceTypeEl].forEach(el=>{el.addEventListener("input",updateStartKiBtn); el.addEventListener("change",updateStartKiBtn);});
-function updateStartKiBtn(){const hasSymptoms=document.querySelectorAll('.symptomCheckbox:checked').length>0; startKiBtn.disabled=!(nameEl.value&&addressEl.value&&phoneEl.value&&emailEl.value&&consentEl.checked&&serviceTypeEl.value&&hasSymptoms);}
-
-// KI Session starten
+// KI Chat Elemente
 const kiModal=document.getElementById("kiModal");
 const messagesEl=document.getElementById("messages");
 const userInputEl=document.getElementById("userInput");
@@ -173,29 +148,46 @@ const countdownEl=document.getElementById("countdown");
 const expertModal=document.getElementById("expertModal");
 const confirmExpertBtn=document.getElementById("confirmExpertBtn");
 
-let kiTimer, kiProgressInterval, kiDuration=120;
+// KI Timer
+let kiTimer,kiProgressInterval,kiDuration=120;
 
+// Automatische KI Fragen
+const questions={
+  electricity:["Ist der FI-Schalter ausgelöst?","Ist eine Sicherung durchgebrannt?","Komplettausfall vorhanden?","Hören Sie ungewöhnliche Geräusche oder Funken?"],
+  water:["Gibt es einen Rohrbruch oder ein Leck?","Kein Wasser vorhanden?","Tropft irgendwo Wasser?","Pumpe defekt?"],
+  heating:["Heizung kalt?","Thermostat defekt?","Warmwasser funktioniert nicht?","Heizung ungleichmäßig?"]
+};
+let currentQuestionIndex=0;
+
+// Start KI Session
 function startKiSession(){
   kiModal.style.display="flex";
   messagesEl.innerHTML="";
-  addMessage("KI: Hallo! Ich werde Ihr Problem analysieren und alle wichtigen Informationen sammeln.","ai");
+  addMessage("KI: Hallo! Ich werde Ihr Problem analysieren und wichtige Informationen sammeln.","ai");
+  currentQuestionIndex=0;
+  askNextQuestion();
   let timeLeft=kiDuration; progressBar.style.width='0%'; countdownEl.innerText=formatTime(timeLeft);
   kiTimer=setTimeout(endKiSession, kiDuration*1000);
-  kiProgressInterval=setInterval(()=>{
-    timeLeft--; progressBar.style.width=((kiDuration-timeLeft)/kiDuration*100)+'%';
-    countdownEl.innerText=formatTime(timeLeft); if(timeLeft<=0)clearInterval(kiProgressInterval);
-  },1000);
+  kiProgressInterval=setInterval(()=>{timeLeft--; progressBar.style.width=((kiDuration-timeLeft)/kiDuration*100)+'%'; countdownEl.innerText=formatTime(timeLeft); if(timeLeft<=0)clearInterval(kiProgressInterval);},1000);
 }
 
-function addMessage(content,sender){const div=document.createElement("div"); div.className="message "+sender; div.innerText=content; messagesEl.appendChild(div); messagesEl.scrollTop=messagesEl.scrollHeight;}
-function formatTime(sec){return `${String(Math.floor(sec/60)).padStart(2,'0')}:${String(sec%60).padStart(2,'0')}`;}
+// Frage die nächste Frage
+function askNextQuestion(){
+  const service=serviceTypeEl.value;
+  if(!service || currentQuestionIndex>=questions[service].length){addMessage("KI: Vielen Dank. Ich habe alle wichtigen Informationen erfasst.","ai");return;}
+  addMessage("KI: "+questions[service][currentQuestionIndex],"ai");
+}
 
+// KI Antwort & weiter zur nächsten Frage
 sendBtn.addEventListener("click",()=>{
-  const txt=userInputEl.value.trim(); if(!txt)return; addMessage(txt,"user"); userInputEl.value=""; addMessage("KI: Ich analysiere Ihre Eingabe...","ai");
-  setTimeout(()=>{addMessage("KI: Bitte prüfen Sicherungen/Leitungen/Ventile.","ai"); addMessage("KI: Haben Sie weitere Bilder oder Informationen?","ai");},1000);
+  const txt=userInputEl.value.trim(); if(!txt)return; addMessage(txt,"user"); userInputEl.value="";
+  addMessage("KI: Danke, nächste Frage...","ai");
+  currentQuestionIndex++;
+  askNextQuestion();
 });
 userInputEl.addEventListener("keypress",e=>{if(e.key==="Enter")sendBtn.click();});
 
+// Bilder KI
 fileInputKI.addEventListener("change",e=>{
   Array.from(e.target.files).forEach(file=>{
     const reader=new FileReader();
@@ -204,14 +196,14 @@ fileInputKI.addEventListener("change",e=>{
   });
 });
 
+// KI beenden
 function endKiSession(){kiModal.style.display="none"; clearInterval(kiProgressInterval); expertModal.style.display="flex";}
 function closeExpertModal(){expertModal.style.display="none";}
 
-// Fachmann WhatsApp Videocall Integration
+// Fachmann WhatsApp Videocall
 confirmExpertBtn.addEventListener("click",()=>{
   const level=document.getElementById("difficultyLevel").value;
   alert(`Fachmann-Auftrag bestätigt! Schwierigkeitsgrad: ${level}. WhatsApp-Videocall wird gestartet.`);
-  
   const whatsappNumber="4915145932462";
   const message=`Ich möchte einen Live-Video-Call für den Notdienst buchen. Service: ${serviceTypeEl.value}, Schwierigkeitsgrad: ${level}`;
   const url=`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
@@ -221,13 +213,54 @@ confirmExpertBtn.addEventListener("click",()=>{
 
 // Payment simuliert → KI startet
 startKiBtn.addEventListener("click",()=>{
-  const selectedSymptoms=Array.from(document.querySelectorAll('.symptomCheckbox:checked')).map(cb=>cb.value);
-  const data={name:nameEl.value,address:addressEl.value,phone:phoneEl.value,email:emailEl.value,serviceType:serviceTypeEl.value,symptoms:selectedSymptoms,additionalInfo:document.getElementById("additionalInfo").value};
-  console.log("Daten an KI:",data);
   closeCustomerModal();
   startKiSession();
 });
-</script>
 
+// Sprachinteraktion
+let recognition, recognizing=false;
+if('webkitSpeechRecognition' in window || 'SpeechRecognition' in window){
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  recognition = new SpeechRecognition();
+  recognition.lang = 'de-DE';
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 1;
+  recognition.onresult = function(event){
+    const transcript = event.results[0][0].transcript;
+    addMessage(transcript,"user");
+    sendBtn.click();
+  }
+  recognition.onend = function(){ recognizing=false; startSpeechBtn.innerText="🎤 Spracheingabe starten"; }
+}
+const startSpeechBtn = document.getElementById("startSpeechBtn");
+startSpeechBtn.addEventListener("click",()=>{
+  if(!recognition) return alert("Spracherkennung wird in diesem Browser nicht unterstützt.");
+  if(recognizing){ recognition.stop(); recognizing=false; startSpeechBtn.innerText="🎤 Spracheingabe starten"; }
+  else{ recognition.start(); recognizing=true; startSpeechBtn.innerText="⏹ Stoppen"; }
+});
+
+// KI spricht
+function speak(text){
+  if('speechSynthesis' in window){
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.lang='de-DE';
+    window.speechSynthesis.speak(utter);
+  }
+}
+
+// Add message
+function addMessage(content,sender){
+  const div=document.createElement("div");
+  div.className="message "+sender;
+  div.innerText=content;
+  messagesEl.appendChild(div);
+  messagesEl.scrollTop=messagesEl.scrollHeight;
+  if(sender==="ai") speak(content);
+}
+
+// Aktivierung Button
+[nameEl,addressEl,phoneEl,emailEl,consentEl,serviceTypeEl].forEach(el=>{el.addEventListener("input",updateStartKiBtn); el.addEventListener("change",updateStartKiBtn);});
+function updateStartKiBtn(){startKiBtn.disabled=!(nameEl.value&&addressEl.value&&phoneEl.value&&emailEl.value&&consentEl.checked&&serviceTypeEl.value);}
+</script>
 </body>
 </html>
