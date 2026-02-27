@@ -99,6 +99,7 @@ footer a:hover{text-decoration:underline;}
   <option value="heating">Heizung</option>
 </select>
 <button id="startKiBtn" disabled>KI-Triage starten</button>
+<button onclick="closeCustomerModal()">Zurück</button>
 </div>
 </div>
 
@@ -113,8 +114,7 @@ footer a:hover{text-decoration:underline;}
   <h3 id="kiAssessmentTitle"></h3>
   <p id="kiAssessmentText"></p>
 </div>
-<button id="saveDataBtn">Daten speichern</button>
-<button id="whatsappBtn" style="background:#25D366;margin-top:10px;">WhatsApp Fachmann kontaktieren</button>
+<button id="bookVideoCallBtn" style="display:none; background:#ff4500;">Videocall buchen – 19,99 €</button>
 <input type="text" id="userInput" placeholder="Beschreiben Sie Ihr Problem...">
 <button id="sendBtn">Senden</button>
 <input type="file" id="fileInputKI" accept="image/*" multiple><br>
@@ -123,17 +123,29 @@ footer a:hover{text-decoration:underline;}
 </div>
 </div>
 
+<!-- Fachmann Modal -->
+<div class="modal" id="expertModal">
+<div class="modal-content">
+<h2>Fachmann-Bestätigung</h2>
+<p>Der Fachmann wird Sie nun kontaktieren.</p>
+<label>Schwierigkeitsgrad Bewertung:</label>
+<select id="difficultyLevel">
+  <option value="1">1 – Leicht</option>
+  <option value="2">2 – Mittel</option>
+  <option value="3">3 – Komplex</option>
+  <option value="4">4 – Kritisch</option>
+</select>
+<button id="confirmExpertBtn">WhatsApp kontaktieren</button>
+<button onclick="closeExpertModal()">Zurück</button>
+</div>
+</div>
+
 <footer>
 © 2026 KI-Notdienst
 </footer>
 
 <script type="module">
-// Supabase initialisieren
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL,
-  import.meta.env.VITE_SUPABASE_ANON_KEY
-);
+import { supabase } from './supabase.js'
 
 // Rechtstexte
 const infoTexts={datenschutz:`<strong>Datenschutzerklärung</strong><br>Wir speichern Ihre Daten ausschließlich für Rückruf und Video-Beratung. Weitergabe an Dritte erfolgt nicht.`};
@@ -158,100 +170,92 @@ const fileInputKI=document.getElementById("fileInputKI");
 const progressBar=document.getElementById("progressBar");
 const countdownEl=document.getElementById("countdown");
 
-const saveDataBtn=document.getElementById("saveDataBtn");
-const whatsappBtn=document.getElementById("whatsappBtn");
+const expertModal=document.getElementById("expertModal");
+const confirmExpertBtn=document.getElementById("confirmExpertBtn");
+const bookVideoCallBtn=document.getElementById("bookVideoCallBtn");
 
-// WhatsApp Nummer Fachmann
-const whatsappNumber = "4915145932462";
+let uploadedImages = []
 
-// Modal Funktionen
-openCustomerBtn.addEventListener("click",()=>customerModal.style.display="flex");
-function closeCustomerModal(){customerModal.style.display="none";}
+document.addEventListener("DOMContentLoaded", ()=>{
+  // Soforthilfe Button
+  openCustomerBtn.addEventListener("click",()=>customerModal.style.display="flex")
 
-// Start KI Button Aktivierung
-[nameEl,addressEl,phoneEl,emailEl,consentEl,serviceTypeEl].forEach(el=>{el.addEventListener("input",updateStartKiBtn); el.addEventListener("change",updateStartKiBtn);});
-function updateStartKiBtn(){startKiBtn.disabled=!(nameEl.value && addressEl.value && phoneEl.value && consentEl.checked && serviceTypeEl.value);}
-
-// KI Fragen
-const questions={
-  electricity:["Ist der FI-Schalter ausgelöst?","Ist eine Sicherung durchgebrannt?"],
-  water:["Gibt es einen Rohrbruch oder ein Leck?","Kein Wasser vorhanden?"],
-  heating:["Heizung kalt?","Thermostat defekt?"]
-};
-let currentQuestionIndex=0;
-let kiTimer, kiProgressInterval, kiDuration=120;
-
-startKiBtn.addEventListener("click",()=>{
-  closeCustomerModal(); 
-  kiModal.style.display="flex";
-  messagesEl.innerHTML="";
-  addMessage("KI: Hallo! Ich werde Ihr Problem analysieren und wichtige Informationen sammeln.","ai");
-  currentQuestionIndex=0;
-  askNextQuestion();
-  let timeLeft=kiDuration; progressBar.style.width='0%'; countdownEl.innerText=formatTime(timeLeft);
-  kiTimer=setTimeout(()=>endKiSession(), kiDuration*1000);
-  kiProgressInterval=setInterval(()=>{timeLeft--; progressBar.style.width=((kiDuration-timeLeft)/kiDuration*100)+'%'; countdownEl.innerText=formatTime(timeLeft); if(timeLeft<=0) clearInterval(kiProgressInterval);},1000);
-});
-
-function askNextQuestion(){
-  const service=serviceTypeEl.value;
-  if(!service || currentQuestionIndex>=questions[service].length){addMessage("KI: Vielen Dank. Ich habe alle wichtigen Informationen erfasst.","ai"); return;}
-  addMessage("KI: "+questions[service][currentQuestionIndex],"ai");
-}
-
-sendBtn.addEventListener("click",()=>{
-  const txt=userInputEl.value.trim(); if(!txt) return;
-  addMessage(txt,"user"); userInputEl.value="";
-  addMessage("KI: Danke, nächste Frage...","ai");
-  currentQuestionIndex++; askNextQuestion();
-});
-userInputEl.addEventListener("keypress",e=>{if(e.key==="Enter") sendBtn.click();});
-
-// Bilder KI
-fileInputKI.addEventListener("change",e=>{
-  Array.from(e.target.files).forEach(file=>{
-    addMessage("Bild hochgeladen: "+file.name,"user");
+  // Start KI Button Aktivierung
+  [nameEl,addressEl,phoneEl,emailEl,consentEl,serviceTypeEl].forEach(el=>{
+    el.addEventListener("input",updateStartKiBtn)
+    el.addEventListener("change",updateStartKiBtn)
   });
-});
+  function updateStartKiBtn(){startKiBtn.disabled=!(nameEl.value && addressEl.value && phoneEl.value && emailEl.value && consentEl.checked && serviceTypeEl.value);}
+  
+  // KI Session starten
+  startKiBtn.addEventListener("click", async ()=>{
+    customerModal.style.display="none";
+    kiModal.style.display="flex";
+    messagesEl.innerHTML="";
+    uploadedImages = [];
+    addMessage("KI: Hallo! Ich werde Ihr Problem analysieren und wichtige Informationen sammeln.","ai");
 
-// Daten speichern in Supabase
-saveDataBtn.addEventListener("click", async ()=>{
-  const name=nameEl.value.trim();
-  const email=emailEl.value.trim();
-  const telefon=phoneEl.value.trim();
-  const adresse=addressEl.value.trim();
-  const service=serviceTypeEl.value;
-  const problem=userInputEl.value.trim();
-  if(!name || !email || !telefon || !adresse || !service){addMessage("Bitte alle Kundendaten ausfüllen.","user"); return;}
+    const service = serviceTypeEl.value;
+    let problemText = "";
 
-  let imagePaths=[];
-  Array.from(fileInputKI.files).forEach(f=>imagePaths.push(`images/${f.name}`));
+    // Bilder Upload vorbereiten
+    fileInputKI.addEventListener("change", (e)=>{
+      Array.from(e.target.files).forEach(file=>{
+        uploadedImages.push(file.name)
+        addMessage("Bild hochgeladen: "+file.name,"user")
+        setTimeout(()=>{addMessage("KI: Bild erhalten und analysiert.","ai")},500)
+      })
+    })
 
-  const {data,error}=await supabase.from('ki_notdienst').insert([{
-    name,email,telefon,adresse,service,problem,image_paths:imagePaths
-  }]);
-  if(error) addMessage("Fehler beim Speichern: "+error.message,"user");
-  else addMessage("Kundendaten erfolgreich gespeichert!","ai");
-});
+    const questions={
+      electricity:["Ist der FI-Schalter ausgelöst?","Ist eine Sicherung durchgebrannt?","Komplettausfall vorhanden?","Hören Sie ungewöhnliche Geräusche oder Funken?"],
+      water:["Gibt es einen Rohrbruch oder ein Leck?","Kein Wasser vorhanden?","Tropft irgendwo Wasser?","Pumpe defekt?"],
+      heating:["Heizung kalt?","Thermostat defekt?","Warmwasser funktioniert nicht?","Heizung ungleichmäßig?"]
+    }
 
-// WhatsApp Button
-whatsappBtn.addEventListener("click", () => {
-  const name=nameEl.value.trim();
-  const email=emailEl.value.trim();
-  const telefon=phoneEl.value.trim();
-  const adresse=addressEl.value.trim();
-  const service=serviceTypeEl.value;
-  const problem=userInputEl.value.trim();
+    for(let q of questions[service]){
+      addMessage("KI: "+q,"ai");
+      const answer = await new Promise(resolve=>{
+        const handler = ()=>{
+          if(userInputEl.value.trim()!==""){
+            const val=userInputEl.value
+            addMessage(val,"user")
+            userInputEl.value=""
+            resolve(val)
+            sendBtn.removeEventListener("click",handler)
+          }
+        }
+        sendBtn.addEventListener("click",handler)
+      })
+      problemText += q+": "+answer+"\n"
+    }
 
-  if(!name || !email || !telefon || !adresse || !service){addMessage("Bitte alle Kundendaten ausfüllen, bevor Sie WhatsApp kontaktieren.","user"); return;}
+    addMessage("KI: Vielen Dank. Ich habe alle wichtigen Informationen erfasst.","ai")
 
-  const message=`Notdienst Anfrage:\nName: ${name}\nE-Mail: ${email}\nTelefon: ${telefon}\nAdresse: ${adresse}\nService: ${service}\nProblem: ${problem}`;
-  window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`,"_blank");
-});
+    // Supabase speichern
+    const { data, error } = await supabase.from('ki_notdienst').insert([{
+      name:nameEl.value,
+      email:emailEl.value,
+      telefon:phoneEl.value,
+      adresse:addressEl.value,
+      service:service,
+      problem:problemText,
+      image_paths:JSON.stringify(uploadedImages)
+    }])
+    if(error) console.error("Supabase Error:",error)
+    else console.log("Daten gespeichert:",data)
 
-// Hilfsfunktionen
+    // WhatsApp Button anzeigen
+    bookVideoCallBtn.style.display="block"
+    bookVideoCallBtn.onclick = ()=>{
+      const whatsappNumber="4915145932462"
+      const message=`Ich möchte einen Live-Video-Call für den Notdienst buchen. Service: ${service}, Problem: ${problemText}`
+      window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`,"_blank")
+    }
+  })
+})
+
 function addMessage(content,sender){const div=document.createElement("div");div.className="message "+sender;div.innerText=content;messagesEl.appendChild(div);messagesEl.scrollTop=messagesEl.scrollHeight;}
-function formatTime(sec){return `${String(Math.floor(sec/60)).padStart(2,'0')}:${String(sec%60).padStart(2,'0')}`;}
 </script>
 </body>
 </html>
