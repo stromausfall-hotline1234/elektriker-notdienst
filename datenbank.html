@@ -1,1 +1,83 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Datenbank – KI-Notdienst</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'Montserrat',sans-serif;background:#f0f2f5;color:#222;}
+h1,h2{margin:0 0 15px;}
+table{width:100%;border-collapse:collapse;margin:20px 0;background:white;border-radius:8px;overflow:hidden;}
+th,td{padding:10px;border-bottom:1px solid #ccc;text-align:left;vertical-align:top;}
+th{background:#25d366;color:white;}
+tr:hover{background:#f0f2f5;}
+img{max-width:100px;border-radius:6px;margin:2px;}
+pre{background:#f7f7f7;padding:10px;border-radius:6px;overflow-x:auto;}
+button{padding:10px 15px;border:none;border-radius:6px;background:#25d366;color:white;cursor:pointer;margin-bottom:10px;}
+button:hover{background:#1ebe57;}
+</style>
+</head>
+<body>
 
+<header style="padding:20px;text-align:center;background:white;box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+<h1>📂 Kundendaten & KI-Gespräche</h1>
+<button id="clearDBBtn">Alle Daten löschen</button>
+</header>
+
+<main style="padding:20px;">
+<table id="dataTable">
+<thead>
+<tr>
+<th>#</th>
+<th>Name</th>
+<th>Adresse</th>
+<th>Telefon</th>
+<th>E-Mail</th>
+<th>Service</th>
+<th>KI-Gespräch</th>
+<th>Bilder</th>
+<th>Zeitstempel</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+</main>
+
+<script>
+// Daten aus localStorage auslesen
+function loadDatabase(){
+  const db = JSON.parse(localStorage.getItem('kiNotdienstDB')) || [];
+  const tbody = document.querySelector("#dataTable tbody");
+  tbody.innerHTML = '';
+  db.forEach((entry,index)=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML=`
+      <td>${index+1}</td>
+      <td>${entry.name}</td>
+      <td>${entry.address}</td>
+      <td>${entry.phone}</td>
+      <td>${entry.email}</td>
+      <td>${entry.serviceType}</td>
+      <td>${entry.kiConversation.map(msg=>`<strong>${msg.sender}:</strong> ${msg.text}`).join('<br>')}</td>
+      <td>${entry.images.map(img=>`<img src="${img.dataURL}" alt="${img.name}" title="${img.name}">`).join('')}</td>
+      <td>${new Date(entry.timestamp).toLocaleString()}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+// Alle Daten löschen
+document.getElementById('clearDBBtn').addEventListener('click',()=>{
+  if(confirm("Möchten Sie wirklich alle Daten löschen?")){
+    localStorage.removeItem('kiNotdienstDB');
+    loadDatabase();
+  }
+});
+
+// Seite laden
+loadDatabase();
+</script>
+</body>
+</html>
