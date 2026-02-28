@@ -30,14 +30,22 @@ footer{padding:15px;text-align:center;background:#111;color:#ffca28;font-size:14
 footer a{color:#ffca28;text-decoration:none;margin:0 8px;}
 footer a:hover{text-decoration:underline;}
 #startSpeechBtn{width:50px;padding:10px;text-align:center;font-size:18px;}
+.feature-section{padding:40px 20px;background:#fff;}
+.feature-section h2{text-align:center;margin-bottom:30px;font-size:2em;}
+.feature-cards{display:flex; flex-wrap:wrap; justify-content:center; gap:20px;}
+.feature-card{flex:1 1 250px; max-width:300px; background:#f7f7f7; border-radius:12px; padding:20px; box-shadow:0 4px 15px rgba(0,0,0,0.1); text-align:center; transition:0.3s; cursor:pointer;}
+.feature-card:hover{transform:translateY(-5px); box-shadow:0 8px 20px rgba(0,0,0,0.15);}
+.feature-card svg{width:50px; height:50px; margin-bottom:15px;}
+@media(max-width:900px){.feature-card{flex:1 1 45%;}}
+@media(max-width:600px){.feature-card{flex:1 1 100%;}}
 </style>
 </head>
 <body>
 
 <nav>
-  <a href="impressum.html" target="_blank">Impressum</a>
-  <a href="datenschutz.html" target="_blank">Datenschutz</a>
-  <a href="agb.html" target="_blank">AGB</a>
+  <a href="#">Impressum</a>
+  <a href="#">Datenschutz</a>
+  <a href="#">AGB</a>
 </nav>
 
 <header>
@@ -45,6 +53,16 @@ footer a:hover{text-decoration:underline;}
 <p>Starten Sie die Soforthilfe mit Ihrem persönlichen Zugang.</p>
 <button id="openCustomerBtn">Soforthilfe anfordern – 39,99 €</button>
 </header>
+
+<section class="feature-section">
+<h2>Unsere Leistungen auf einen Blick</h2>
+<div class="feature-cards">
+  <div class="feature-card"><h3>Elektrik-Notdienst</h3></div>
+  <div class="feature-card"><h3>Wasser-Notdienst</h3></div>
+  <div class="feature-card"><h3>Heizungs-Notdienst</h3></div>
+  <div class="feature-card"><h3>KI-gestützte Analyse</h3></div>
+</div>
+</section>
 
 <!-- Kundendaten Modal -->
 <div class="modal" id="customerModal">
@@ -54,8 +72,7 @@ footer a:hover{text-decoration:underline;}
 <input id="address" placeholder="Adresse">
 <input id="phone" placeholder="Telefonnummer">
 <input id="email" placeholder="E-Mail-Adresse">
-<label><input type="checkbox" id="consent"> Ich akzeptiere die <a href="#" onclick="alert('Datenschutzerklärung');return false;">Datenschutzerklärung</a></label>
-<label for="serviceType">Service-Typ auswählen:</label>
+<label><input type="checkbox" id="consent"> Ich akzeptiere die Datenschutzerklärung</label>
 <select id="serviceType">
   <option value="">-- Bitte wählen --</option>
   <option value="electricity">Elektrik</option>
@@ -63,23 +80,28 @@ footer a:hover{text-decoration:underline;}
   <option value="heating">Heizung</option>
 </select>
 <textarea id="problem" placeholder="Beschreiben Sie Ihr Problem..."></textarea>
-<input type="file" id="fileInput" accept="image/*" multiple><br><br>
-<button id="submitBtn" disabled>Soforthilfe absenden</button>
-<button onclick="customerModal.style.display='none'">Zurück</button>
+<button id="startKiBtn" disabled>KI-Triage starten</button>
+<button onclick="closeCustomerModal()">Zurück</button>
 </div>
 </div>
 
-<footer>© 2026 KI-Notdienst</footer>
+<footer>
+© 2026 KI-Notdienst
+</footer>
 
 <script type="module">
+// Supabase direkt einbinden
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
-const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+// **Direkt gesetzte Keys für Testzwecke**
+const supabaseUrl = "https://ywqwbbqluabciojvczxm.supabase.co"
+const supabaseKey = "DEIN_ANON_KEY_HIER"
 const supabase = createClient(supabaseUrl, supabaseKey)
 
-const openBtn = document.getElementById('openCustomerBtn')
+// Modal öffnen
 const customerModal = document.getElementById('customerModal')
+const openCustomerBtn = document.getElementById('openCustomerBtn')
+const startKiBtn = document.getElementById('startKiBtn')
 const nameEl = document.getElementById('name')
 const addressEl = document.getElementById('address')
 const phoneEl = document.getElementById('phone')
@@ -87,58 +109,39 @@ const emailEl = document.getElementById('email')
 const consentEl = document.getElementById('consent')
 const serviceTypeEl = document.getElementById('serviceType')
 const problemEl = document.getElementById('problem')
-const fileInput = document.getElementById('fileInput')
-const submitBtn = document.getElementById('submitBtn')
 
-// Button öffnet Modal
-openBtn.addEventListener('click',()=>{ customerModal.style.display='flex' })
+openCustomerBtn.addEventListener('click', ()=>{customerModal.style.display='flex'})
+function closeCustomerModal(){customerModal.style.display='none'}
 
-// Enable Submit Button nur, wenn alle Pflichtfelder gefüllt
+// Button aktivieren
 [nameEl,addressEl,phoneEl,emailEl,consentEl,serviceTypeEl,problemEl].forEach(el=>{
-  el.addEventListener('input',updateSubmitBtn)
-  el.addEventListener('change',updateSubmitBtn)
+  el.addEventListener('input', updateStartKiBtn)
+  el.addEventListener('change', updateStartKiBtn)
 })
-function updateSubmitBtn(){
-  submitBtn.disabled = !(nameEl.value && addressEl.value && phoneEl.value && consentEl.checked && serviceTypeEl.value && problemEl.value)
+function updateStartKiBtn(){
+  startKiBtn.disabled = !(nameEl.value && addressEl.value && phoneEl.value && consentEl.checked && serviceTypeEl.value && problemEl.value)
 }
 
-// Submit Daten speichern + WhatsApp Button
-submitBtn.addEventListener('click', async ()=>{
-  const images = []
-  for (const file of fileInput.files){
-    // Optional: Du könntest hier supabase.storage nutzen
-    images.push(file.name)
-  }
-
+// KI-Triage speichern
+startKiBtn.addEventListener('click', async ()=>{
   const { data, error } = await supabase.from('ki_notdienst').insert([{
     name: nameEl.value,
-    email: emailEl.value,
-    telefon: phoneEl.value,
     adresse: addressEl.value,
+    telefon: phoneEl.value,
+    email: emailEl.value,
     service: serviceTypeEl.value,
     problem: problemEl.value,
-    image_paths: images
+    image_paths: []
   }])
-
-  if (error){
-    alert('Fehler beim Speichern: '+error.message)
-    return
-  }
-
-  customerModal.style.display='none'
+  if(error){alert('Fehler beim Speichern: '+error.message); return;}
   alert('Daten erfolgreich gespeichert!')
 
-  // WhatsApp Link für Fachmann
-  const whatsappNumber = '4915145932462'
-  const message = `Ich möchte einen Live-Video-Call für den Notdienst buchen.\nService: ${serviceTypeEl.value}\nProblem: ${problemEl.value}`
-  window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`,'_blank')
-  
-  // Form zurücksetzen
-  nameEl.value = addressEl.value = phoneEl.value = emailEl.value = problemEl.value = ''
-  serviceTypeEl.value = ''
-  consentEl.checked = false
-  fileInput.value = ''
-  submitBtn.disabled = true
+  // WhatsApp Call
+  const whatsappNumber = "4915145932462" // Beispielnummer
+  const message = `Ich möchte einen Live-Video-Call für den Notdienst buchen. Service: ${serviceTypeEl.value}`
+  window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, '_blank')
+
+  closeCustomerModal()
 })
 </script>
 
