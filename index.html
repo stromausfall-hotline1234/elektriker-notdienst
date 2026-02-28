@@ -46,6 +46,7 @@ footer a:hover{text-decoration:underline;}
   <a href="impressum.html" target="_blank">Impressum</a>
   <a href="datenschutz.html" target="_blank">Datenschutz</a>
   <a href="agb.html" target="_blank">AGB</a>
+  <a href="datenbank.html" target="_blank">Datenbank</a>
 </nav>
 
 <header>
@@ -109,7 +110,6 @@ footer a:hover{text-decoration:underline;}
 <h2>KI-Assistenz</h2>
 <div class="info-box" style="display:block;">⚠ Die KI sammelt Informationen für den Fachmann. Arbeiten können gefährlich sein.</div>
 <div id="messages"></div>
-<!-- KI-Beurteilung Feature Card -->
 <div id="kiAssessmentCard" class="feature-card" style="display:none;">
   <svg id="kiAssessmentIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"></svg>
   <h3 id="kiAssessmentTitle"></h3>
@@ -188,8 +188,7 @@ const questions={
   water:["Gibt es einen Rohrbruch oder ein Leck?","Kein Wasser vorhanden?","Tropft irgendwo Wasser?","Pumpe defekt?"],
   heating:["Heizung kalt?","Thermostat defekt?","Warmwasser funktioniert nicht?","Heizung ungleichmäßig?"]
 };
-let currentQuestionIndex=0;
-let kiTimer, kiProgressInterval, kiDuration=120;
+let currentQuestionIndex=0,kiTimer,kiProgressInterval,kiDuration=120;
 
 // Start KI Session
 startKiBtn.addEventListener("click",()=>{closeCustomerModal(); startKiSession();});
@@ -254,8 +253,41 @@ function endKiSession(service){
   bookVideoCallBtn.style.display="block";
 }
 
-// Videocall Button + WhatsApp
+// Datenbank speichern inkl. Bilder
+function saveSessionToDatabase() {
+  const kiMessages = Array.from(messagesEl.children).map(msg => ({
+    sender: msg.classList.contains('user') ? 'user' : 'ki',
+    text: msg.innerText
+  }));
+  const uploadedImages = Array.from(fileInputKI.files).map(file => ({name:file.name,dataURL:null}));
+
+  let readers = uploadedImages.map((img,i)=>new Promise(resolve=>{
+    const reader=new FileReader();
+    reader.onload=e=>{img.dataURL=e.target.result; resolve();}
+    reader.readAsDataURL(fileInputKI.files[i]);
+  }));
+
+  Promise.all(readers).then(()=>{
+    const customerData = {
+      name: nameEl.value,
+      address: addressEl.value,
+      phone: phoneEl.value,
+      email: emailEl.value,
+      serviceType: serviceTypeEl.value,
+      kiConversation: kiMessages,
+      images: uploadedImages,
+      timestamp: new Date().toISOString()
+    };
+    let db = JSON.parse(localStorage.getItem('kiNotdienstDB')) || [];
+    db.push(customerData);
+    localStorage.setItem('kiNotdienstDB', JSON.stringify(db));
+    console.log("Session gespeichert!", customerData);
+  });
+}
+
+// Videocall Button
 bookVideoCallBtn.addEventListener("click",()=>{
+  saveSessionToDatabase();
   alert("Bezahlung abgeschlossen. Fachmann-Modal wird geöffnet.");
   kiModal.style.display="none";
   expertModal.style.display="flex";
@@ -264,7 +296,7 @@ bookVideoCallBtn.addEventListener("click",()=>{
 // Fachmann WhatsApp
 confirmExpertBtn.addEventListener("click",()=>{
   const level=document.getElementById("difficultyLevel").value;
-  const whatsappNumber="4915145932462"; // Beispielnummer
+  const whatsappNumber="4915145932462";
   const message=`Ich möchte einen Live-Video-Call für den Notdienst buchen. Service: ${serviceTypeEl.value}, Schwierigkeitsgrad: ${level}`;
   window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`,"_blank");
   expertModal.style.display="none";
