@@ -43,9 +43,9 @@ footer a:hover{text-decoration:underline;}
 <body>
 
 <nav>
-  <a href="#">Impressum</a>
-  <a href="#">Datenschutz</a>
-  <a href="#">AGB</a>
+  <a href="impressum.html" target="_blank">Impressum</a>
+  <a href="datenschutz.html" target="_blank">Datenschutz</a>
+  <a href="agb.html" target="_blank">AGB</a>
 </nav>
 
 <header>
@@ -57,10 +57,26 @@ footer a:hover{text-decoration:underline;}
 <section class="feature-section">
 <h2>Unsere Leistungen auf einen Blick</h2>
 <div class="feature-cards">
-  <div class="feature-card"><h3>Elektrik-Notdienst</h3></div>
-  <div class="feature-card"><h3>Wasser-Notdienst</h3></div>
-  <div class="feature-card"><h3>Heizungs-Notdienst</h3></div>
-  <div class="feature-card"><h3>KI-gestützte Analyse</h3></div>
+  <div class="feature-card">
+    <svg fill="#25d366" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11 21h-1l1-7H8l5-12v7h3l-5 12z"/></svg>
+    <h3>Elektrik-Notdienst</h3>
+    <p>Schnelle Hilfe bei Stromausfall, FI-Schalter oder Sicherungsproblemen – direkt per KI-Triage analysiert.</p>
+  </div>
+  <div class="feature-card">
+    <svg fill="#00bfff" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2.69l5.66 5.66C18.36 10.3 16.21 14.27 12 21c-4.21-6.73-6.36-10.7-5.66-12.65L12 2.69z"/></svg>
+    <h3>Wasser-Notdienst</h3>
+    <p>Rohrbrüche, Lecks oder Pumpenausfälle – wir analysieren Ihr Problem sofort und leiten es an einen Fachmann weiter.</p>
+  </div>
+  <div class="feature-card">
+    <svg fill="#ff8c00" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 3.865-3.134 7-7 7S5 12.865 5 9a7 7 0 0 1 7-7zm0 12c-5 0-9 2.5-9 5v1h18v-1c0-2.5-4-5-9-5z"/></svg>
+    <h3>Heizungs-Notdienst</h3>
+    <p>Heizungsausfall oder ungleichmäßige Wärme? Unsere KI erkennt das Problem und unterstützt den Fachmann-Einsatz.</p>
+  </div>
+  <div class="feature-card">
+    <svg fill="#8a2be2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17.93V20h-2v-.07A8.001 8.001 0 0 1 4.07 13H6v-2H4.07A8.001 8.001 0 0 1 11 4.07V6h2V4.07A8.001 8.001 0 0 1 19.93 11H18v2h1.93A8.001 8.001 0 0 1 13 19.93z"/></svg>
+    <h3>KI-gestützte Analyse</h3>
+    <p>Unsere KI-Triage erkennt Notfälle frühzeitig, sammelt Informationen und bereitet die Weiterleitung an Experten vor.</p>
+  </div>
 </div>
 </section>
 
@@ -72,16 +88,56 @@ footer a:hover{text-decoration:underline;}
 <input id="address" placeholder="Adresse">
 <input id="phone" placeholder="Telefonnummer">
 <input id="email" placeholder="E-Mail-Adresse">
-<label><input type="checkbox" id="consent"> Ich akzeptiere die Datenschutzerklärung</label>
+<label><input type="checkbox" id="consent"> Ich akzeptiere die <a href="#" onclick="showInfo('datenschutz','modalInfoBoxCustomer');return false;">Datenschutzerklärung</a></label>
+<div id="modalInfoBoxCustomer" class="info-box"></div>
+<hr>
+<label for="serviceType">Service-Typ auswählen:</label>
 <select id="serviceType">
   <option value="">-- Bitte wählen --</option>
   <option value="electricity">Elektrik</option>
   <option value="water">Wasser</option>
   <option value="heating">Heizung</option>
 </select>
-<textarea id="problem" placeholder="Beschreiben Sie Ihr Problem..."></textarea>
 <button id="startKiBtn" disabled>KI-Triage starten</button>
 <button onclick="closeCustomerModal()">Zurück</button>
+</div>
+</div>
+
+<!-- KI Chat Modal -->
+<div class="modal" id="kiModal">
+<div class="modal-content">
+<h2>KI-Assistenz</h2>
+<div class="info-box" style="display:block;">⚠ Die KI sammelt Informationen für den Fachmann. Arbeiten können gefährlich sein.</div>
+<div id="messages"></div>
+<!-- KI-Beurteilung Feature Card -->
+<div id="kiAssessmentCard" class="feature-card" style="display:none;">
+  <svg id="kiAssessmentIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"></svg>
+  <h3 id="kiAssessmentTitle"></h3>
+  <p id="kiAssessmentText"></p>
+</div>
+<button id="bookVideoCallBtn" style="display:none; background:#ff4500;">Videocall buchen – 19,99 €</button>
+<input type="text" id="userInput" placeholder="Beschreiben Sie Ihr Problem...">
+<button id="sendBtn">Senden</button>
+<input type="file" id="fileInputKI" accept="image/*" multiple><br>
+<div id="countdown">02:00</div>
+<div id="progressContainer"><div id="progressBar"></div></div>
+</div>
+</div>
+
+<!-- Fachmann Modal -->
+<div class="modal" id="expertModal">
+<div class="modal-content">
+<h2>Fachmann-Bestätigung</h2>
+<p>Der Fachmann wird Sie nun kontaktieren.</p>
+<label>Schwierigkeitsgrad Bewertung:</label>
+<select id="difficultyLevel">
+  <option value="1">1 – Leicht</option>
+  <option value="2">2 – Mittel</option>
+  <option value="3">3 – Komplex</option>
+  <option value="4">4 – Kritisch</option>
+</select>
+<button id="confirmExpertBtn">WhatsApp kontaktieren</button>
+<button onclick="closeExpertModal()">Zurück</button>
 </div>
 </div>
 
@@ -89,61 +145,150 @@ footer a:hover{text-decoration:underline;}
 © 2026 KI-Notdienst
 </footer>
 
-<script type="module">
-// Supabase direkt einbinden
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+<script>
+// Rechtstexte
+const infoTexts={datenschutz:`<strong>Datenschutzerklärung</strong><br>Wir speichern Ihre Daten ausschließlich für Rückruf und Video-Beratung. Weitergabe an Dritte erfolgt nicht.`};
+function showInfo(type,id){document.getElementById(id).innerHTML=infoTexts[type]+`<br><button onclick="this.parentElement.style.display='none'">Schließen</button>`; document.getElementById(id).style.display='block';}
 
-// **Direkt gesetzte Keys für Testzwecke**
-const supabaseUrl = "https://ywqwbbqluabciojvczxm.supabase.co"
-const supabaseKey = "sb_secret_taQVSkOzyZK-FYU0y2Fsvg_9sn8fKh2"
-const supabase = createClient(supabaseUrl, supabaseKey)
+// Elemente
+const customerModal=document.getElementById("customerModal");
+const openCustomerBtn=document.getElementById("openCustomerBtn");
+const nameEl=document.getElementById("name");
+const addressEl=document.getElementById("address");
+const phoneEl=document.getElementById("phone");
+const emailEl=document.getElementById("email");
+const consentEl=document.getElementById("consent");
+const serviceTypeEl=document.getElementById("serviceType");
+const startKiBtn=document.getElementById("startKiBtn");
 
-// Modal öffnen
-const customerModal = document.getElementById('customerModal')
-const openCustomerBtn = document.getElementById('openCustomerBtn')
-const startKiBtn = document.getElementById('startKiBtn')
-const nameEl = document.getElementById('name')
-const addressEl = document.getElementById('address')
-const phoneEl = document.getElementById('phone')
-const emailEl = document.getElementById('email')
-const consentEl = document.getElementById('consent')
-const serviceTypeEl = document.getElementById('serviceType')
-const problemEl = document.getElementById('problem')
+const kiModal=document.getElementById("kiModal");
+const messagesEl=document.getElementById("messages");
+const userInputEl=document.getElementById("userInput");
+const sendBtn=document.getElementById("sendBtn");
+const fileInputKI=document.getElementById("fileInputKI");
+const progressBar=document.getElementById("progressBar");
+const countdownEl=document.getElementById("countdown");
 
-openCustomerBtn.addEventListener('click', ()=>{customerModal.style.display='flex'})
-function closeCustomerModal(){customerModal.style.display='none'}
+const expertModal=document.getElementById("expertModal");
+const confirmExpertBtn=document.getElementById("confirmExpertBtn");
+const bookVideoCallBtn=document.getElementById("bookVideoCallBtn");
 
-// Button aktivieren
-[nameEl,addressEl,phoneEl,emailEl,consentEl,serviceTypeEl,problemEl].forEach(el=>{
-  el.addEventListener('input', updateStartKiBtn)
-  el.addEventListener('change', updateStartKiBtn)
-})
-function updateStartKiBtn(){
-  startKiBtn.disabled = !(nameEl.value && addressEl.value && phoneEl.value && consentEl.checked && serviceTypeEl.value && problemEl.value)
+// Modal Funktionen
+openCustomerBtn.addEventListener("click",()=>customerModal.style.display="flex");
+function closeCustomerModal(){customerModal.style.display="none";}
+function closeExpertModal(){expertModal.style.display="none";}
+
+// Start KI Button Aktivierung
+[nameEl,addressEl,phoneEl,emailEl,consentEl,serviceTypeEl].forEach(el=>{el.addEventListener("input",updateStartKiBtn); el.addEventListener("change",updateStartKiBtn);});
+function updateStartKiBtn(){startKiBtn.disabled=!(nameEl.value && addressEl.value && phoneEl.value && consentEl.checked && serviceTypeEl.value);}
+
+// KI Fragen
+const questions={
+  electricity:["Ist der FI-Schalter ausgelöst?","Ist eine Sicherung durchgebrannt?","Komplettausfall vorhanden?","Hören Sie ungewöhnliche Geräusche oder Funken?"],
+  water:["Gibt es einen Rohrbruch oder ein Leck?","Kein Wasser vorhanden?","Tropft irgendwo Wasser?","Pumpe defekt?"],
+  heating:["Heizung kalt?","Thermostat defekt?","Warmwasser funktioniert nicht?","Heizung ungleichmäßig?"]
+};
+let currentQuestionIndex=0;
+let kiTimer, kiProgressInterval, kiDuration=120;
+
+// Start KI Session
+startKiBtn.addEventListener("click",()=>{closeCustomerModal(); startKiSession();});
+function startKiSession(){
+  kiModal.style.display="flex";
+  messagesEl.innerHTML="";
+  document.getElementById("kiAssessmentCard").style.display="none";
+  bookVideoCallBtn.style.display="none";
+  addMessage("KI: Hallo! Ich werde Ihr Problem analysieren und wichtige Informationen sammeln.","ai");
+  currentQuestionIndex=0;
+  askNextQuestion();
+  let timeLeft=kiDuration; progressBar.style.width='0%'; countdownEl.innerText=formatTime(timeLeft);
+  kiTimer=setTimeout(()=>endKiSession(serviceTypeEl.value), kiDuration*1000);
+  kiProgressInterval=setInterval(()=>{timeLeft--; progressBar.style.width=((kiDuration-timeLeft)/kiDuration*100)+'%'; countdownEl.innerText=formatTime(timeLeft); if(timeLeft<=0) clearInterval(kiProgressInterval);},1000);
 }
 
-// KI-Triage speichern
-startKiBtn.addEventListener('click', async ()=>{
-  const { data, error } = await supabase.from('ki_notdienst').insert([{
-    name: nameEl.value,
-    adresse: addressEl.value,
-    telefon: phoneEl.value,
-    email: emailEl.value,
-    service: serviceTypeEl.value,
-    problem: problemEl.value,
-    image_paths: []
-  }])
-  if(error){alert('Fehler beim Speichern: '+error.message); return;}
-  alert('Daten erfolgreich gespeichert!')
+function askNextQuestion(){
+  const service=serviceTypeEl.value;
+  if(!service || currentQuestionIndex>=questions[service].length){addMessage("KI: Vielen Dank. Ich habe alle wichtigen Informationen erfasst.","ai"); return;}
+  addMessage("KI: "+questions[service][currentQuestionIndex],"ai");
+}
 
-  // WhatsApp Call
-  const whatsappNumber = "4915145932462" // Beispielnummer
-  const message = `Ich möchte einen Live-Video-Call für den Notdienst buchen. Service: ${serviceTypeEl.value}`
-  window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, '_blank')
+// KI Antwort
+sendBtn.addEventListener("click",()=>{
+  const txt=userInputEl.value.trim(); if(!txt) return;
+  addMessage(txt,"user"); userInputEl.value="";
+  addMessage("KI: Danke, nächste Frage...","ai");
+  currentQuestionIndex++; askNextQuestion();
+});
+userInputEl.addEventListener("keypress",e=>{if(e.key==="Enter") sendBtn.click();});
 
-  closeCustomerModal()
-})
+// Bilder KI
+fileInputKI.addEventListener("change",e=>{
+  Array.from(e.target.files).forEach(file=>{
+    const reader=new FileReader();
+    reader.onload=function(ev){addMessage("Bild hochgeladen: "+file.name,"user"); setTimeout(()=>{addMessage("KI: Bild erhalten und analysiert.","ai");},500);}
+    reader.readAsDataURL(file);
+  });
+});
+
+// KI Beurteilung
+function generateKiAssessment(service){
+  let level,title,text,color,icon;
+  switch(service){
+    case "electricity": level=4; title="Strom-Notfall"; text="FI-Schalter ausgelöst oder Sicherung durchgebrannt. Fachmann dringend empfohlen."; color="#ff4500"; icon='<path d="M11 21h-1l1-7H8l5-12v7h3l-5 12z"/>'; break;
+    case "water": level=2; title="Wasserleck"; text="Rohrbruch oder Leck erkannt. Fachmann empfehlenswert."; color="#ffbf00"; icon='<path d="M12 2.69l5.66 5.66C18.36 10.3 16.21 14.27 12 21c-4.21-6.73-6.36-10.7-5.66-12.65L12 2.69z"/>'; break;
+    case "heating": level=1; title="Heizungsausfall"; text="Heizung ungleichmäßig, Warmwasser funktioniert. Fachmann optional."; color="#32cd32"; icon='<path d="M12 2a7 7 0 0 1 7 7c0 3.865-3.134 7-7 7S5 12.865 5 9a7 7 0 0 1 7-7zm0 12c-5 0-9 2.5-9 5v1h18v-1c0-2.5-4-5-9-5z"/>'; break;
+  }
+  const card=document.getElementById("kiAssessmentCard");
+  card.style.display="block";
+  card.style.border=`2px solid ${color}`;
+  document.getElementById("kiAssessmentIcon").innerHTML=icon;
+  document.getElementById("kiAssessmentTitle").innerText=title;
+  document.getElementById("kiAssessmentText").innerText=text;
+  return level;
+}
+
+// KI Session Ende & Videocall Button
+function endKiSession(service){
+  clearInterval(kiProgressInterval);
+  generateKiAssessment(service);
+  bookVideoCallBtn.style.display="block";
+}
+
+// Videocall Button + WhatsApp
+bookVideoCallBtn.addEventListener("click",()=>{
+  alert("Bezahlung abgeschlossen. Fachmann-Modal wird geöffnet.");
+  kiModal.style.display="none";
+  expertModal.style.display="flex";
+});
+
+// Fachmann WhatsApp
+confirmExpertBtn.addEventListener("click",()=>{
+  const level=document.getElementById("difficultyLevel").value;
+  const whatsappNumber="4915145932462"; // Beispielnummer
+  const message=`Ich möchte einen Live-Video-Call für den Notdienst buchen. Service: ${serviceTypeEl.value}, Schwierigkeitsgrad: ${level}`;
+  window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`,"_blank");
+  expertModal.style.display="none";
+});
+
+// Push-to-Talk Sprachinteraktion
+const startSpeechBtn=document.createElement("button"); startSpeechBtn.id="startSpeechBtn"; startSpeechBtn.innerText="🎤"; kiModal.querySelector(".modal-content").appendChild(startSpeechBtn);
+if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const recognition = new SpeechRecognition();
+  recognition.lang = 'de-DE';
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 1;
+  recognition.onresult = function(event){ const transcript = event.results[0][0].transcript; addMessage(transcript,"user"); sendBtn.click(); }
+  recognition.onerror = function(event){ console.error("SpeechRecognition error:", event.error);}
+  startSpeechBtn.addEventListener("mousedown", ()=> recognition.start());
+  startSpeechBtn.addEventListener("mouseup", ()=> recognition.stop());
+  startSpeechBtn.addEventListener("touchstart", (e)=>{ e.preventDefault(); recognition.start(); });
+  startSpeechBtn.addEventListener("touchend", (e)=>{ e.preventDefault(); recognition.stop(); });
+}
+
+// Hilfsfunktionen
+function addMessage(content,sender){const div=document.createElement("div");div.className="message "+sender;div.innerText=content;messagesEl.appendChild(div);messagesEl.scrollTop=messagesEl.scrollHeight;}
+function formatTime(sec){return `${String(Math.floor(sec/60)).padStart(2,'0')}:${String(sec%60).padStart(2,'0')}`;}
 </script>
-
 </body>
 </html>
